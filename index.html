@@ -242,9 +242,14 @@ footer{padding:60px 5%;border-top:1px solid var(--border);background:var(--bg2)}
 /* Dashboard frame: leve parallax/float + glow envolvente */
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
 .dashboard-frame{
-  animation:float 7s ease-in-out infinite;
   box-shadow:0 30px 80px rgba(0,0,0,.5), 0 0 0 1px var(--border), 0 0 60px rgba(34,211,238,.06);
   transition:box-shadow .5s var(--ease-out);
+}
+/* Entrada del frame: fade+slide y luego float continuo, sin conflicto de opacity */
+@keyframes frameIn{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.frame-enter{
+  opacity:0;
+  animation:frameIn 1s var(--ease-out) .55s forwards, float 7s ease-in-out 1.6s infinite;
 }
 .dashboard-frame:hover{box-shadow:0 30px 90px rgba(0,0,0,.6), 0 0 0 1px rgba(34,211,238,.2), 0 0 80px rgba(34,211,238,.12)}
 
@@ -269,6 +274,12 @@ nav.scrolled{box-shadow:0 8px 32px rgba(0,0,0,.4);background:rgba(8,11,17,.97)}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:5px}
 ::-webkit-scrollbar-thumb:hover{background:var(--cyan)}
 
+
+/* Fallback: el mock del dashboard SIEMPRE visible ante cualquier fallo */
+@media (prefers-reduced-motion: reduce){
+  .frame-enter{opacity:1!important;animation:none!important;transform:none!important}
+}
+.no-js .frame-enter, .no-js .hero-anim, .no-js .reveal{opacity:1!important;transform:none!important}
 </style>
 </head>
 <body>
@@ -316,7 +327,7 @@ nav.scrolled{box-shadow:0 8px 32px rgba(0,0,0,.4);background:rgba(8,11,17,.97)}
       </div>
     </div>
 
-    <div class="dashboard-frame hero-anim d4">
+    <div class="dashboard-frame frame-enter">
       <div class="frame-bar">
         <div class="dot" style="background:#F25B5B"></div>
         <div class="dot" style="background:#F2C24B"></div>
