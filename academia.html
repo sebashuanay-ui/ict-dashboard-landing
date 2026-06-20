@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Academia ICT — Tu informe educativo de trading</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#080B11;--bg2:#0D1117;--bg3:#161B27;--bg4:#1C2333;
+  --cyan:#22D3EE;--green:#2DD482;--red:#F25B5B;--yellow:#F2C24B;--purple:#A855F7;
+  --text:#E6EDF3;--muted:#8B949E;--border:#21262D;
+  --font:'Inter',sans-serif;--mono:'JetBrains Mono',monospace;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font);line-height:1.6;overflow-x:hidden}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(8,11,17,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 5%;height:64px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-family:var(--mono);font-size:18px;font-weight:700;color:var(--cyan)}
+.nav-logo span{color:var(--text)}
+.nav-links{display:flex;gap:32px;list-style:none}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:14px;font-weight:500;transition:color .2s}
+.nav-links a:hover{color:var(--text)}
+.nav-cta{background:var(--cyan);color:#080B11;padding:8px 20px;border-radius:8px;font-size:14px;font-weight:700;text-decoration:none;transition:opacity .2s}
+.nav-cta:hover{opacity:.85}
+
+.hero{min-height:88vh;display:flex;align-items:center;padding:120px 5% 60px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:900px;height:900px;background:radial-gradient(circle,rgba(34,211,238,.07) 0%,transparent 70%);pointer-events:none}
+.hero-inner{max-width:760px;margin:0 auto;text-align:center;position:relative;z-index:1}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.2);border-radius:20px;padding:6px 16px;font-size:12px;font-weight:600;color:var(--cyan);margin-bottom:28px;letter-spacing:.06em}
+.hero-badge::before{content:'';width:6px;height:6px;background:var(--green);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.hero h1{font-size:clamp(34px,5vw,56px);font-weight:900;line-height:1.1;margin-bottom:20px;letter-spacing:-1.5px}
+.hero h1 .accent{color:var(--cyan)}
+.hero p{font-size:17px;color:var(--muted);line-height:1.7;max-width:560px;margin:0 auto 40px}
+.btn-primary{background:var(--cyan);color:#080B11;padding:14px 28px;border-radius:10px;font-size:15px;font-weight:700;text-decoration:none;transition:all .2s;display:inline-block}
+.btn-primary:hover{background:#38e5ff;transform:translateY(-1px)}
+.hero-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:56px;max-width:680px;margin-left:auto;margin-right:auto}
+.hm{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:22px 12px}
+.hm-num{font-family:var(--mono);font-size:30px;font-weight:700;line-height:1}
+.hm-lbl{font-size:11px;color:var(--muted);margin-top:8px}
+
+section{padding:90px 5%;max-width:1100px;margin:0 auto}
+.section-tag{font-size:11px;font-weight:700;letter-spacing:.12em;color:var(--cyan);text-transform:uppercase;margin-bottom:12px}
+.section-title{font-size:clamp(26px,3vw,40px);font-weight:800;line-height:1.2;letter-spacing:-.5px;margin-bottom:16px}
+.section-sub{font-size:16px;color:var(--muted);max-width:600px;line-height:1.7;margin-bottom:48px}
+.alt-section{padding:90px 5%;background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.alt-inner{max-width:1100px;margin:0 auto}
+
+.bars-card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:32px;display:grid;gap:22px}
+.bar-row{display:grid;grid-template-columns:110px 1fr;gap:16px;align-items:center}
+.bar-label{font-size:13px;color:var(--muted);font-weight:600}
+.bar-track{height:12px;background:var(--bg);border-radius:7px;overflow:hidden;display:flex}
+.bar-seg{height:100%;transition:width .8s ease}
+.bar-vals{grid-column:2;font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:-8px}
+
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+.feat-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:28px;transition:all .3s;position:relative;overflow:hidden}
+.feat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--accent-color,var(--cyan));opacity:0;transition:opacity .3s}
+.feat-card:hover{border-color:rgba(34,211,238,.2);transform:translateY(-3px)}
+.feat-card:hover::before{opacity:1}
+.feat-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:18px;border:1px solid var(--border)}
+.feat-title{font-size:16px;font-weight:700;margin-bottom:8px;line-height:1.3}
+.feat-desc{font-size:14px;color:var(--muted);line-height:1.65}
+
+.sess-chart{display:flex;gap:16px;align-items:flex-end;height:200px;padding-top:20px}
+.sess-col{flex:1;display:flex;flex-direction:column;align-items:center;height:100%}
+.sess-bar-wrap{flex:1;width:100%;display:flex;align-items:flex-end;max-width:70px;margin:0 auto}
+.sess-bar{width:100%;border-radius:8px 8px 0 0;min-height:4px;transition:height .8s ease}
+.sess-count{font-family:var(--mono);font-size:16px;font-weight:700;margin-top:10px}
+.sess-name{font-size:12px;color:var(--muted);margin-top:2px;text-align:center}
+
+.lessons-grid{display:grid;gap:20px}
+.lesson-card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:28px}
+.lesson-level{display:inline-block;background:rgba(34,211,238,.1);color:var(--cyan);font-size:10px;font-weight:700;padding:4px 12px;border-radius:12px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px}
+.lesson-title{font-size:19px;font-weight:700;margin-bottom:16px}
+.lesson-concepts{list-style:none;display:grid;gap:10px;margin-bottom:20px}
+.lesson-concepts li{color:var(--text);font-size:14px;padding-left:22px;position:relative;line-height:1.55}
+.lesson-concepts li::before{content:'▸';position:absolute;left:0;color:var(--cyan);font-weight:700}
+.lesson-task{background:rgba(45,212,130,.06);border:1px solid rgba(45,212,130,.2);border-radius:10px;padding:16px 18px}
+.task-badge{display:inline-block;color:var(--green);font-size:11px;font-weight:700;margin-bottom:6px}
+.lesson-task p{font-size:14px;color:var(--text)}
+
+.losers-wrap{display:grid;gap:16px}
+.loser-card{background:var(--bg);border:1px solid var(--border);border-left:3px solid var(--red);border-radius:12px;padding:20px}
+.loser-head{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-bottom:12px}
+.loser-sym{font-family:var(--mono);font-weight:700;font-size:14px}
+.loser-dir{font-family:var(--mono);font-weight:700;font-size:13px}
+.loser-meta{font-family:var(--mono);font-size:11px;color:var(--muted);margin-left:auto}
+.loser-just{color:var(--muted);font-size:13px;font-style:italic;line-height:1.6;margin-bottom:14px}
+.loser-lesson{background:rgba(242,196,75,.06);border-radius:8px;padding:14px 16px;font-size:13px;color:var(--text);line-height:1.55}
+
+footer{padding:50px 5%;border-top:1px solid var(--border);background:var(--bg2);text-align:center}
+.footer-logo{font-family:var(--mono);font-size:16px;font-weight:700;color:var(--cyan);margin-bottom:8px}
+.footer-note{font-size:12px;color:var(--muted)}
+.disclaimer{max-width:760px;margin:24px auto 0;background:rgba(242,196,75,.05);border:1px solid rgba(242,196,75,.15);border-radius:10px;padding:14px 20px;font-size:12px;color:var(--muted);line-height:1.6}
+.disclaimer strong{color:var(--yellow)}
+
+@media(max-width:760px){
+  .hero-metrics{grid-template-columns:repeat(2,1fr)}
+  .bar-row{grid-template-columns:1fr}
+  .bar-vals{grid-column:1}
+  .loser-meta{margin-left:0;width:100%}
+  .nav-links{display:none}
+  .sess-chart{height:150px;gap:8px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">ICT<span>Academia</span></div>
+  <ul class="nav-links">
+    <li><a href="#stats">Estadísticas</a></li>
+    <li><a href="#diagnostico">Diagnóstico</a></li>
+    <li><a href="#curriculo">Currículo</a></li>
+    <li><a href="#replay">Replay</a></li>
+  </ul>
+  <a href="https://ict-dashboard-sebashuanay.streamlit.app/" target="_blank" class="nav-cta">⚡ Abrir Dashboard</a>
+</nav>
+
+<header class="hero">
+
+    <div class="hero-inner">
+      <div class="hero-badge">ACADEMIA ICT · INFORME PERSONALIZADO</div>
+      <h1>Lo que tus trades<br><span class="accent">te están enseñando</span></h1>
+      <p>Diagnóstico generado desde tu historial real de 42 análisis.
+      Descubre tus patrones, qué mejorar, y tu currículo ICT a medida.</p>
+      <div class="hero-metrics">
+        <div class="hm"><div class="hm-num" style="color:#22D3EE">42</div><div class="hm-lbl">Análisis</div></div>
+        <div class="hm"><div class="hm-num" style="color:#2DD482">55.6%</div><div class="hm-lbl">Winrate · 9 cerrados</div></div>
+        <div class="hm"><div class="hm-num" style="color:#F2C24B">2.05</div><div class="hm-lbl">R:R promedio</div></div>
+        <div class="hm"><div class="hm-num" style="color:#A855F7">5</div><div class="hm-lbl">Áreas a mejorar</div></div>
+      </div>
+    </div>
+    
+</header>
+
+
+    <section id="stats">
+      <div class="section-tag">RADIOGRAFÍA</div>
+      <h2 class="section-title">Tu operativa en números</h2>
+      <p class="section-sub">Cómo se distribuyen tus señales, tu convicción y tus resultados.</p>
+      <div class="bars-card">
+        
+    <div class="bar-row">
+      <span class="bar-label">Señales</span>
+      <div class="bar-track"><div class='bar-seg' style='width:11.9%;background:#2DD482' title='5 Long'></div><div class='bar-seg' style='width:11.9%;background:#F25B5B' title='5 Short'></div><div class='bar-seg' style='width:69.0%;background:#8B949E' title='29 Neutro'></div></div>
+      <span class="bar-vals">5 Long · 5 Short · 29 Neutro</span>
+    </div>
+        
+    <div class="bar-row">
+      <span class="bar-label">Confianza</span>
+      <div class="bar-track"><div class='bar-seg' style='width:0.0%;background:#2DD482' title='0 Alta'></div><div class='bar-seg' style='width:14.3%;background:#F2C24B' title='6 Media'></div><div class='bar-seg' style='width:78.6%;background:#F25B5B' title='33 Baja'></div></div>
+      <span class="bar-vals">0 Alta · 6 Media · 33 Baja</span>
+    </div>
+        
+    <div class="bar-row">
+      <span class="bar-label">Resultados</span>
+      <div class="bar-track"><div class='bar-seg' style='width:11.9%;background:#2DD482' title='5 Ganados'></div><div class='bar-seg' style='width:9.5%;background:#F25B5B' title='4 Perdidos'></div><div class='bar-seg' style='width:78.6%;background:#21262D' title='33 Abiertos'></div></div>
+      <span class="bar-vals">5 Ganados · 4 Perdidos · 33 Abiertos</span>
+    </div>
+      </div>
+    </section>
+    
+    <section id="diagnostico">
+      <div class="section-tag">DIAGNÓSTICO</div>
+      <h2 class="section-title">Lo que detecté en tu operativa</h2>
+      <p class="section-sub">Patrones identificados automáticamente desde tu historial real.</p>
+      <div class="features-grid">
+        <div class="feat-card" style="--accent-color:#F2C24B">
+          <div class="feat-icon" style="border-color:#F2C24B40;color:#F2C24B">🛑</div>
+          <div class="feat-title">69% de tus análisis son NEUTRO</div>
+          <div class="feat-desc">Tu agente está rechazando la mayoría de los setups. Esto no es malo en sí — la disciplina protege capital — pero un NEUTRO tan alto sugiere que aún no identificas con claridad los setups A+. Meta: bajar el NEUTRO a < 40% aprendiendo a leer confluencia.</div>
+        </div>
+        <div class="feat-card" style="--accent-color:#F2C24B">
+          <div class="feat-icon" style="border-color:#F2C24B40;color:#F2C24B">📉</div>
+          <div class="feat-title">79% de tus señales son de confianza BAJA</div>
+          <div class="feat-desc">Cuando das señal, casi siempre es con baja convicción. Los traders rentables esperan los setups donde múltiples factores se alinean (HTF + estructura + zona + volumen). Aprende los 5 factores que elevan la confianza a MEDIA/ALTA.</div>
+        </div>
+        <div class="feat-card" style="--accent-color:#22D3EE">
+          <div class="feat-icon" style="border-color:#22D3EE40;color:#22D3EE">⏱️</div>
+          <div class="feat-title">Operas en un solo timeframe (1h)</div>
+          <div class="feat-desc">Estás analizando solo en 1h. El análisis multi-temporalidad (HTF para sesgo, LTF para entrada) es lo que separa a un trader institucional. Usa la escalera 15m/1h/4h: confirma el sesgo en 4h, ejecuta la entrada en 15m/1h.</div>
+        </div>
+        <div class="feat-card" style="--accent-color:#22D3EE">
+          <div class="feat-icon" style="border-color:#22D3EE40;color:#22D3EE">📊</div>
+          <div class="feat-title">Muestra pequeña: solo 9 trades cerrados</div>
+          <div class="feat-desc">Tu winrate de 55.6% se basa en 9 trades. Estadísticamente, necesitas al menos 50–100 trades cerrados antes de sacar conclusiones reales sobre tu sistema. Sigue registrando con disciplina antes de cambiar tu estrategia por una racha.</div>
+        </div>
+        <div class="feat-card" style="--accent-color:#F2C24B">
+          <div class="feat-icon" style="border-color:#F2C24B40;color:#F2C24B">⚖️</div>
+          <div class="feat-title">Tienes trades con R:R por debajo de 1:1 (mín. 0.73)</div>
+          <div class="feat-desc">Un R:R menor a 1 significa que arriesgas más de lo que puedes ganar. Aunque tu R:R promedio (2.05) es saludable, los trades con R:R bajo erosionan la rentabilidad. Nunca entres si el primer objetivo estructural no ofrece al menos el R:R mínimo del timeframe.</div>
+        </div></div>
+    </section>
+    
+    <section class="alt-section" id="sesiones">
+      <div class="alt-inner">
+        <div class="section-tag">TIMING</div>
+        <h2 class="section-title">¿Cuándo operas?</h2>
+        <p class="section-sub">Londres y NY Open concentran la mayor liquidez institucional.
+        Si operas mucho en Asia u Off-hours, considera reducir tamaño o esperar mejores ventanas.</p>
+        <div class="sess-chart">
+        <div class="sess-col">
+          <div class="sess-bar-wrap"><div class="sess-bar" style="height:53%;background:#A855F7"></div></div>
+          <div class="sess-count">8</div>
+          <div class="sess-name">Asia</div>
+        </div>
+        <div class="sess-col">
+          <div class="sess-bar-wrap"><div class="sess-bar" style="height:47%;background:#22D3EE"></div></div>
+          <div class="sess-count">7</div>
+          <div class="sess-name">Londres</div>
+        </div>
+        <div class="sess-col">
+          <div class="sess-bar-wrap"><div class="sess-bar" style="height:0%;background:#2DD482"></div></div>
+          <div class="sess-count">0</div>
+          <div class="sess-name">NY Open</div>
+        </div>
+        <div class="sess-col">
+          <div class="sess-bar-wrap"><div class="sess-bar" style="height:80%;background:#F2C24B"></div></div>
+          <div class="sess-count">12</div>
+          <div class="sess-name">NY Tarde</div>
+        </div>
+        <div class="sess-col">
+          <div class="sess-bar-wrap"><div class="sess-bar" style="height:100%;background:#8B949E"></div></div>
+          <div class="sess-count">15</div>
+          <div class="sess-name">Off-hours</div>
+        </div></div>
+      </div>
+    </section>
+    
+    <section id="curriculo">
+      <div class="section-tag">TU CURRÍCULO</div>
+      <h2 class="section-title">Plan de estudio personalizado</h2>
+      <p class="section-sub">Módulos seleccionados según los patrones detectados en tu operativa.</p>
+      <div class="lessons-grid">
+        <div class="lesson-card">
+          <span class="lesson-level">Fundamental</span>
+          <h3 class="lesson-title">Confluencia: cómo saber cuándo SÍ entrar</h3>
+          <ul class="lesson-concepts"><li>La confluencia es la alineación de múltiples factores ICT en una misma zona: FVG + OB + nivel de liquidez + Fibonacci OTE.</li><li>Una sola señal no es un trade. 3-4 confluencias en la misma zona = setup A+.</li><li>Premium/Discount: compra en discount (debajo del 50% del rango), vende en premium (arriba del 50%).</li><li>La zona OTE (Fib 0.62–0.79) es donde los institucionales entran — máxima confluencia con el menor riesgo.</li></ul>
+          <div class="lesson-task"><span class="task-badge">📌 Tarea de esta semana</span><p>Esta semana: antes de cada análisis, cuenta cuántas confluencias hay en la zona de entrada. Solo opera si hay ≥ 3.</p></div>
+        </div>
+        <div class="lesson-card">
+          <span class="lesson-level">Fundamental</span>
+          <h3 class="lesson-title">Los 5 factores que elevan la confianza de un setup</h3>
+          <ul class="lesson-concepts"><li>1. HTF alineado: el sesgo de 4h coincide con tu dirección de entrada.</li><li>2. Zona de reacción clara: FVG u OB sin mitigar exactamente en tu nivel de entrada.</li><li>3. Volumen de confirmación: volumen de absorción/impulso que respalda el movimiento.</li><li>4. Kill Zone activa: estás operando en la ventana de mayor liquidez (Londres/NY Open).</li><li>5. Estructura limpia: un MSB confirmado con cierre de vela, no una mecha.</li></ul>
+          <div class="lesson-task"><span class="task-badge">📌 Tarea de esta semana</span><p>Marca cuántos de los 5 factores tienes antes de entrar. 4-5 = ALTA, 3 = MEDIA, < 3 = espera.</p></div>
+        </div>
+        <div class="lesson-card">
+          <span class="lesson-level">Intermedio</span>
+          <h3 class="lesson-title">Análisis multi-temporalidad (la escalera HTF→LTF)</h3>
+          <ul class="lesson-concepts"><li>HTF (4h/1d) define el SESGO: ¿el mercado sube o baja en lo macro?</li><li>MTF (1h) define la ESTRUCTURA: ¿dónde están los FVGs y OBs relevantes?</li><li>LTF (15m/5m) define la ENTRADA: ejecutas en el retesteo fino de la zona.</li><li>Nunca operes contra el HTF. Si 4h es bajista, tus longs son contra-tendencia (alto riesgo).</li></ul>
+          <div class="lesson-task"><span class="task-badge">📌 Tarea de esta semana</span><p>Antes de cada trade en 1h, abre el 4h. Si el sesgo 4h contradice tu idea, NO entres.</p></div>
+        </div>
+        <div class="lesson-card">
+          <span class="lesson-level">Mentalidad</span>
+          <h3 class="lesson-title">Estadística del trader: por qué la muestra importa</h3>
+          <ul class="lesson-concepts"><li>Un winrate sobre 9 trades no significa nada estadísticamente. Podrías tener 100% por suerte.</li><li>Necesitas 50-100 trades cerrados para que tu winrate y profit factor sean confiables.</li><li>No cambies tu sistema por una racha de 3 pérdidas — es ruido, no señal.</li><li>La consistencia en el proceso importa más que el resultado de cualquier trade individual.</li></ul>
+          <div class="lesson-task"><span class="task-badge">📌 Tarea de esta semana</span><p>Comprométete a 50 trades siguiendo exactamente las mismas reglas antes de evaluar el sistema.</p></div>
+        </div>
+        <div class="lesson-card">
+          <span class="lesson-level">Fundamental</span>
+          <h3 class="lesson-title">Risk:Reward — la matemática de la rentabilidad</h3>
+          <ul class="lesson-concepts"><li>Con R:R 2:1 y 40% winrate, eres rentable. Con R:R 1:1 necesitas > 50% winrate.</li><li>El TP debe ir al siguiente nivel estructural real (liquidez/FVG), no a un número arbitrario.</li><li>Si el primer objetivo no da el R:R mínimo del timeframe, el setup no vale — espera otro.</li><li>El SL va en el nivel que invalida la tesis, no donde 'aguantas' la pérdida.</li></ul>
+          <div class="lesson-task"><span class="task-badge">📌 Tarea de esta semana</span><p>Antes de cada entrada, calcula el R:R al primer objetivo estructural. Si es < mínimo, descarta.</p></div>
+        </div></div>
+    </section>
+    
+        <section class="alt-section" id="replay">
+          <div class="alt-inner">
+            <div class="section-tag">APRENDIZAJE</div>
+            <h2 class="section-title">Replay de tus trades perdidos</h2>
+            <p class="section-sub">Cada pérdida es la lección más valiosa. Revisa qué falló en cada una.</p>
+            <div class="losers-wrap">
+            <div class="loser-card">
+              <div class="loser-head">
+                <span class="loser-sym">BTC/USDT · 1h</span>
+                <span class="loser-dir" style="color:#2DD482">LONG</span>
+                <span class="loser-meta">R:R 2.39 · media · 2026-06-15 20:06</span>
+              </div>
+              <p class="loser-just">"Estructura BULLISH en 1h y 4h con EMA alineada al alza y precio sobre VWAP confirma sesgo institucional comprador. Busco retroceso al FVG bullish 1h en 66040.4 (1.43xATR) que coincide con respaldo del OB 65514-65664, evitando perseguir el precio en premium. El objetivo es la BSL "</p>
+              <div class="loser-lesson">💡 <strong>Para revisar:</strong> ¿se cumplió la condición de invalidación,
+              o faltaba confluencia? Compáralo con los 5 factores de confianza de tu currículo.</div>
+            </div>
+            <div class="loser-card">
+              <div class="loser-head">
+                <span class="loser-sym">BNB/USDT · 1h</span>
+                <span class="loser-dir" style="color:#F25B5B">SHORT</span>
+                <span class="loser-meta">R:R 4.65 · media · 2026-06-18 12:02</span>
+              </div>
+              <p class="loser-just">"El precio está en el midpoint del FVG bearish 1h (591.4–596.3) en $593.85, zona de distribución institucional con estructura bearish confirmada en 1h y 4h y EMAs bajistas en ambos marcos. El sesgo SHORT es coherente con HTF RANGING/SHORT en 4h y múltiples FVGs bearish sobre el pr"</p>
+              <div class="loser-lesson">💡 <strong>Para revisar:</strong> ¿se cumplió la condición de invalidación,
+              o faltaba confluencia? Compáralo con los 5 factores de confianza de tu currículo.</div>
+            </div>
+            <div class="loser-card">
+              <div class="loser-head">
+                <span class="loser-sym">BTC/USDT · 1h</span>
+                <span class="loser-dir" style="color:#F25B5B">SHORT</span>
+                <span class="loser-meta">R:R 0.73 · baja · 2026-06-18 21:55</span>
+              </div>
+              <p class="loser-just">"El precio está dentro de un FVG bearish activo (62815.3–63582.0) con sesgo SHORT alineado en LTF y HTF, lo que activa entrada market según regla ICT. Sin embargo, el R:R calculado no alcanza el mínimo requerido de 1.3:1 (TP1 en 62815.3 genera solo 0.72:1 vs SL en 63725.2), y el T"</p>
+              <div class="loser-lesson">💡 <strong>Para revisar:</strong> ¿se cumplió la condición de invalidación,
+              o faltaba confluencia? Compáralo con los 5 factores de confianza de tu currículo.</div>
+            </div>
+            <div class="loser-card">
+              <div class="loser-head">
+                <span class="loser-sym">BTC/USDT · 1h</span>
+                <span class="loser-dir" style="color:#F25B5B">SHORT</span>
+                <span class="loser-meta">R:R 3.01 · media · 2026-06-19 23:24</span>
+              </div>
+              <p class="loser-just">"El precio se encuentra DENTRO del FVG bearish 1h (62815.3–63582.0) con trigger de entrada activa (close_inside), alineado con sesgo SHORT y estructura 4h bajista confirmada — subtotal objetivo 70 pts. El HTF 4h muestra estructura BEARISH con EMAs bajistas y FVG bearish en 63009.7"</p>
+              <div class="loser-lesson">💡 <strong>Para revisar:</strong> ¿se cumplió la condición de invalidación,
+              o faltaba confluencia? Compáralo con los 5 factores de confianza de tu currículo.</div>
+            </div></div>
+          </div>
+        </section>
+        
+
+<footer>
+  <div class="footer-logo">ICT Academia</div>
+  <div class="footer-note">Informe generado desde tu ICT Dashboard · 2026-06-20 02:03 UTC</div>
+  <div class="disclaimer"><strong>Aviso:</strong> Este informe es educativo y se basa en tu
+  historial registrado. El trading conlleva riesgo de pérdida. Las métricas con muestras pequeñas
+  (menos de 50 trades cerrados) no son estadísticamente concluyentes.</div>
+</footer>
+
+</body>
+</html>
