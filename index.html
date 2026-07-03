@@ -357,8 +357,9 @@ tailwind.config = {
       <a href="#la-ia" class="nav-link">La IA</a>
       <a href="#faq" class="nav-link">FAQ</a>
     </div>
-    <!-- CTA -->
-    <a href="#acceso" class="btn-primary px-5 py-2.5 text-sm">Acceso al Programa</a>
+    <!-- CTA → dashboard en vivo -->
+    <a href="https://ict-dashboard-sebashuanay.streamlit.app/" target="_blank" rel="noopener"
+       class="btn-primary px-5 py-2.5 text-sm">Acceso al Programa</a>
   </nav>
 </header>
 
@@ -384,8 +385,9 @@ tailwind.config = {
 
   <!-- CTAs -->
   <div class="reveal mt-10 flex flex-col sm:flex-row items-center gap-4" data-delay="3">
-    <a href="#acceso" class="btn-primary px-8 py-4 text-[15px]">
-      Comenzar mi evolución <span aria-hidden="true">→</span>
+    <a href="https://ict-dashboard-sebashuanay.streamlit.app/" target="_blank" rel="noopener"
+       class="btn-primary px-8 py-4 text-[15px]">
+      Abrir el Agente en vivo <span aria-hidden="true">→</span>
     </a>
     <a href="#metodo" class="btn-ghost px-8 py-4 text-[15px]">Ver el método</a>
   </div>
@@ -701,6 +703,8 @@ tailwind.config = {
       El trading de criptomonedas conlleva riesgo; el rendimiento pasado no garantiza resultados futuros.
     </p>
     <div class="flex gap-5 text-[13px]">
+      <a href="https://ict-dashboard-sebashuanay.streamlit.app/" target="_blank" rel="noopener"
+         class="nav-link" style="color:#A78BFA">Dashboard ↗</a>
       <a href="#" class="nav-link">Términos</a>
       <a href="#" class="nav-link">Privacidad</a>
     </div>
@@ -916,7 +920,9 @@ form.addEventListener('submit', e => {
     email.focus();
     return;
   }
-  msg.textContent = '✓ Solicitud recibida. Revisa tu bandeja: la carta de admisión va en camino.';
+  msg.innerHTML = '✓ Solicitud recibida. Mientras tanto, '
+    + '<a href="https://ict-dashboard-sebashuanay.streamlit.app/" target="_blank" rel="noopener" '
+    + 'style="color:#67E8F9;text-decoration:underline">explora el Agente en vivo →</a>';
   msg.style.color = '#34D399';
   form.reset();
 });
