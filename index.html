@@ -3,824 +3,925 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ICT Dashboard — Agente IA de Trading Institucional</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>QUANTUM MIND — Educación Financiera + Agente IA de Trading Institucional</title>
+<meta name="description" content="Aprende la ciencia del trading cuantitativo y domina la gestión de riesgo con un Agente IA de grado institucional. Ecosistema educativo premium.">
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     QUANTUM MIND · Landing Page cinematográfica
+     Stack: HTML5 + Tailwind CDN + CSS custom + Vanilla JS (un solo archivo)
+     Atmósfera: obsidiana #0A0A0C · púrpura profundo · azul cuántico
+     ══════════════════════════════════════════════════════════════════════ -->
+
+<!-- Tailwind CSS por CDN (utilidades de layout responsivo) -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Tipografía de alta gama -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
 <style>
+/* ═══════════════ Base y variables de atmósfera ═══════════════ */
+:root{
+  --bg:        #0A0A0C;      /* negro absoluto / gris carbón */
+  --surface:   #101014;
+  --surface-2: #16161C;
+  --line:      rgba(255,255,255,.07);
+  --text-hi:   #F2F4F8;
+  --text-mid:  #9AA3B2;
+  --text-lo:   #5C6470;
+  --purple:    #8B5CF6;      /* púrpura profundo */
+  --purple-hot:#A78BFA;
+  --quantum:   #38BDF8;      /* azul cuántico */
+  --cyan:      #22D3EE;
+  --green:     #34D399;
+  --red:       #F87171;
+  --ease:      cubic-bezier(.16,1,.3,1);
+}
 *{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --bg:#080B11;--bg2:#0D1117;--bg3:#161B27;--bg4:#1C2333;
-  --cyan:#22D3EE;--green:#2DD482;--red:#F25B5B;--yellow:#F2C24B;--purple:#A855F7;
-  --text:#E6EDF3;--muted:#8B949E;--border:#21262D;
-  --font:'Inter',sans-serif;--mono:'JetBrains Mono',monospace;
-}
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:var(--font);line-height:1.6;overflow-x:hidden}
+body{
+  background:var(--bg);
+  color:var(--text-hi);
+  font-family:'Inter',sans-serif;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+::selection{background:rgba(139,92,246,.35);color:#fff}
 
-nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(8,11,17,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 5%;height:64px;display:flex;align-items:center;justify-content:space-between}
-.nav-logo{font-family:var(--mono);font-size:18px;font-weight:700;color:var(--cyan);letter-spacing:-.5px}
-.nav-logo span{color:var(--text)}
-.nav-links{display:flex;gap:32px;list-style:none}
-.nav-links a{color:var(--muted);text-decoration:none;font-size:14px;font-weight:500;transition:color .2s}
-.nav-links a:hover{color:var(--text)}
-.nav-cta{background:var(--cyan);color:#080B11;padding:8px 20px;border-radius:8px;font-size:14px;font-weight:700;text-decoration:none;transition:opacity .2s}
-.nav-cta:hover{opacity:.85}
+/* Scrollbar fino y elegante */
+*{scrollbar-width:thin;scrollbar-color:#26262e transparent}
+*::-webkit-scrollbar{width:8px;height:8px}
+*::-webkit-scrollbar-thumb{background:#26262e;border-radius:8px}
 
-.hero{min-height:100vh;display:flex;align-items:center;padding:80px 5% 60px;position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:800px;height:800px;background:radial-gradient(circle,rgba(34,211,238,.06) 0%,transparent 70%);pointer-events:none}
-.hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;max-width:1200px;margin:0 auto;width:100%}
-.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.2);border-radius:20px;padding:6px 14px;font-size:12px;font-weight:600;color:var(--cyan);margin-bottom:24px;letter-spacing:.06em}
-.hero-badge::before{content:'';width:6px;height:6px;background:var(--green);border-radius:50%;animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-.hero h1{font-size:clamp(36px,4vw,58px);font-weight:900;line-height:1.1;margin-bottom:20px;letter-spacing:-1.5px}
-.hero h1 .accent{color:var(--cyan)}
-.hero p{font-size:17px;color:var(--muted);line-height:1.7;max-width:480px;margin-bottom:36px}
-.hero-ctas{display:flex;gap:12px;flex-wrap:wrap}
-.btn-primary{background:var(--cyan);color:#080B11;padding:14px 28px;border-radius:10px;font-size:15px;font-weight:700;text-decoration:none;transition:all .2s;border:none;cursor:pointer;display:inline-block}
-.btn-primary:hover{background:#38e5ff;transform:translateY(-1px)}
-.btn-secondary{background:transparent;color:var(--text);padding:14px 28px;border-radius:10px;font-size:15px;font-weight:600;text-decoration:none;border:1px solid var(--border);transition:all .2s;display:inline-block}
-.btn-secondary:hover{border-color:var(--cyan);color:var(--cyan)}
-.hero-stats{display:flex;gap:32px;margin-top:48px;padding-top:32px;border-top:1px solid var(--border)}
-.stat-num{font-family:var(--mono);font-size:26px;font-weight:700;color:var(--text)}
-.stat-label{font-size:12px;color:var(--muted);margin-top:2px}
+/* ═══════════════ Luces difusas de fondo (glows reactivos) ═══════════════ */
+.glow-field{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.glow{
+  position:absolute;border-radius:50%;filter:blur(120px);opacity:.5;
+  will-change:transform;
+  transition:transform 1.4s var(--ease);
+}
+.glow-a{width:720px;height:720px;top:-240px;left:-160px;
+  background:radial-gradient(circle,rgba(139,92,246,.16),transparent 65%)}
+.glow-b{width:640px;height:640px;top:30%;right:-220px;
+  background:radial-gradient(circle,rgba(56,189,248,.12),transparent 65%)}
+.glow-c{width:800px;height:800px;bottom:-320px;left:32%;
+  background:radial-gradient(circle,rgba(139,92,246,.08),transparent 65%)}
 
-.dashboard-frame{background:var(--bg2);border:1px solid var(--border);border-radius:16px;overflow:hidden}
-.frame-bar{background:var(--bg3);padding:10px 16px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border)}
-.dot{width:10px;height:10px;border-radius:50%}
-.frame-title{font-size:12px;color:var(--muted);margin-left:6px;font-family:var(--mono)}
-.frame-body{padding:16px;display:grid;gap:12px}
-.mock-header{display:flex;justify-content:space-between;align-items:center}
-.mock-pair{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--cyan)}
-.mock-price{font-family:var(--mono);font-size:20px;font-weight:700;color:var(--text)}
-.mock-change{font-size:11px;color:var(--green);font-family:var(--mono)}
-.score-bar-wrap{background:var(--bg3);border-radius:8px;padding:12px}
-.score-label{font-size:10px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;margin-bottom:8px}
-.score-bar{height:6px;background:var(--border);border-radius:3px;overflow:hidden}
-.score-fill{height:100%;width:72%;background:linear-gradient(90deg,var(--yellow),var(--green));border-radius:3px;animation:fillBar 2s ease forwards}
-@keyframes fillBar{from{width:0}to{width:72%}}
-.score-val{font-family:var(--mono);font-size:18px;font-weight:700;color:var(--green);margin-top:6px}
-.mock-levels{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.level-card{background:var(--bg3);border-radius:8px;padding:10px}
-.level-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
-.level-val{font-family:var(--mono);font-size:14px;font-weight:600;margin-top:4px}
-.entry-val{color:var(--cyan)}
-.sl-val{color:var(--red)}
-.tp-val{color:var(--green)}
-.mock-badges{display:flex;flex-wrap:wrap;gap:6px}
-.badge{font-size:10px;font-family:var(--mono);padding:3px 8px;border-radius:5px;font-weight:600}
-.badge-green{background:rgba(45,212,130,.1);color:var(--green);border:1px solid rgba(45,212,130,.2)}
-.badge-red{background:rgba(242,91,91,.1);color:var(--red);border:1px solid rgba(242,91,91,.2)}
-.badge-cyan{background:rgba(34,211,238,.1);color:var(--cyan);border:1px solid rgba(34,211,238,.2)}
-.badge-yellow{background:rgba(242,196,75,.1);color:var(--yellow);border:1px solid rgba(242,196,75,.2)}
-.rr-box{background:var(--bg3);border-radius:8px;padding:12px;text-align:center;border:1px solid rgba(34,211,238,.15)}
-.rr-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
-.rr-val{font-family:var(--mono);font-size:22px;font-weight:700;color:var(--cyan)}
+/* Grano sutil para textura cinematográfica */
+.grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.028;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 
-section{padding:100px 5%;max-width:1200px;margin:0 auto}
-.section-tag{font-size:11px;font-weight:700;letter-spacing:.12em;color:var(--cyan);text-transform:uppercase;margin-bottom:12px}
-.section-title{font-size:clamp(28px,3vw,42px);font-weight:800;line-height:1.2;letter-spacing:-.5px;margin-bottom:16px}
-.section-sub{font-size:16px;color:var(--muted);max-width:560px;line-height:1.7}
+main,header,footer{position:relative;z-index:2}
 
-.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:56px}
-.feat-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:28px;transition:all .3s;position:relative;overflow:hidden}
-.feat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--accent-color,var(--cyan));opacity:0;transition:opacity .3s}
-.feat-card:hover{border-color:rgba(34,211,238,.2);transform:translateY(-3px)}
-.feat-card:hover::before{opacity:1}
-.feat-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:18px;border:1px solid var(--border)}
-.feat-title{font-size:16px;font-weight:700;margin-bottom:8px}
-.feat-desc{font-size:14px;color:var(--muted);line-height:1.65}
-.feat-mono{font-family:var(--mono);font-size:11px;color:var(--cyan);margin-top:14px;background:var(--bg3);padding:6px 10px;border-radius:6px;display:inline-block}
-
-.how-section{padding:100px 5%;background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
-.how-inner{max-width:1200px;margin:0 auto}
-.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:60px;position:relative}
-.steps::before{content:'';position:absolute;top:32px;left:calc(12.5% + 20px);right:calc(12.5% + 20px);height:1px;background:linear-gradient(90deg,transparent,var(--border),var(--border),transparent);z-index:0}
-.step{text-align:center;position:relative;z-index:1}
-.step-num{width:64px;height:64px;border-radius:16px;background:var(--bg3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:20px;font-weight:700;color:var(--cyan);margin:0 auto 20px}
-.step h3{font-size:15px;font-weight:700;margin-bottom:8px}
-.step p{font-size:13px;color:var(--muted);line-height:1.6}
-
-.demo-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:20px;overflow:hidden;margin-top:56px}
-.demo-tabs{display:flex;border-bottom:1px solid var(--border);background:var(--bg3)}
-.demo-tab{padding:14px 24px;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;border:none;background:transparent;transition:all .2s;border-bottom:2px solid transparent;font-family:var(--font)}
-.demo-tab.active{color:var(--cyan);border-bottom-color:var(--cyan)}
-.demo-content{padding:32px}
-.demo-scanner{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
-.scanner-card{background:var(--bg3);border-radius:12px;padding:16px;border:1px solid var(--border)}
-.sc-pair{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px}
-.sc-dir{font-size:11px;font-weight:700;padding:3px 8px;border-radius:5px;display:inline-block;margin-bottom:8px}
-.sc-long{background:rgba(45,212,130,.12);color:var(--green)}
-.sc-short{background:rgba(242,91,91,.12);color:var(--red)}
-.sc-rr{font-family:var(--mono);font-size:16px;font-weight:700}
-.sc-tf{font-size:10px;color:var(--muted);margin-top:4px;font-family:var(--mono)}
-.sc-score-bar{height:3px;background:var(--border);border-radius:2px;margin-top:8px;overflow:hidden}
-.sc-fill{height:100%;border-radius:2px}
-.journal-row{display:grid;grid-template-columns:160px 80px 50px 70px 90px 80px 70px auto;gap:8px;align-items:center;padding:12px;background:var(--bg3);border-radius:10px;font-size:12px;font-family:var(--mono);margin-bottom:8px}
-.journal-header{color:var(--muted);font-size:11px;letter-spacing:.06em}
-.jr-winner{color:var(--green)}
-.jr-loser{color:var(--red)}
-.jr-long{color:var(--cyan)}
-.jr-short{color:var(--red)}
-
-.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:56px}
-.price-card{background:var(--bg2);border:1px solid var(--border);border-radius:18px;padding:36px;position:relative;transition:all .3s}
-.price-card.featured{border-color:var(--cyan);background:var(--bg3)}
-.featured-badge{position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:var(--cyan);color:#080B11;font-size:11px;font-weight:800;padding:4px 16px;border-radius:20px;white-space:nowrap;letter-spacing:.06em}
-.price-name{font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
-.price-amount{font-family:var(--mono);font-size:46px;font-weight:800;color:var(--text);line-height:1}
-.price-amount sup{font-size:18px;font-weight:400;color:var(--muted);vertical-align:top;margin-top:10px;display:inline-block}
-.price-period{font-size:13px;color:var(--muted);margin-top:4px;margin-bottom:28px}
-.price-features{list-style:none;display:grid;gap:12px;margin-bottom:32px}
-.price-features li{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--muted)}
-.pf-check{color:var(--green);flex-shrink:0;font-size:15px;margin-top:1px}
-.pf-x{color:var(--border);flex-shrink:0;font-size:15px;margin-top:1px}
-.pf-active{color:var(--text)}
-.price-btn{width:100%;padding:14px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;border:none;font-family:var(--font)}
-.price-btn-primary{background:var(--cyan);color:#080B11}
-.price-btn-primary:hover{background:#38e5ff}
-.price-btn-secondary{background:transparent;color:var(--text);border:1px solid var(--border)}
-.price-btn-secondary:hover{border-color:var(--cyan);color:var(--cyan)}
-
-.ticker-wrap{background:var(--bg3);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:12px 0;overflow:hidden}
-.ticker-inner{display:flex;gap:48px;animation:ticker 20s linear infinite;width:max-content}
-@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-.ticker-item{display:flex;align-items:center;gap:10px;white-space:nowrap}
-.tick-pair{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--muted)}
-.tick-price{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--text)}
-.tick-chg{font-family:var(--mono);font-size:12px}
-.tick-up{color:var(--green)}
-.tick-dn{color:var(--red)}
-
-footer{padding:60px 5%;border-top:1px solid var(--border);background:var(--bg2)}
-.footer-inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
-.footer-logo{font-family:var(--mono);font-size:16px;font-weight:700;color:var(--cyan)}
-.footer-note{font-size:12px;color:var(--muted)}
-
-.disclaimer{background:rgba(242,196,75,.06);border:1px solid rgba(242,196,75,.15);border-radius:10px;padding:14px 20px;font-size:12px;color:var(--muted);margin-top:32px;line-height:1.6}
-.disclaimer strong{color:var(--yellow)}
-
-@media(max-width:900px){
-  .hero-grid,.features-grid,.steps,.pricing-grid{grid-template-columns:1fr}
-  .hero-grid{gap:48px}
-  .demo-scanner{grid-template-columns:repeat(2,1fr)}
-  .journal-row{grid-template-columns:1fr 1fr 1fr 1fr;font-size:11px}
-  .nav-links{display:none}
+/* ═══════════════ Tipografía de títulos: degradado metálico ═══════════════ */
+.title-metal{
+  background:linear-gradient(180deg,#FFFFFF 0%,#E8EAF2 46%,#9AA3B8 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.title-accent{
+  background:linear-gradient(92deg,var(--purple-hot) 0%,var(--quantum) 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.eyebrow{
+  font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--purple-hot);
 }
 
-/* ═══════════════════════════════════════════════════════
-   CINEMATIC LAYER — scroll reveal, easing, glow, refinamiento
-   ═══════════════════════════════════════════════════════ */
-:root{
-  --ease-out: cubic-bezier(.16,1,.3,1);
-  --ease-smooth: cubic-bezier(.4,0,.2,1);
+/* ═══════════════ Navegación ═══════════════ */
+.nav-blur{
+  background:rgba(10,10,12,.72);
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--line);
+}
+.nav-link{color:var(--text-mid);font-size:14px;font-weight:500;transition:color .25s}
+.nav-link:hover{color:var(--text-hi)}
+.btn-primary{
+  position:relative;display:inline-flex;align-items:center;gap:8px;
+  background:linear-gradient(135deg,var(--purple) 0%,#6D5AE8 55%,var(--quantum) 130%);
+  color:#fff;font-weight:700;border-radius:12px;
+  transition:transform .3s var(--ease),box-shadow .3s var(--ease);
+  box-shadow:0 0 0 1px rgba(139,92,246,.4),0 8px 28px rgba(109,90,232,.28);
+}
+.btn-primary:hover{transform:translateY(-2px);
+  box-shadow:0 0 0 1px rgba(167,139,250,.7),0 14px 44px rgba(109,90,232,.45)}
+.btn-ghost{
+  display:inline-flex;align-items:center;gap:8px;color:var(--text-hi);
+  border:1px solid var(--line);border-radius:12px;font-weight:600;
+  background:rgba(255,255,255,.02);
+  transition:border-color .3s,background .3s,transform .3s var(--ease);
+}
+.btn-ghost:hover{border-color:rgba(139,92,246,.55);background:rgba(139,92,246,.07);transform:translateY(-2px)}
+
+/* ═══════════════ Reveal on scroll ═══════════════ */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+.reveal[data-delay="1"]{transition-delay:.12s}
+.reveal[data-delay="2"]{transition-delay:.24s}
+.reveal[data-delay="3"]{transition-delay:.36s}
+
+/* ═══════════════ HERO · Slider de Mentes (antes/después) ═══════════════ */
+.mind-frame{
+  position:relative;border-radius:20px;overflow:hidden;
+  border:1px solid var(--line);
+  background:var(--surface);
+  box-shadow:0 30px 80px rgba(0,0,0,.55),0 0 60px rgba(139,92,246,.07);
+  user-select:none;-webkit-user-select:none;touch-action:pan-y;
+}
+/* Lado humano (base, siempre visible) */
+.mind-human{
+  position:relative;height:100%;width:100%;
+  background:
+    radial-gradient(500px 260px at 18% 20%,rgba(248,113,113,.10),transparent 60%),
+    radial-gradient(420px 240px at 78% 76%,rgba(248,113,113,.07),transparent 60%),
+    linear-gradient(160deg,#131015,#0B0A0D 70%);
+}
+/* Lado IA (revelado por clip-path controlado por JS) */
+.mind-ai{
+  position:absolute;inset:0;
+  clip-path:inset(0 0 0 50%);
+  background:
+    radial-gradient(520px 280px at 76% 24%,rgba(56,189,248,.12),transparent 60%),
+    radial-gradient(460px 260px at 30% 80%,rgba(52,211,153,.08),transparent 60%),
+    linear-gradient(200deg,#0D1319,#0A0D12 70%);
+  will-change:clip-path;
+}
+/* Etiquetas flotantes */
+.mind-tag{
+  position:absolute;padding:7px 14px;border-radius:999px;
+  font-size:12px;font-weight:600;letter-spacing:.02em;white-space:nowrap;
+  backdrop-filter:blur(6px);
+  animation:tagFloat 5.5s ease-in-out infinite;
+}
+.tag-h{background:rgba(248,113,113,.10);border:1px solid rgba(248,113,113,.36);color:#FCA5A5}
+.tag-a{background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.36);color:#67E8F9}
+.tag-g{background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.36);color:#6EE7B7}
+@keyframes tagFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+.mind-tag:nth-child(odd){animation-duration:6.5s;animation-delay:.8s}
+
+/* EKG humano (línea errática) y onda IA (limpia) */
+.mind-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.ekg-path{fill:none;stroke:rgba(248,113,113,.5);stroke-width:1.6;
+  stroke-dasharray:900;stroke-dashoffset:900;animation:draw 4s linear infinite}
+.ai-path{fill:none;stroke:rgba(56,189,248,.55);stroke-width:1.6;
+  stroke-dasharray:900;stroke-dashoffset:900;animation:draw 6s linear infinite}
+@keyframes draw{to{stroke-dashoffset:0}}
+/* Nodos conectados del lado IA */
+.node{fill:#38BDF8;opacity:.85;animation:nodePulse 3s ease-in-out infinite}
+.node:nth-of-type(even){animation-delay:1.2s;fill:#34D399}
+@keyframes nodePulse{0%,100%{r:2.4}50%{r:4}}
+.node-line{stroke:rgba(56,189,248,.22);stroke-width:1}
+
+/* Manija del slider */
+.mind-handle{
+  position:absolute;top:0;bottom:0;left:50%;width:2px;z-index:20;
+  background:linear-gradient(180deg,transparent,rgba(167,139,250,.9) 18%,rgba(56,189,248,.9) 82%,transparent);
+  cursor:ew-resize;will-change:left;
+}
+.mind-handle::before{
+  content:'◂ ▸';display:flex;align-items:center;justify-content:center;
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:52px;height:52px;border-radius:50%;
+  background:rgba(14,14,20,.9);backdrop-filter:blur(8px);
+  border:1px solid rgba(167,139,250,.6);
+  color:#C4B5FD;font-size:13px;letter-spacing:2px;
+  box-shadow:0 0 26px rgba(139,92,246,.5);
+  transition:box-shadow .3s,transform .3s var(--ease);
+}
+.mind-frame:hover .mind-handle::before{box-shadow:0 0 40px rgba(139,92,246,.8)}
+.mind-caption{
+  position:absolute;bottom:14px;padding:6px 14px;border-radius:999px;
+  font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  backdrop-filter:blur(8px);z-index:10;
 }
 
-/* Reduce motion para accesibilidad */
+/* ═══════════════ Simulador de decisiones ═══════════════ */
+.scenario-btn{
+  display:flex;align-items:center;gap:10px;width:100%;text-align:left;
+  padding:16px 20px;border-radius:14px;border:1px solid var(--line);
+  background:rgba(255,255,255,.02);color:var(--text-mid);
+  font-size:14.5px;font-weight:600;cursor:pointer;
+  transition:all .35s var(--ease);
+}
+.scenario-btn:hover{border-color:rgba(139,92,246,.4);color:var(--text-hi)}
+.scenario-btn.active{
+  border-color:rgba(139,92,246,.7);color:var(--text-hi);
+  background:linear-gradient(120deg,rgba(139,92,246,.13),rgba(56,189,248,.05));
+  box-shadow:0 0 30px rgba(139,92,246,.14),inset 0 0 24px rgba(139,92,246,.05);
+}
+.sim-card{
+  border-radius:20px;border:1px solid rgba(139,92,246,.25);
+  background:linear-gradient(160deg,#131019,#0C0B10 65%);
+  box-shadow:0 24px 70px rgba(0,0,0,.5),0 0 50px rgba(139,92,246,.06);
+  overflow:hidden;position:relative;
+}
+.sim-card::before{
+  content:'';position:absolute;top:0;left:-45%;width:45%;height:1.5px;
+  background:linear-gradient(90deg,transparent,rgba(167,139,250,.9),transparent);
+  animation:simSweep 3.4s ease-in-out infinite;
+}
+@keyframes simSweep{0%{left:-45%}60%,100%{left:100%}}
+.sim-content{transition:opacity .35s ease,transform .35s var(--ease)}
+.sim-content.swap{opacity:0;transform:translateY(12px)}
+.vs-col{border-radius:14px;padding:18px 20px;height:100%}
+.vs-human{background:rgba(248,113,113,.05);border:1px solid rgba(248,113,113,.22)}
+.vs-ai{background:rgba(52,211,153,.05);border:1px solid rgba(52,211,153,.22)}
+
+/* ═══════════════ Tarjetas del ecosistema (borde neón + tilt) ═══════════════ */
+.eco-card{
+  position:relative;border-radius:20px;padding:1.5px;height:100%;
+  background:linear-gradient(160deg,rgba(255,255,255,.09),rgba(255,255,255,.03) 55%);
+  transition:transform .5s var(--ease),background .5s;
+  will-change:transform;
+}
+.eco-card:hover{
+  background:linear-gradient(160deg,rgba(167,139,250,.75),rgba(56,189,248,.45) 55%,rgba(52,211,153,.35));
+  transform:translateY(-8px);
+}
+.eco-inner{
+  position:relative;border-radius:18.5px;height:100%;
+  background:linear-gradient(165deg,#121118,#0C0C10 70%);
+  padding:34px 30px;overflow:hidden;
+}
+.eco-inner::after{ /* brillo interior que sigue al cursor */
+  content:'';position:absolute;inset:0;opacity:0;transition:opacity .5s;
+  background:radial-gradient(420px 280px at var(--mx,50%) var(--my,20%),rgba(139,92,246,.13),transparent 65%);
+  pointer-events:none;
+}
+.eco-card:hover .eco-inner::after{opacity:1}
+.eco-icon{
+  width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;
+  font-size:22px;margin-bottom:22px;
+  background:rgba(139,92,246,.1);border:1px solid rgba(139,92,246,.3);
+  box-shadow:0 0 24px rgba(139,92,246,.12);
+}
+.eco-num{
+  position:absolute;top:22px;right:26px;font-family:'JetBrains Mono',monospace;
+  font-size:12px;color:var(--text-lo);letter-spacing:.1em;
+}
+.eco-li{display:flex;gap:10px;align-items:flex-start;color:var(--text-mid);font-size:13.5px;line-height:1.6;padding:4px 0}
+.eco-li::before{content:'◆';font-size:8px;color:var(--purple-hot);margin-top:7px;flex-shrink:0}
+
+/* ═══════════════ FAQ acordeón ═══════════════ */
+.faq-item{
+  border:1px solid var(--line);border-radius:16px;overflow:hidden;
+  background:rgba(255,255,255,.015);
+  transition:border-color .4s,box-shadow .4s;
+}
+.faq-item.open{border-color:rgba(139,92,246,.45);box-shadow:0 0 34px rgba(139,92,246,.08)}
+.faq-q{
+  width:100%;display:flex;justify-content:space-between;align-items:center;gap:16px;
+  padding:22px 26px;cursor:pointer;background:none;border:none;text-align:left;
+  color:var(--text-hi);font-size:15.5px;font-weight:600;font-family:inherit;
+}
+.faq-icon{
+  width:28px;height:28px;border-radius:50%;flex-shrink:0;
+  border:1px solid rgba(139,92,246,.5);color:var(--purple-hot);
+  display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:400;
+  transition:transform .45s var(--ease),background .3s;
+}
+.faq-item.open .faq-icon{transform:rotate(45deg);background:rgba(139,92,246,.15)}
+.faq-a{
+  max-height:0;overflow:hidden;
+  transition:max-height .55s var(--ease);
+}
+.faq-a-inner{padding:0 26px 24px;color:var(--text-mid);font-size:14.5px;line-height:1.75}
+
+/* ═══════════════ Captura final ═══════════════ */
+.capture-input{
+  background:rgba(255,255,255,.03);border:1px solid var(--line);
+  border-radius:14px;color:var(--text-hi);font-size:15px;
+  padding:16px 22px;width:100%;outline:none;font-family:inherit;
+  transition:border-color .3s,box-shadow .3s;
+}
+.capture-input::placeholder{color:var(--text-lo)}
+.capture-input:focus{border-color:rgba(139,92,246,.6);box-shadow:0 0 0 4px rgba(139,92,246,.12)}
+.btn-glow{
+  position:relative;background:linear-gradient(135deg,var(--purple),#6D5AE8 60%,var(--quantum) 140%);
+  color:#fff;font-weight:700;border-radius:14px;border:none;cursor:pointer;
+  font-size:15px;font-family:inherit;white-space:nowrap;
+  transition:transform .35s var(--ease),box-shadow .35s;
+  box-shadow:0 0 0 1px rgba(139,92,246,.35),0 6px 24px rgba(109,90,232,.25);
+}
+.btn-glow:hover{
+  transform:translateY(-2px);
+  box-shadow:0 0 0 1px rgba(167,139,250,.8),0 0 46px rgba(139,92,246,.55),0 14px 40px rgba(109,90,232,.4);
+}
+.divider-line{height:1px;background:linear-gradient(90deg,transparent,rgba(139,92,246,.35),rgba(56,189,248,.25),transparent)}
+
+/* Ticker de conceptos (marquee sutil) */
+.marquee{display:flex;gap:56px;white-space:nowrap;animation:marq 34s linear infinite;width:max-content}
+@keyframes marq{to{transform:translateX(-50%)}}
+.marq-item{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.14em;color:var(--text-lo);display:flex;align-items:center;gap:12px}
+.marq-item i{width:5px;height:5px;border-radius:50%;background:var(--purple);display:inline-block}
+
+/* ═══════════════ Accesibilidad de movimiento ═══════════════ */
 @media (prefers-reduced-motion: reduce){
-  *{animation:none!important;transition:none!important}
-  .reveal{opacity:1!important;transform:none!important}
-}
-
-/* Scroll reveal base */
-.reveal{
-  opacity:0;
-  transform:translateY(28px);
-  transition:opacity .9s var(--ease-out), transform .9s var(--ease-out);
-  will-change:opacity,transform;
-}
-.reveal.in{opacity:1;transform:translateY(0)}
-/* Stagger: hijos en cascada */
-.reveal-stagger > *{
-  opacity:0;
-  transform:translateY(24px);
-  transition:opacity .8s var(--ease-out), transform .8s var(--ease-out);
-}
-.reveal-stagger.in > *{opacity:1;transform:translateY(0)}
-.reveal-stagger.in > *:nth-child(1){transition-delay:.05s}
-.reveal-stagger.in > *:nth-child(2){transition-delay:.13s}
-.reveal-stagger.in > *:nth-child(3){transition-delay:.21s}
-.reveal-stagger.in > *:nth-child(4){transition-delay:.29s}
-.reveal-stagger.in > *:nth-child(5){transition-delay:.37s}
-.reveal-stagger.in > *:nth-child(6){transition-delay:.45s}
-.reveal-stagger.in > *:nth-child(7){transition-delay:.53s}
-.reveal-stagger.in > *:nth-child(8){transition-delay:.61s}
-.reveal-stagger.in > *:nth-child(9){transition-delay:.69s}
-.reveal-stagger.in > *:nth-child(10){transition-delay:.77s}
-
-/* Hero: entrada secuenciada al cargar */
-@keyframes heroIn{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
-.hero-anim{opacity:0;animation:heroIn 1s var(--ease-out) forwards}
-.hero-anim.d1{animation-delay:.1s}
-.hero-anim.d2{animation-delay:.25s}
-.hero-anim.d3{animation-delay:.4s}
-.hero-anim.d4{animation-delay:.55s}
-.hero-anim.d5{animation-delay:.7s}
-
-/* Glow de fondo que respira lentamente */
-@keyframes breathe{0%,100%{opacity:.5;transform:translateX(-50%) scale(1)}50%{opacity:.9;transform:translateX(-50%) scale(1.12)}}
-.hero::before{animation:breathe 9s ease-in-out infinite}
-
-/* Gradiente animado sutil en el título accent */
-@keyframes shimmer{0%{background-position:0% 50%}100%{background-position:200% 50%}}
-.hero h1 .accent{
-  background:linear-gradient(90deg,var(--cyan),#7dd3fc,var(--cyan));
-  background-size:200% auto;
-  -webkit-background-clip:text;background-clip:text;
-  -webkit-text-fill-color:transparent;
-  animation:shimmer 4s linear infinite;
-}
-
-/* CTAs con easing y glow */
-.btn-primary{transition:transform .35s var(--ease-out), box-shadow .35s var(--ease-out), background .2s!important}
-.btn-primary:hover{transform:translateY(-2px)!important;box-shadow:0 8px 30px rgba(34,211,238,.35)}
-.btn-secondary{transition:all .35s var(--ease-out)!important}
-.btn-secondary:hover{transform:translateY(-2px)}
-
-/* Feature cards: easing más suave + glow al hover */
-.feat-card{transition:transform .45s var(--ease-out), border-color .45s var(--ease-out), box-shadow .45s var(--ease-out)!important}
-.feat-card:hover{transform:translateY(-5px)!important;box-shadow:0 14px 40px rgba(0,0,0,.4)}
-
-/* Price cards más suaves */
-.price-card{transition:transform .45s var(--ease-out), border-color .45s var(--ease-out), box-shadow .45s var(--ease-out)!important}
-.price-card:hover{transform:translateY(-5px);box-shadow:0 16px 44px rgba(0,0,0,.45)}
-
-/* Dashboard frame: leve parallax/float + glow envolvente */
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-.dashboard-frame{
-  box-shadow:0 30px 80px rgba(0,0,0,.5), 0 0 0 1px var(--border), 0 0 60px rgba(34,211,238,.06);
-  transition:box-shadow .5s var(--ease-out);
-}
-/* Entrada del frame: fade+slide y luego float continuo, sin conflicto de opacity */
-@keyframes frameIn{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
-.frame-enter{
-  opacity:0;
-  animation:frameIn 1s var(--ease-out) .55s forwards, float 7s ease-in-out 1.6s infinite;
-}
-.dashboard-frame:hover{box-shadow:0 30px 90px rgba(0,0,0,.6), 0 0 0 1px rgba(34,211,238,.2), 0 0 80px rgba(34,211,238,.12)}
-
-/* Nav: aparece con sombra al hacer scroll */
-nav{transition:background .4s var(--ease-smooth), box-shadow .4s var(--ease-smooth), border-color .4s}
-nav.scrolled{box-shadow:0 8px 32px rgba(0,0,0,.4);background:rgba(8,11,17,.97)}
-
-/* Section titles con línea divisoria animada */
-.section-title{position:relative}
-
-/* Cursor glow sutil que sigue el mouse (desktop) */
-#cursor-glow{
-  position:fixed;width:500px;height:500px;border-radius:50%;pointer-events:none;z-index:1;
-  background:radial-gradient(circle,rgba(34,211,238,.05) 0%,transparent 60%);
-  transform:translate(-50%,-50%);transition:opacity .4s;opacity:0;
-  mix-blend-mode:screen;
-}
-
-/* Scrollbar refinada */
-::-webkit-scrollbar{width:10px}
-::-webkit-scrollbar-track{background:var(--bg)}
-::-webkit-scrollbar-thumb{background:var(--border);border-radius:5px}
-::-webkit-scrollbar-thumb:hover{background:var(--cyan)}
-
-
-/* Fallback: el mock del dashboard SIEMPRE visible ante cualquier fallo */
-@media (prefers-reduced-motion: reduce){
-  .frame-enter{opacity:1!important;animation:none!important;transform:none!important}
-}
-.no-js .frame-enter, .no-js .hero-anim, .no-js .reveal{opacity:1!important;transform:none!important}
-
-/* ════════════════════════════════════════════════════════════════
-   HERO CINEMÁTICO — esfera de obsidiana líquida + fibra óptica esmeralda
-   Cada hilo representa un par/timeframe fluyendo hacia el núcleo de IA.
-   ════════════════════════════════════════════════════════════════ */
-.hero-cine{position:relative;overflow:hidden}
-.obsidian-stage{position:absolute;inset:0;z-index:0;pointer-events:none;
-  display:flex;align-items:center;justify-content:center;overflow:hidden}
-.obsidian-svg{width:min(1100px,120%);height:auto;opacity:.92;
-  filter:drop-shadow(0 0 60px rgba(45,212,130,.10))}
-/* Atmósfera volumétrica detrás de la esfera */
-.obsidian-stage::before{content:'';position:absolute;width:620px;height:620px;border-radius:50%;
-  background:radial-gradient(circle,rgba(45,212,130,.10) 0%,rgba(34,211,238,.04) 35%,transparent 68%);
-  filter:blur(34px);animation:obBreath 11s ease-in-out infinite}
-@keyframes obBreath{0%,100%{transform:scale(1);opacity:.7}50%{transform:scale(1.14);opacity:1}}
-/* Núcleo: respiración lenta de la esfera */
-@keyframes coreFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-.ob-core-group{animation:coreFloat 9s ease-in-out infinite;transform-origin:center}
-/* Energía fluyendo por los hilos hacia el centro */
-@keyframes flow{to{stroke-dashoffset:-200}}
-.ob-thread-pulse{stroke-dasharray:5 195;animation:flow 3.4s linear infinite}
-/* Nodos de datos (extremos de hilo) titilando */
-@keyframes nodeGlow{0%,100%{opacity:.35;r:2.2}50%{opacity:1;r:3.4}}
-.ob-node{animation:nodeGlow 3.2s ease-in-out infinite}
-/* Brillo del rim de la esfera */
-@keyframes rimShine{0%,100%{opacity:.5}50%{opacity:.95}}
-.ob-rim{animation:rimShine 7s ease-in-out infinite}
-/* Etiquetas de los inputs del agente */
-.ob-label{font-family:var(--mono);font-size:10px;fill:rgba(139,148,158,.7);letter-spacing:.04em}
-@media (max-width:880px){
-  .obsidian-svg{width:160%;opacity:.5}
-  .ob-label{display:none}
-}
-@media (prefers-reduced-motion: reduce){
-  .obsidian-stage::before,.ob-core-group,.ob-thread-pulse,.ob-node,.ob-rim{animation:none!important}
+  *,*::before,*::after{animation-duration:.01ms !important;transition-duration:.01ms !important}
+  html{scroll-behavior:auto}
 }
 </style>
+
+<script>
+/* Configuración mínima de Tailwind (paleta propia) */
+tailwind.config = {
+  theme:{extend:{colors:{
+    obsidian:'#0A0A0C', qpurple:'#8B5CF6', qblue:'#38BDF8'
+  },fontFamily:{sans:['Inter','sans-serif']}}}
+}
+</script>
 </head>
+
 <body>
-<div id="cursor-glow"></div>
 
-<nav>
-  <div class="nav-logo">ICT<span>Dashboard</span></div>
-  <ul class="nav-links">
-    <li><a href="#features">Funciones</a></li>
-    <li><a href="#how">Cómo funciona</a></li>
-    <li><a href="#demo">Demo</a></li>
-    <li><a href="#pricing">Precios</a></li>
-  </ul>
-  <a href="https://ict-dashboard-sebashuanay.streamlit.app/" target="_blank" class="nav-cta">⚡ Abrir Dashboard</a>
-</nav>
-
-<div class="ticker-wrap" style="margin-top:64px">
-  <div class="ticker-inner" id="ticker"></div>
+<!-- Luces de fondo + grano -->
+<div class="glow-field" aria-hidden="true">
+  <div class="glow glow-a" id="glowA"></div>
+  <div class="glow glow-b" id="glowB"></div>
+  <div class="glow glow-c"></div>
 </div>
+<div class="grain" aria-hidden="true"></div>
 
-<!-- HERO -->
-<section class="hero-cine" style="padding:80px 5% 60px;max-width:none">
-  <div class="obsidian-stage" aria-hidden="true">
-<svg class="obsidian-svg" viewBox="0 0 1100 700" xmlns="http://www.w3.org/2000/svg">
-<defs>
-  <radialGradient id="obsidian" cx="42%" cy="38%" r="68%">
-    <stop offset="0%" stop-color="#1a2230"/>
-    <stop offset="38%" stop-color="#0e141d"/>
-    <stop offset="78%" stop-color="#070a10"/>
-    <stop offset="100%" stop-color="#04060a"/>
-  </radialGradient>
-  <radialGradient id="obSheen" cx="38%" cy="30%" r="40%">
-    <stop offset="0%" stop-color="rgba(120,150,170,.45)"/>
-    <stop offset="60%" stop-color="rgba(45,212,130,.06)"/>
-    <stop offset="100%" stop-color="transparent"/>
-  </radialGradient>
-  <linearGradient id="emerald" x1="0%" y1="0%" x2="100%" y2="0%">
-    <stop offset="0%" stop-color="rgba(45,212,130,0)"/>
-    <stop offset="50%" stop-color="#34e59c"/>
-    <stop offset="100%" stop-color="#2DD482"/>
-  </linearGradient>
-  <radialGradient id="rimGrad" cx="50%" cy="50%" r="50%">
-    <stop offset="82%" stop-color="transparent"/>
-    <stop offset="96%" stop-color="rgba(45,212,130,.55)"/>
-    <stop offset="100%" stop-color="transparent"/>
-  </radialGradient>
-  <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
-    <feGaussianBlur stdDeviation="2.2" result="b"/>
-    <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-  </filter>
-</defs>
-<!-- hilos de fibra óptica -->
-<g><path d="M550,20 Q568,121 550,222" stroke="rgba(45,212,130,.13)" stroke-width="1" fill="none"/><path d="M550,20 Q568,121 550,222" stroke="url(#emerald)" stroke-width="1.4" fill="none" class="ob-thread-pulse" style="animation-delay:0.00s" filter="url(#glow)"/><path d="M689,51 Q663,150 604,234" stroke="rgba(45,212,130,.13)" stroke-width="1" fill="none"/><path d="M689,51 Q663,150 604,234" stroke="url(#emerald)" stroke-width="1.4" fill="none" class="ob-thread-pulse" style="animation-delay:0.21s" filter="url(#glow)"/><path d="M803,138 Q737,217 648,268" stroke="rgba(45,212,130,.13)" stroke-width="1" fill="none"/><path d="M803,138 Q737,217 648,268" stroke="url(#emerald)" stroke-width="1.4" fill="none" class="ob-thread-pulse" style="animation-delay:0.42s" filter="url(#glow)"/><path d="M864,248 Q773,296 672,310" stroke="rgba(45,212,130,.13)" stroke-width="1" fill="none"/><path d="M864,248 Q773,296 672,310" stroke="url(#emerald)" stroke-width="1.4" fill="none" class="ob-thread-pulse" style="animation-delay:0.63s" filter="url(#glow)"/><path d="M877,396 Q774,400 677,368" stroke="rgba(45,212,130,.13)" stroke-width="1" fill="none"/><path d="M877,396 Q774,400 677,368" stroke="url(#emerald)" stroke-width="1.4" fill="none" class="ob-thread-pulse" style="animation-delay:0.84s" filter="url(#glow)"/><path d="M830,525 Q735,487 659,418" stroke="rgba(45,212,130,.13)" stroke-width="1" fill="none"/><path d="M830,525 Q735,487 659,418" stroke="url(#emerald)" stroke-width="1.4" fill="none" class="ob-thread-pulse" style="animation-delay:1.05s" filter="url(#glow)"/><path d="M725,630 Q656,554 618,459" stroke="rgba(45,212,130,.13)" stroke-width="1" fill="none"/><path d="M725,630 Q656,554 618,459" stroke="url(#emerald)" stroke-width="1.4" fill="none" class="ob-thread-pulse" style="animation-delay:1.26s" filter="url(#glow)"/><path d="M562,680 Q540,579 554,478" stroke="rgba(45,212,130,.13)" stroke-width="1" fill="none"/><path d="M562,680 Q540,579 554,478" stroke="url(#emerald)" stroke-width="1.4" fill="none" class="ob-thread-pulse" style="animation-delay:1.47s" filter="url(#glow)"/><path d="M426,656 Q448,556 502,469" stroke="rgba(45,212,130,.13)" stroke-width="1" fill="none"/><path d="M426,656 Q448,556 502,469" stroke="url(#emerald)" stroke-width="1.4" fill="none" class="ob-thread-pulse" style="animation-delay:1.68s" filter="url(#glow)"/><path d="M305,571 Q368,490 455,436" stroke="rgba(45,212,130,.13)" stroke-width="1" fill="none"/><path d="M305,571 Q368,490 455,436" stroke="url(#emerald)" stroke-width="1.4" fill="none" class="ob-thread-pulse" style="animation-delay:1.89s" filter="url(#glow)"/><path d="M236,452 Q327,404 428,390" stroke="rgba(45,212,130,.13)" stroke-width="1" fill="none"/><path d="M236,452 Q327,404 428,390" stroke="url(#emerald)" stroke-width="1.4" fill="none" class="ob-thread-pulse" style="animation-delay:2.10s" filter="url(#glow)"/><path d="M227,281 Q330,285 425,323" stroke="rgba(45,212,130,.13)" stroke-width="1" fill="none"/><path d="M227,281 Q330,285 425,323" stroke="url(#emerald)" stroke-width="1.4" fill="none" class="ob-thread-pulse" style="animation-delay:2.31s" filter="url(#glow)"/><path d="M290,147 Q381,195 449,271" stroke="rgba(45,212,130,.13)" stroke-width="1" fill="none"/><path d="M290,147 Q381,195 449,271" stroke="url(#emerald)" stroke-width="1.4" fill="none" class="ob-thread-pulse" style="animation-delay:2.52s" filter="url(#glow)"/><path d="M426,44 Q481,131 502,231" stroke="rgba(45,212,130,.13)" stroke-width="1" fill="none"/><path d="M426,44 Q481,131 502,231" stroke="url(#emerald)" stroke-width="1.4" fill="none" class="ob-thread-pulse" style="animation-delay:2.73s" filter="url(#glow)"/><path d="M550,20 Q568,121 550,222" stroke="rgba(45,212,130,.13)" stroke-width="1" fill="none"/><path d="M550,20 Q568,121 550,222" stroke="url(#emerald)" stroke-width="1.4" fill="none" class="ob-thread-pulse" style="animation-delay:2.94s" filter="url(#glow)"/><path d="M715,64 Q680,161 614,239" stroke="rgba(45,212,130,.13)" stroke-width="1" fill="none"/><path d="M715,64 Q680,161 614,239" stroke="url(#emerald)" stroke-width="1.4" fill="none" class="ob-thread-pulse" style="animation-delay:3.15s" filter="url(#glow)"/></g>
-<!-- esfera de obsidiana líquida -->
-<g class="ob-core-group">
-  <circle cx="550" cy="350" r="132" fill="url(#rimGrad)" class="ob-rim"/>
-  <circle cx="550" cy="350" r="124" fill="url(#obsidian)"/>
-  <circle cx="550" cy="350" r="124" fill="url(#obSheen)"/>
-  <ellipse cx="516" cy="308" rx="42" ry="26" fill="rgba(200,220,230,.10)"/>
-  <circle cx="550" cy="350" r="124" fill="none" stroke="rgba(45,212,130,.22)" stroke-width="1"/>
-</g>
-<!-- nodos + etiquetas -->
-<g><circle cx="550" cy="20" r="2.6" fill="#2DD482" class="ob-node" style="animation-delay:0.00s" filter="url(#glow)"/><circle cx="689" cy="51" r="2.6" fill="#2DD482" class="ob-node" style="animation-delay:0.21s" filter="url(#glow)"/><circle cx="803" cy="138" r="2.6" fill="#2DD482" class="ob-node" style="animation-delay:0.42s" filter="url(#glow)"/><circle cx="864" cy="248" r="2.6" fill="#2DD482" class="ob-node" style="animation-delay:0.63s" filter="url(#glow)"/><circle cx="877" cy="396" r="2.6" fill="#2DD482" class="ob-node" style="animation-delay:0.84s" filter="url(#glow)"/><circle cx="830" cy="525" r="2.6" fill="#2DD482" class="ob-node" style="animation-delay:1.05s" filter="url(#glow)"/><circle cx="725" cy="630" r="2.6" fill="#2DD482" class="ob-node" style="animation-delay:1.26s" filter="url(#glow)"/><circle cx="562" cy="680" r="2.6" fill="#2DD482" class="ob-node" style="animation-delay:1.47s" filter="url(#glow)"/><circle cx="426" cy="656" r="2.6" fill="#2DD482" class="ob-node" style="animation-delay:1.68s" filter="url(#glow)"/><circle cx="305" cy="571" r="2.6" fill="#2DD482" class="ob-node" style="animation-delay:1.89s" filter="url(#glow)"/><circle cx="236" cy="452" r="2.6" fill="#2DD482" class="ob-node" style="animation-delay:2.10s" filter="url(#glow)"/><circle cx="227" cy="281" r="2.6" fill="#2DD482" class="ob-node" style="animation-delay:2.31s" filter="url(#glow)"/><circle cx="290" cy="147" r="2.6" fill="#2DD482" class="ob-node" style="animation-delay:2.52s" filter="url(#glow)"/><circle cx="426" cy="44" r="2.6" fill="#2DD482" class="ob-node" style="animation-delay:2.73s" filter="url(#glow)"/><circle cx="550" cy="20" r="2.6" fill="#2DD482" class="ob-node" style="animation-delay:2.94s" filter="url(#glow)"/><circle cx="715" cy="64" r="2.6" fill="#2DD482" class="ob-node" style="animation-delay:3.15s" filter="url(#glow)"/></g>
-<g><text x="550" y="1" text-anchor="middle" class="ob-label">BTC</text><text x="699" y="34" text-anchor="start" class="ob-label">4H</text><text x="820" y="127" text-anchor="start" class="ob-label">ETH</text><text x="885" y="244" text-anchor="start" class="ob-label">FVG</text><text x="899" y="402" text-anchor="start" class="ob-label">1D</text><text x="849" y="540" text-anchor="start" class="ob-label">SOL</text><text x="737" y="652" text-anchor="start" class="ob-label">OB</text><text x="562" y="705" text-anchor="middle" class="ob-label">XRP</text><text x="418" y="679" text-anchor="end" class="ob-label">BSL</text><text x="288" y="589" text-anchor="end" class="ob-label">5m</text><text x="215" y="462" text-anchor="end" class="ob-label">BNB</text><text x="206" y="280" text-anchor="end" class="ob-label">RSI</text><text x="273" y="136" text-anchor="end" class="ob-label">15m</text><text x="418" y="27" text-anchor="end" class="ob-label">1H</text><text x="550" y="1" text-anchor="middle" class="ob-label">SSL</text><text x="726" y="48" text-anchor="start" class="ob-label">Vol</text></g>
-</svg>
-</div>
-  <div class="hero-grid" style="max-width:1200px;margin:0 auto;position:relative;z-index:2">
-    <div>
-      <div class="hero-badge hero-anim d1">✦ Powered by Claude AI · ICT + Wyckoff</div>
-      <h1 class="hero-anim d2">Un núcleo de IA que lee el mercado como una mesa institucional<span class="accent">.</span></h1>
-      <p class="hero-anim d3">Cada par, cada timeframe y cada nivel de liquidez fluye hacia un solo núcleo de decisión: análisis multi-timeframe con metodología ICT y Wyckoff, detección automática de FVGs, Order Blocks y Stop Hunts — con entradas, SL y TP precisos listos para ejecutar.</p>
-      <div class="hero-ctas hero-anim d4">
-        <a href="https://ict-dashboard-sebashuanay.streamlit.app/" target="_blank" class="btn-primary">⚡ Abrir el Dashboard</a>
-        <a href="#demo" class="btn-secondary">Ver demo en vivo</a>
-      </div>
-      <div class="hero-stats hero-anim d5">
-        <div>
-          <div class="stat-num">5</div>
-          <div class="stat-label">Pares escaneados<br>simultáneamente</div>
-        </div>
-        <div>
-          <div class="stat-num">5m</div>
-          <div class="stat-label">Timeframe más<br>rápido analizado</div>
-        </div>
-        <div>
-          <div class="stat-num">∞</div>
-          <div class="stat-label">Análisis guardados<br>en el journal</div>
-        </div>
-      </div>
+<!-- ═══════════════════════ 1 · NAVEGACIÓN ═══════════════════════ -->
+<header class="nav-blur fixed top-0 left-0 right-0 z-50">
+  <nav class="max-w-7xl mx-auto px-6 h-[68px] flex items-center justify-between">
+    <!-- Logotipo minimalista -->
+    <a href="#" class="flex items-center gap-2.5 group" aria-label="Quantum Mind — inicio">
+      <span class="w-8 h-8 rounded-lg flex items-center justify-center
+                   bg-gradient-to-br from-qpurple to-qblue text-white font-black text-sm
+                   shadow-[0_0_20px_rgba(139,92,246,.4)]">Q</span>
+      <span class="font-extrabold tracking-tight text-[17px]">QUANTUM<span class="text-[#A78BFA]">MIND</span></span>
+    </a>
+    <!-- Enlaces centrales -->
+    <div class="hidden md:flex items-center gap-9">
+      <a href="#metodo" class="nav-link">El Método</a>
+      <a href="#la-ia" class="nav-link">La IA</a>
+      <a href="#faq" class="nav-link">FAQ</a>
     </div>
+    <!-- CTA -->
+    <a href="#acceso" class="btn-primary px-5 py-2.5 text-sm">Acceso al Programa</a>
+  </nav>
+</header>
 
-    <div class="dashboard-frame frame-enter">
-      <div class="frame-bar">
-        <div class="dot" style="background:#F25B5B"></div>
-        <div class="dot" style="background:#F2C24B"></div>
-        <div class="dot" style="background:#2DD482"></div>
-        <span class="frame-title">ICT Dashboard · BTC/USDT · 1H</span>
+<main>
+
+<!-- ═══════════════════════ 2 · HERO ═══════════════════════ -->
+<section class="min-h-screen flex flex-col items-center justify-center text-center px-6 pt-32 pb-20 relative">
+
+  <p class="eyebrow reveal mb-6">Educación cuantitativa · Agente IA institucional</p>
+
+  <!-- Título teatral centrado -->
+  <h1 class="reveal font-black leading-[1.04] tracking-tight max-w-5xl
+             text-[clamp(2.4rem,7vw,5.4rem)]" data-delay="1">
+    <span class="title-metal">El Trading ya no es para humanos.</span><br>
+    <span class="title-accent">Evoluciona tu mente</span>
+    <span class="title-metal">con Inteligencia Artificial.</span>
+  </h1>
+
+  <p class="reveal mt-7 max-w-2xl text-[clamp(1rem,1.6vw,1.2rem)] leading-relaxed text-[#9AA3B2]" data-delay="2">
+    Aprende la ciencia detrás del trading cuantitativo y domina la gestión de riesgo
+    con nuestro Agente IA institucional.
+  </p>
+
+  <!-- CTAs -->
+  <div class="reveal mt-10 flex flex-col sm:flex-row items-center gap-4" data-delay="3">
+    <a href="#acceso" class="btn-primary px-8 py-4 text-[15px]">
+      Comenzar mi evolución <span aria-hidden="true">→</span>
+    </a>
+    <a href="#metodo" class="btn-ghost px-8 py-4 text-[15px]">Ver el método</a>
+  </div>
+
+  <!-- ── Slider de Mentes: Humana ⟷ IA ── -->
+  <div class="reveal w-full max-w-4xl mt-20" data-delay="3">
+    <div id="mindSlider" class="mind-frame h-[340px] sm:h-[400px]"
+         role="slider" aria-label="Comparador Mente Humana contra Mente IA"
+         aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" tabindex="0">
+
+      <!-- LADO HUMANO (base) -->
+      <div class="mind-human">
+        <svg class="mind-svg" viewBox="0 0 800 400" preserveAspectRatio="none" aria-hidden="true">
+          <!-- EKG errático: la emoción operando -->
+          <path class="ekg-path" d="M0,210 L70,205 90,235 110,150 130,290 150,190 210,200 240,240 265,120 285,300 310,205 380,210 410,160 430,265 455,95 480,320 505,210 570,215 600,180 620,255 645,140 665,285 690,205 800,210"/>
+        </svg>
+        <span class="mind-tag tag-h" style="top:16%;left:8%">😰 Miedo</span>
+        <span class="mind-tag tag-h" style="top:38%;left:24%">🔥 FOMO</span>
+        <span class="mind-tag tag-h" style="top:64%;left:10%">💭 Ansiedad</span>
+        <span class="mind-tag tag-h" style="top:80%;left:28%">📉 Revenge trading</span>
+        <span class="mind-caption tag-h" style="left:16px">Mente humana</span>
       </div>
-      <div class="frame-body">
-        <div class="mock-header">
-          <div>
-            <div class="mock-pair">BTC/USDT · OKX · 1H</div>
-            <div class="mock-price">$67,842.50</div>
-            <div class="mock-change">▲ +2.31% en 24h</div>
-          </div>
-          <div class="mock-badges">
-            <span class="badge badge-green">⚡ SWING · 4H</span>
-            <span class="badge badge-cyan">🏛 BULLISH</span>
-          </div>
-        </div>
-        <div class="score-bar-wrap">
-          <div class="score-label">Confluencia Score</div>
-          <div class="score-bar"><div class="score-fill"></div></div>
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px">
-            <div class="score-val">72 / 100 — ALTA</div>
-            <div style="display:flex;gap:4px">
-              <span class="badge badge-green" style="font-size:9px">✓ HTF</span>
-              <span class="badge badge-green" style="font-size:9px">✓ FVG</span>
-              <span class="badge badge-green" style="font-size:9px">✓ Vol</span>
-              <span class="badge badge-cyan" style="font-size:9px">✓ KZ</span>
-              <span class="badge badge-red" style="font-size:9px">✗ RSI</span>
-            </div>
-          </div>
-        </div>
-        <div class="mock-badges">
-          <span class="badge badge-green">🌊 SSL Barrido hace 2 velas → BULLISH</span>
-          <span class="badge badge-yellow">📈 Wyckoff: SPRING/LPS</span>
-        </div>
-        <div class="mock-levels">
-          <div class="level-card">
-            <div class="level-label">Entrada</div>
-            <div class="level-val entry-val">$67,421.50</div>
-          </div>
-          <div class="level-card">
-            <div class="level-label">Stop Loss</div>
-            <div class="level-val sl-val">$66,890.80</div>
-          </div>
-          <div class="level-card">
-            <div class="level-label">TP1 — 60%</div>
-            <div class="level-val tp-val">$68,940.00</div>
-          </div>
-          <div class="level-card">
-            <div class="level-label">TP2 — 40%</div>
-            <div class="level-val tp-val">$70,200.00</div>
-          </div>
-        </div>
-        <div class="rr-box">
-          <div class="rr-label">Ratio Riesgo / Recompensa</div>
-          <div class="rr-val">1 : 2.86</div>
-        </div>
+
+      <!-- LADO IA (revelado con clip-path) -->
+      <div class="mind-ai" id="mindAI">
+        <svg class="mind-svg" viewBox="0 0 800 400" preserveAspectRatio="none" aria-hidden="true">
+          <!-- Onda limpia y regular: precisión matemática -->
+          <path class="ai-path" d="M0,210 C60,210 60,180 120,180 S180,240 240,240 300,180 360,180 420,240 480,240 540,180 600,180 660,240 720,240 780,200 800,205"/>
+          <!-- Red de nodos conectados -->
+          <g aria-hidden="true">
+            <line class="node-line" x1="560" y1="90" x2="640" y2="130"/>
+            <line class="node-line" x1="640" y1="130" x2="700" y2="80"/>
+            <line class="node-line" x1="640" y1="130" x2="690" y2="190"/>
+            <line class="node-line" x1="560" y1="90"  x2="600" y2="170"/>
+            <line class="node-line" x1="600" y1="170" x2="690" y2="190"/>
+            <line class="node-line" x1="520" y1="160" x2="600" y2="170"/>
+            <circle class="node" cx="560" cy="90"  r="3"/>
+            <circle class="node" cx="640" cy="130" r="3"/>
+            <circle class="node" cx="700" cy="80"  r="3"/>
+            <circle class="node" cx="690" cy="190" r="3"/>
+            <circle class="node" cx="600" cy="170" r="3"/>
+            <circle class="node" cx="520" cy="160" r="3"/>
+          </g>
+        </svg>
+        <span class="mind-tag tag-g" style="top:16%;right:8%">🛡️ Protección del Capital</span>
+        <span class="mind-tag tag-a" style="top:40%;right:22%">⚙️ Disciplina 24/7</span>
+        <span class="mind-tag tag-a" style="top:64%;right:9%">📐 Precisión Matemática</span>
+        <span class="mind-tag tag-g" style="top:82%;right:26%">🧠 Cero emociones</span>
+        <span class="mind-caption tag-a" style="right:16px">Mente IA</span>
       </div>
+
+      <!-- Manija -->
+      <div class="mind-handle" id="mindHandle" aria-hidden="true"></div>
     </div>
+    <p class="mt-4 text-[12.5px] text-[#5C6470] tracking-wide">
+      ← Arrastra para comparar cómo decide una mente humana y cómo decide el Agente →
+    </p>
   </div>
 </section>
 
-<!-- FEATURES -->
-<section id="features">
-  <div class="section-tag reveal">Funcionalidades</div>
-  <h2 class="section-title reveal">Todo lo que necesita un trader<br>institucional serio</h2>
-  <p class="section-sub">Diseñado con la metodología ICT completa — desde FVGs y Order Blocks hasta Wyckoff phases y Stop Hunts detectados en tiempo real.</p>
-  <div class="features-grid reveal-stagger">
-    <div class="feat-card" style="--accent-color:#22D3EE">
-      <div class="feat-icon" style="background:rgba(34,211,238,.08);border-color:rgba(34,211,238,.2)">🏛</div>
-      <div class="feat-title">Análisis ICT multi-timeframe</div>
-      <div class="feat-desc">Escalera completa 5m → 1h → 4h → 1d. El agente selecciona automáticamente el timeframe operativo con la zona de entrada más cercana y estructura alineada.</div>
-      <div class="feat-mono">FVGs · OBs · BSL/SSL · BOS/CHoCH</div>
-    </div>
-    <div class="feat-card" style="--accent-color:#2DD482">
-      <div class="feat-icon" style="background:rgba(45,212,130,.08);border-color:rgba(45,212,130,.2)">⚡</div>
-      <div class="feat-title">Stop Hunt detector en Python</div>
-      <div class="feat-desc">Detección geométrica de barridas de liquidez — wicks que rompen swings previos y cierran de vuelta. Verificado en OHLC, no inferido. Suma +15pts al score cuando confirma.</div>
-      <div class="feat-mono">SSL sweep · BSL sweep · Confirmado</div>
-    </div>
-    <div class="feat-card" style="--accent-color:#A855F7">
-      <div class="feat-icon" style="background:rgba(168,85,247,.08);border-color:rgba(168,85,247,.2)">📊</div>
-      <div class="feat-title">Score de confluencia objetivo</div>
-      <div class="feat-desc">9 componentes calculados en Python (no por IA): HTF, estructura LTF, FVG/OB, volumen, Kill Zone, RSI, divergencia, descuento/premium, sweep. La IA solo ajusta ±10 cualitativos.</div>
-      <div class="feat-mono">0–100pts · Alta / Media / Baja</div>
-    </div>
-    <div class="feat-card" style="--accent-color:#F2C24B">
-      <div class="feat-icon" style="background:rgba(242,196,75,.08);border-color:rgba(242,196,75,.2)">🔍</div>
-      <div class="feat-title">Scanner de 5 pares simultáneo</div>
-      <div class="feat-desc">BTC + ETH + XRP + SOL + altcoin dinámica seleccionada por volumen. Análisis paralelo con modo lite para optimizar costos. Ranking de oportunidades en tiempo real.</div>
-      <div class="feat-mono">BTC · ETH · XRP · SOL · +1 dinámica</div>
-    </div>
-    <div class="feat-card" style="--accent-color:#F25B5B">
-      <div class="feat-icon" style="background:rgba(242,91,91,.08);border-color:rgba(242,91,91,.2)">📓</div>
-      <div class="feat-title">Trading Journal automático</div>
-      <div class="feat-desc">Cada análisis se guarda con resultado winner/loser detectado por OHLC. Estadísticas por sesión (Asia/London/NY) y nivel de confianza. Curva de equity en tiempo real.</div>
-      <div class="feat-mono">Winrate · R logrado · PnL USDT</div>
-    </div>
-    <div class="feat-card" style="--accent-color:#22D3EE">
-      <div class="feat-icon" style="background:rgba(34,211,238,.08);border-color:rgba(34,211,238,.2)">🎯</div>
-      <div class="feat-title">Entrada market adaptativa</div>
-      <div class="feat-desc">Si el precio ya está en el FVG/OB alineado, el agente convierte la entrada límite en market automáticamente — manteniendo el SL estructural y recalculando TP para el mismo R:R. Nunca deja una orden pasiva perdiendo el movimiento.</div>
-      <div class="feat-mono">Límite → Market · SL intacto · R:R preservado</div>
-    </div>
-    <div class="feat-card" style="--accent-color:#F7931A">
-      <div class="feat-icon" style="background:rgba(247,147,26,.08);border-color:rgba(247,147,26,.2)">₿</div>
-      <div class="feat-title">Contexto BTC · director del mercado</div>
-      <div class="feat-desc">Régimen multi-timeframe de BTC (1H/4H/1D), niveles PDH/PDL y máximos de la semana, OB activo y un gate macro que te dice antes de operar si las altcoins están restringidas. El director de orquesta, siempre visible.</div>
-      <div class="feat-mono">Régimen · PDH/PDL · Gate macro · 0 costo IA</div>
-    </div>
-    <div class="feat-card" style="--accent-color:#2DD482">
-      <div class="feat-icon" style="background:rgba(45,212,130,.08);border-color:rgba(45,212,130,.2)">💹</div>
-      <div class="feat-title">Posiciones abiertas en vivo</div>
-      <div class="feat-desc">PnL flotante en tiempo real por posición — distingue órdenes pendientes de posiciones activas, muestra R actual y avance al TP. Cálculo con capital y apalancamiento reales por trade, cierre manual o automático por SL/TP.</div>
-      <div class="feat-mono">PnL flotante · R actual · Capital × apalancamiento</div>
-    </div>
-    <div class="feat-card" style="--accent-color:#A855F7">
-      <div class="feat-icon" style="background:rgba(168,85,247,.08);border-color:rgba(168,85,247,.2)">🛡</div>
-      <div class="feat-title">Gate de distribución HTF</div>
-      <div class="feat-desc">Bloquea contra-trades de marco mayor cuando un Order Block del HTF se usa como falsa confluencia junto a volumen bajo y MACD en contra — el patrón exacto que arruina cuentas operando contra la corriente institucional.</div>
-      <div class="feat-mono">Anti contra-tendencia · Distribución detectada</div>
-    </div>
-  </div>
-</section>
-
-<!-- HOW IT WORKS -->
-<div class="how-section" id="how">
-  <div class="how-inner">
-    <div class="section-tag">Cómo funciona</div>
-    <h2 class="section-title reveal">De datos brutos a trade ejecutable<br>en segundos</h2>
-    <div class="steps reveal-stagger">
-      <div class="step">
-        <div class="step-num">01</div>
-        <h3>Seleccionas el par y TF</h3>
-        <p>Elige entre BTC, ETH, SOL, XRP, BNB, ADA, SUI, WLD, NEAR o ingresa cualquier par personalizado. Timeframe de 5m a 1d.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">02</div>
-        <h3>El sistema analiza en paralelo</h3>
-        <p>Fetch de 5 timeframes, cálculo de 20+ indicadores, detección de FVGs, OBs, Swings, Stop Hunts y fases Wyckoff. Todo en Python, sin IA todavía.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">03</div>
-        <h3>Claude interpreta el contexto</h3>
-        <p>El agente recibe el score pre-calculado, el sweep detectado, el ladder de zonas por TF, noticias y memoria de trades previos. Solo ajusta lo cualitativo.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">04</div>
-        <h3>Setup listo para ejecutar</h3>
-        <p>Recibes entrada, SL estructural, TP1/TP2, R:R, confianza y razón de invalidación. Con journal automático y alertas de precio en tiempo real.</p>
-      </div>
-    </div>
+<!-- Ticker de conceptos -->
+<div class="border-y border-[rgba(255,255,255,.06)] py-4 overflow-hidden" aria-hidden="true">
+  <div class="marquee">
+    <span class="marq-item"><i></i>GESTIÓN DE RIESGO</span>
+    <span class="marq-item"><i></i>ESTRUCTURA DE MERCADO</span>
+    <span class="marq-item"><i></i>LIQUIDEZ INSTITUCIONAL</span>
+    <span class="marq-item"><i></i>EXPECTATIVA MATEMÁTICA</span>
+    <span class="marq-item"><i></i>DISCIPLINA ALGORÍTMICA</span>
+    <span class="marq-item"><i></i>PSICOLOGÍA CUANTITATIVA</span>
+    <span class="marq-item"><i></i>GESTIÓN DE RIESGO</span>
+    <span class="marq-item"><i></i>ESTRUCTURA DE MERCADO</span>
+    <span class="marq-item"><i></i>LIQUIDEZ INSTITUCIONAL</span>
+    <span class="marq-item"><i></i>EXPECTATIVA MATEMÁTICA</span>
+    <span class="marq-item"><i></i>DISCIPLINA ALGORÍTMICA</span>
+    <span class="marq-item"><i></i>PSICOLOGÍA CUANTITATIVA</span>
   </div>
 </div>
 
-<!-- DEMO -->
-<section id="demo" style="max-width:1200px;margin:0 auto">
-  <div class="section-tag">Demo interactivo</div>
-  <h2 class="section-title reveal">El scanner en acción</h2>
-  <p class="section-sub">Vista real del scanner multi-par y el journal de trades con resultado automático.</p>
-  <div class="demo-wrap">
-    <div class="demo-tabs">
-      <button class="demo-tab active" onclick="showTab('scanner',this)">🔍 Scanner de pares</button>
-      <button class="demo-tab" onclick="showTab('journal',this)">📓 Journal de trades</button>
-    </div>
-    <div class="demo-content">
-      <div id="tab-scanner" class="demo-scanner">
-        <div class="scanner-card">
-          <div class="sc-pair">BTC/USDT</div>
-          <div class="sc-dir sc-long">LONG</div>
-          <div class="sc-rr" style="color:var(--green)">1:2.4</div>
-          <div class="sc-tf">4H · 68pts · ALTA</div>
-          <div class="sc-score-bar"><div class="sc-fill" style="width:68%;background:var(--green)"></div></div>
-        </div>
-        <div class="scanner-card">
-          <div class="sc-pair">ETH/USDT</div>
-          <div class="sc-dir sc-long">LONG</div>
-          <div class="sc-rr" style="color:var(--green)">1:1.9</div>
-          <div class="sc-tf">1H · 62pts · MEDIA</div>
-          <div class="sc-score-bar"><div class="sc-fill" style="width:62%;background:var(--cyan)"></div></div>
-        </div>
-        <div class="scanner-card">
-          <div class="sc-pair">XRP/USDT</div>
-          <div class="sc-dir sc-short">SHORT</div>
-          <div class="sc-rr" style="color:var(--red)">1:2.1</div>
-          <div class="sc-tf">1H · 55pts · MEDIA</div>
-          <div class="sc-score-bar"><div class="sc-fill" style="width:55%;background:var(--yellow)"></div></div>
-        </div>
-        <div class="scanner-card">
-          <div class="sc-pair">SOL/USDT</div>
-          <div class="sc-dir sc-long">LONG</div>
-          <div class="sc-rr" style="color:var(--green)">1:3.1</div>
-          <div class="sc-tf">4H · 74pts · ALTA</div>
-          <div class="sc-score-bar"><div class="sc-fill" style="width:74%;background:var(--green)"></div></div>
-        </div>
-        <div class="scanner-card">
-          <div class="sc-pair">SUI/USDT</div>
-          <div class="sc-dir sc-short">SHORT</div>
-          <div class="sc-rr" style="color:var(--red)">1:1.7</div>
-          <div class="sc-tf">15m · 49pts · BAJA</div>
-          <div class="sc-score-bar"><div class="sc-fill" style="width:49%;background:var(--muted)"></div></div>
-        </div>
+<!-- ═══════════════ 3 · CÓMO PIENSA EL ALGORITMO ═══════════════ -->
+<section id="metodo" class="max-w-6xl mx-auto px-6 py-28 sm:py-36">
+  <div class="text-center mb-14">
+    <p class="eyebrow reveal mb-4">Simulador educativo</p>
+    <h2 class="reveal title-metal font-extrabold tracking-tight text-[clamp(1.9rem,4.4vw,3.2rem)] leading-tight" data-delay="1">
+      Cómo piensa el algoritmo
+    </h2>
+    <p class="reveal mt-5 text-[#9AA3B2] max-w-2xl mx-auto text-[15.5px] leading-relaxed" data-delay="2">
+      Elige un escenario real de mercado y compara la reacción emocional humana
+      con la respuesta sistemática del Agente. Esto es exactamente lo que aprenderás a dominar.
+    </p>
+  </div>
+
+  <div class="grid lg:grid-cols-[300px_1fr] gap-6 items-start">
+    <!-- Botonera de escenarios -->
+    <div class="flex flex-col gap-3 reveal" role="tablist" aria-label="Escenarios de mercado">
+      <button class="scenario-btn active" data-scenario="volatilidad" role="tab" aria-selected="true">
+        <span class="text-lg" aria-hidden="true">⚡</span> Alta Volatilidad
+      </button>
+      <button class="scenario-btn" data-scenario="lateral" role="tab" aria-selected="false">
+        <span class="text-lg" aria-hidden="true">〰️</span> Mercado Lateral
+      </button>
+      <button class="scenario-btn" data-scenario="manipulacion" role="tab" aria-selected="false">
+        <span class="text-lg" aria-hidden="true">🎣</span> Manipulación de Liquidez
+      </button>
+      <div class="hidden lg:block mt-4 p-5 rounded-2xl border border-[rgba(255,255,255,.06)] bg-[rgba(255,255,255,.015)]">
+        <p class="text-[12.5px] leading-relaxed text-[#5C6470]">
+          💡 En la academia, cada escenario es un módulo completo con casos reales,
+          métricas y práctica guiada junto al Agente.
+        </p>
       </div>
-      <div id="tab-journal" style="display:none">
-        <div class="journal-row journal-header">
-          <span>Fecha UTC</span><span>Par</span><span>TF</span><span>Dir</span><span>Entrada</span><span>R logrado</span><span>PnL</span><span>Estado</span>
-        </div>
-        <div class="journal-row">
-          <span style="color:var(--muted);font-size:11px">2026-06-17 14:32</span>
-          <span>BTC/USDT</span><span>1H</span><span class="jr-long">LONG</span>
-          <span>$67,421</span><span class="jr-winner">+2.86R</span><span class="jr-winner">+4.82</span><span class="jr-winner">✅ Winner</span>
-        </div>
-        <div class="journal-row">
-          <span style="color:var(--muted);font-size:11px">2026-06-17 09:15</span>
-          <span>SOL/USDT</span><span>4H</span><span class="jr-long">LONG</span>
-          <span>$148.30</span><span class="jr-winner">+1.9R</span><span class="jr-winner">+2.31</span><span class="jr-winner">✅ Winner</span>
-        </div>
-        <div class="journal-row">
-          <span style="color:var(--muted);font-size:11px">2026-06-16 22:08</span>
-          <span>XRP/USDT</span><span>1H</span><span class="jr-short">SHORT</span>
-          <span>$0.532</span><span class="jr-loser">-1.0R</span><span class="jr-loser">-0.80</span><span class="jr-loser">❌ Loser</span>
-        </div>
-        <div class="journal-row">
-          <span style="color:var(--muted);font-size:11px">2026-06-16 14:50</span>
-          <span>ETH/USDT</span><span>1H</span><span class="jr-long">LONG</span>
-          <span>$3,421</span><span class="jr-winner">+2.1R</span><span class="jr-winner">+3.19</span><span class="jr-winner">✅ Winner</span>
-        </div>
-        <div style="display:flex;gap:32px;padding-top:20px;border-top:1px solid var(--border);margin-top:8px">
-          <div><div style="font-size:11px;color:var(--muted)">Winrate</div><div style="font-family:var(--mono);font-size:22px;font-weight:700;color:var(--green)">75%</div></div>
-          <div><div style="font-size:11px;color:var(--muted)">R:R promedio</div><div style="font-family:var(--mono);font-size:22px;font-weight:700;color:var(--cyan)">1:2.26</div></div>
-          <div><div style="font-size:11px;color:var(--muted)">PnL sesión</div><div style="font-family:var(--mono);font-size:22px;font-weight:700;color:var(--green)">+$9.52</div></div>
-          <div><div style="font-size:11px;color:var(--muted)">Trades</div><div style="font-family:var(--mono);font-size:22px;font-weight:700;">4</div></div>
-        </div>
+    </div>
+
+    <!-- Tarjeta dinámica -->
+    <div class="sim-card p-8 sm:p-10 reveal" data-delay="1">
+      <div id="simContent" class="sim-content" role="tabpanel">
+        <!-- Contenido inyectado por JS -->
       </div>
     </div>
   </div>
 </section>
 
-<!-- PRICING -->
-<section id="pricing">
-  <div class="section-tag">Planes</div>
-  <h2 class="section-title reveal">Un plan para cada tipo<br>de trader</h2>
-  <p class="section-sub">Sin contratos. Cancela cuando quieras. 14 días gratis en todos los planes.</p>
-  <div class="pricing-grid reveal-stagger">
-    <div class="price-card">
-      <div class="price-name">Starter</div>
-      <div class="price-amount"><sup>$</sup>29</div>
-      <div class="price-period">/ mes · facturado mensualmente</div>
-      <ul class="price-features">
-        <li><span class="pf-check">✓</span><span class="pf-active">Análisis individual ilimitado</span></li>
-        <li><span class="pf-check">✓</span><span class="pf-active">5 pares principales</span></li>
-        <li><span class="pf-check">✓</span><span class="pf-active">Timeframes 1h, 4h, 1d</span></li>
-        <li><span class="pf-check">✓</span><span class="pf-active">Journal básico con CSV</span></li>
-        <li><span class="pf-check">✓</span><span class="pf-active">Detección FVGs y OBs</span></li>
-        <li><span class="pf-x">✗</span><span>Scanner multi-par simultáneo</span></li>
-        <li><span class="pf-x">✗</span><span>Alertas de precio en tiempo real</span></li>
-        <li><span class="pf-x">✗</span><span>Scalping 5m y 15m</span></li>
-      </ul>
-      <a href="https://ict-dashboard-sebashuanay.streamlit.app/" target="_blank" class="price-btn price-btn-secondary" style="display:block;text-align:center;text-decoration:none">Empezar gratis</a>
-    </div>
-    <div class="price-card featured">
-      <div class="featured-badge">MÁS POPULAR</div>
-      <div class="price-name">Pro</div>
-      <div class="price-amount"><sup>$</sup>79</div>
-      <div class="price-period">/ mes · facturado mensualmente</div>
-      <ul class="price-features">
-        <li><span class="pf-check">✓</span><span class="pf-active">Todo lo de Starter</span></li>
-        <li><span class="pf-check">✓</span><span class="pf-active">Scanner 5 pares simultáneo</span></li>
-        <li><span class="pf-check">✓</span><span class="pf-active">Todos los timeframes (5m → 1d)</span></li>
-        <li><span class="pf-check">✓</span><span class="pf-active">Stop Hunt detector en Python</span></li>
-        <li><span class="pf-check">✓</span><span class="pf-active">Alertas de precio en sidebar</span></li>
-        <li><span class="pf-check">✓</span><span class="pf-active">Journal con estadísticas por sesión</span></li>
-        <li><span class="pf-check">✓</span><span class="pf-active">Wyckoff phases + Volume Profile</span></li>
-        <li><span class="pf-check">✓</span><span class="pf-active">9 pares + pares personalizados</span></li>
-      </ul>
-      <a href="https://ict-dashboard-sebashuanay.streamlit.app/" target="_blank" class="price-btn price-btn-primary" style="display:block;text-align:center;text-decoration:none">⚡ Empezar gratis 14 días</a>
-    </div>
-    <div class="price-card">
-      <div class="price-name">Elite</div>
-      <div class="price-amount"><sup>$</sup>149</div>
-      <div class="price-period">/ mes · facturado mensualmente</div>
-      <ul class="price-features">
-        <li><span class="pf-check">✓</span><span class="pf-active">Todo lo de Pro</span></li>
-        <li><span class="pf-check">✓</span><span class="pf-active">API key propia (sin límite)</span></li>
-        <li><span class="pf-check">✓</span><span class="pf-active">Funding Rate + Open Interest</span></li>
-        <li><span class="pf-check">✓</span><span class="pf-active">Sentimiento RSS multi-fuente</span></li>
-        <li><span class="pf-check">✓</span><span class="pf-active">Auto-refresh cada 60 segundos</span></li>
-        <li><span class="pf-check">✓</span><span class="pf-active">Exportar journal como CSV</span></li>
-        <li><span class="pf-check">✓</span><span class="pf-active">Soporte prioritario</span></li>
-        <li><span class="pf-check">✓</span><span class="pf-active">Acceso a funciones en beta</span></li>
-      </ul>
-      <a href="https://ict-dashboard-sebashuanay.streamlit.app/" target="_blank" class="price-btn price-btn-secondary" style="display:block;text-align:center;text-decoration:none">Empezar gratis 14 días</a>
-    </div>
+<!-- ═══════════════ 4 · EL ECOSISTEMA DE ÉLITE ═══════════════ -->
+<section id="la-ia" class="max-w-6xl mx-auto px-6 pb-28 sm:pb-36">
+  <div class="text-center mb-14">
+    <p class="eyebrow reveal mb-4">Tres pilares, un sistema</p>
+    <h2 class="reveal title-metal font-extrabold tracking-tight text-[clamp(1.9rem,4.4vw,3.2rem)] leading-tight" data-delay="1">
+      El ecosistema de élite
+    </h2>
+    <p class="reveal mt-5 text-[#9AA3B2] max-w-2xl mx-auto text-[15.5px] leading-relaxed" data-delay="2">
+      No vendemos señales. Construimos operadores: conocimiento, herramienta y entorno,
+      diseñados para funcionar juntos.
+    </p>
   </div>
-  <div class="disclaimer">
-    <strong>⚠️ Riesgo de pérdida:</strong> El trading de criptomonedas implica riesgo significativo de pérdida de capital. ICT Dashboard es una herramienta de análisis técnico — no constituye asesoramiento financiero. Los resultados pasados no garantizan rendimientos futuros. Opera solo con capital que puedas permitirte perder.
+
+  <div class="grid md:grid-cols-3 gap-6">
+    <!-- Tarjeta 1 -->
+    <article class="eco-card reveal" data-tilt>
+      <div class="eco-inner">
+        <span class="eco-num">01</span>
+        <div class="eco-icon">📊</div>
+        <h3 class="text-[19px] font-bold mb-3 title-metal">La Academia Cuantitativa</h3>
+        <p class="text-[#9AA3B2] text-[14px] leading-relaxed mb-5">
+          Módulos avanzados para dominar la estructura del mercado: del porqué
+          institucional de cada movimiento a la matemática de la expectativa.
+        </p>
+        <div>
+          <div class="eco-li">Estructura de mercado y zonas de liquidez</div>
+          <div class="eco-li">Gestión de riesgo basada en datos, no en intuición</div>
+          <div class="eco-li">Psicología cuantitativa: por qué fallan los humanos</div>
+        </div>
+      </div>
+    </article>
+
+    <!-- Tarjeta 2 -->
+    <article class="eco-card reveal" data-tilt data-delay="1">
+      <div class="eco-inner">
+        <span class="eco-num">02</span>
+        <div class="eco-icon">🤖</div>
+        <h3 class="text-[19px] font-bold mb-3 title-metal">El Agente Inteligente</h3>
+        <p class="text-[#9AA3B2] text-[14px] leading-relaxed mb-5">
+          El software de grado institucional que ejecuta con precisión matemática
+          lo aprendido — sin miedo, sin FOMO, sin fatiga.
+        </p>
+        <div>
+          <div class="eco-li">Análisis multi-marco y confluencia verificada en datos</div>
+          <div class="eco-li">Gates de protección que bloquean setups de baja calidad</div>
+          <div class="eco-li">Aprende de cada operación: expectativa, no emoción</div>
+        </div>
+      </div>
+    </article>
+
+    <!-- Tarjeta 3 -->
+    <article class="eco-card reveal" data-tilt data-delay="2">
+      <div class="eco-inner">
+        <span class="eco-num">03</span>
+        <div class="eco-icon">🛰️</div>
+        <h3 class="text-[19px] font-bold mb-3 title-metal">La Red Privada</h3>
+        <p class="text-[#9AA3B2] text-[14px] leading-relaxed mb-5">
+          Comunidad exclusiva de traders operando con asistencia algorítmica:
+          revisiones de mercado, sesiones en vivo y accountability real.
+        </p>
+        <div>
+          <div class="eco-li">Sesiones semanales de análisis institucional</div>
+          <div class="eco-li">Revisión de bitácoras y métricas entre pares</div>
+          <div class="eco-li">Acceso prioritario a mejoras del Agente</div>
+        </div>
+      </div>
+    </article>
   </div>
 </section>
 
-<footer>
-  <div class="footer-inner">
-    <div>
-      <div class="footer-logo">ICT Dashboard</div>
-      <div class="footer-note" style="margin-top:8px">Análisis institucional · Powered by Claude AI</div>
+<!-- ═══════════════ 5 · FAQ ═══════════════ -->
+<section id="faq" class="max-w-3xl mx-auto px-6 pb-28 sm:pb-36">
+  <div class="text-center mb-12">
+    <p class="eyebrow reveal mb-4">Transparencia primero</p>
+    <h2 class="reveal title-metal font-extrabold tracking-tight text-[clamp(1.9rem,4.4vw,3rem)]" data-delay="1">
+      Preguntas frecuentes
+    </h2>
+  </div>
+
+  <div class="flex flex-col gap-4">
+
+    <div class="faq-item reveal">
+      <button class="faq-q" aria-expanded="false">
+        ¿Mis fondos están seguros? ¿El Agente puede retirar mi dinero?
+        <span class="faq-icon" aria-hidden="true">+</span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">
+        <b class="text-[#E8EAF2]">Tus fondos nunca salen de tu exchange.</b> El Agente se conecta
+        mediante API keys de <i>solo lectura y trading</i>, sin permisos de retiro — es técnicamente
+        imposible que mueva capital fuera de tu cuenta. Tú mantienes la custodia total en todo momento,
+        y puedes revocar el acceso desde tu exchange en un clic. Además, en la academia el primer módulo
+        de seguridad te enseña a configurar los permisos correctamente y a auditar cualquier conexión.
+      </div></div>
     </div>
-    <div class="footer-note">© 2026 ICT Dashboard. Todos los derechos reservados.</div>
+
+    <div class="faq-item reveal" data-delay="1">
+      <button class="faq-q" aria-expanded="false">
+        ¿Necesito experiencia previa en trading?
+        <span class="faq-icon" aria-hidden="true">+</span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">
+        No. El programa está diseñado en niveles: empiezas por los fundamentos de estructura de mercado
+        y gestión de riesgo antes de tocar el Agente. Si ya tienes experiencia, un examen de nivel te
+        permite saltar directo a los módulos cuantitativos. Lo único imprescindible es compromiso:
+        esto es educación seria, no un botón de dinero fácil.
+      </div></div>
+    </div>
+
+    <div class="faq-item reveal" data-delay="2">
+      <button class="faq-q" aria-expanded="false">
+        ¿Cómo gestiona el riesgo el Agente IA?
+        <span class="faq-icon" aria-hidden="true">+</span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">
+        Con reglas duras que ningún estado emocional puede saltarse: límite de riesgo por operación,
+        stop loss estructural obligatorio, ratio riesgo/beneficio mínimo antes de entrar, y
+        <b class="text-[#E8EAF2]">gates de protección</b> que bloquean operaciones en zonas de baja
+        probabilidad. Tras una racha de pérdidas, el sistema se vuelve automáticamente más selectivo —
+        exactamente lo contrario de lo que hace un humano en tilt. Todo queda registrado y auditado
+        contra datos reales del mercado.
+      </div></div>
+    </div>
+
+    <div class="faq-item reveal" data-delay="2">
+      <button class="faq-q" aria-expanded="false">
+        ¿Esto garantiza ganancias?
+        <span class="faq-icon" aria-hidden="true">+</span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">
+        No, y desconfía de quien te lo garantice. El trading conlleva riesgo y habrá periodos de pérdida.
+        Lo que sí hacemos es enseñarte a operar con <b class="text-[#E8EAF2]">expectativa matemática
+        positiva</b> y a proteger tu capital para sobrevivir a las rachas — que es lo que separa a un
+        operador profesional de un apostador. La educación es el producto; el Agente es la herramienta
+        que ejecuta esa educación con disciplina.
+      </div></div>
+    </div>
+
+    <div class="faq-item reveal" data-delay="3">
+      <button class="faq-q" aria-expanded="false">
+        ¿Cuánto tiempo necesito dedicarle?
+        <span class="faq-icon" aria-hidden="true">+</span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">
+        La academia está pensada para 4–6 horas semanales durante las primeras 8 semanas. El Agente
+        trabaja 24/7 analizando el mercado por ti, así que tu tiempo se invierte en entender sus
+        decisiones y desarrollar criterio — no en mirar velas toda la noche. La paz mental es parte
+        del diseño.
+      </div></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════ 6 · CIERRE PERSUASIVO + FOOTER ═══════════════ -->
+<section id="acceso" class="relative px-6 pb-24">
+  <div class="divider-line max-w-4xl mx-auto mb-20"></div>
+
+  <div class="max-w-2xl mx-auto text-center">
+    <p class="eyebrow reveal mb-5">Cupos limitados por cohorte</p>
+    <h2 class="reveal title-metal font-extrabold tracking-tight text-[clamp(1.8rem,4.5vw,3rem)] leading-tight" data-delay="1">
+      Tu mente, amplificada.<br>Tu capital, protegido.
+    </h2>
+    <p class="reveal mt-5 text-[#9AA3B2] text-[15.5px] leading-relaxed" data-delay="2">
+      Deja tu correo y recibe la carta de admisión con el temario completo,
+      la demo del Agente y las condiciones de la próxima cohorte.
+    </p>
+
+    <!-- Captura de correo -->
+    <form id="captureForm" class="reveal mt-9 flex flex-col sm:flex-row gap-3 max-w-lg mx-auto" data-delay="3" novalidate>
+      <label for="emailInput" class="sr-only">Correo electrónico</label>
+      <input id="emailInput" type="email" required class="capture-input"
+             placeholder="tu@correo.com" autocomplete="email">
+      <button type="submit" class="btn-glow px-7 py-4">Solicitar acceso</button>
+    </form>
+    <p id="formMsg" class="mt-4 text-[13px] h-5 transition-colors" aria-live="polite"></p>
+    <p class="mt-2 text-[11.5px] text-[#5C6470]">
+      Sin spam. Solo la carta de admisión y material educativo. Puedes darte de baja cuando quieras.
+    </p>
+  </div>
+</section>
+
+</main>
+
+<footer class="border-t border-[rgba(255,255,255,.06)]">
+  <div class="max-w-7xl mx-auto px-6 py-10 flex flex-col sm:flex-row items-center justify-between gap-5">
+    <div class="flex items-center gap-2.5">
+      <span class="w-7 h-7 rounded-md flex items-center justify-center
+                   bg-gradient-to-br from-qpurple to-qblue text-white font-black text-xs">Q</span>
+      <span class="font-bold text-sm tracking-tight">QUANTUM<span class="text-[#A78BFA]">MIND</span></span>
+    </div>
+    <p class="text-[12px] text-[#5C6470] text-center leading-relaxed max-w-xl">
+      © 2026 Quantum Mind. Programa educativo — no somos un exchange ni asesores financieros.
+      El trading de criptomonedas conlleva riesgo; el rendimiento pasado no garantiza resultados futuros.
+    </p>
+    <div class="flex gap-5 text-[13px]">
+      <a href="#" class="nav-link">Términos</a>
+      <a href="#" class="nav-link">Privacidad</a>
+    </div>
   </div>
 </footer>
 
 <script>
-const tickers=[
-  {p:'BTC/USDT',v:'$67,842',c:'+2.31%',up:true},
-  {p:'ETH/USDT',v:'$3,421',c:'+1.87%',up:true},
-  {p:'SOL/USDT',v:'$148.30',c:'+3.14%',up:true},
-  {p:'XRP/USDT',v:'$0.5312',c:'-0.82%',up:false},
-  {p:'BNB/USDT',v:'$612.40',c:'+1.22%',up:true},
-  {p:'ADA/USDT',v:'$0.4821',c:'-1.45%',up:false},
-  {p:'SUI/USDT',v:'$3.214',c:'+4.72%',up:true},
-  {p:'WLD/USDT',v:'$2.891',c:'+6.18%',up:true},
-  {p:'NEAR/USDT',v:'$5.432',c:'+2.93%',up:true},
-];
-function buildTicker(){
-  const wrap=document.getElementById('ticker');
-  if(!wrap)return;
-  const arr=[...tickers,...tickers];
-  wrap.innerHTML=arr.map(t=>`
-    <div class="ticker-item">
-      <span class="tick-pair">${t.p}</span>
-      <span class="tick-price">${t.v}</span>
-      <span class="tick-chg ${t.up?'tick-up':'tick-dn'}">${t.up?'▲':'▼'} ${t.c}</span>
-    </div>
-  `).join('');
-}
-buildTicker();
+/* ════════════════════════════════════════════════════════════════════
+   LÓGICA DE INTERACCIÓN — Vanilla JS
+   1) Glows reactivos al cursor      4) Tarjetas con tilt + brillo
+   2) Reveal on scroll               5) FAQ acordeón
+   3) Slider de Mentes (drag)        6) Simulador de escenarios
+                                     7) Captura de correo (demo)
+   ════════════════════════════════════════════════════════════════════ */
+(function(){
+'use strict';
+const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-function showTab(tab,btn){
-  document.querySelectorAll('.demo-tab').forEach(t=>t.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById('tab-scanner').style.display=tab==='scanner'?'grid':'none';
-  document.getElementById('tab-journal').style.display=tab==='journal'?'block':'none';
+/* ── 1 · Glows que reaccionan levemente al cursor ─────────────────── */
+if(!reduced){
+  const gA = document.getElementById('glowA');
+  const gB = document.getElementById('glowB');
+  let raf = null;
+  window.addEventListener('mousemove', e => {
+    if(raf) return;
+    raf = requestAnimationFrame(() => {
+      const nx = (e.clientX / innerWidth  - .5);
+      const ny = (e.clientY / innerHeight - .5);
+      gA.style.transform = `translate(${nx * 46}px, ${ny * 32}px)`;
+      gB.style.transform = `translate(${nx * -60}px, ${ny * -40}px)`;
+      raf = null;
+    });
+  }, {passive:true});
 }
 
-document.querySelectorAll('a[href^="#"]').forEach(a=>{
-  a.addEventListener('click',e=>{
-    e.preventDefault();
-    const el=document.querySelector(a.getAttribute('href'));
-    if(el)el.scrollIntoView({behavior:'smooth'});
+/* ── 2 · Reveal on scroll (IntersectionObserver) ──────────────────── */
+const io = new IntersectionObserver(entries => {
+  entries.forEach(en => {
+    if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); }
+  });
+}, {threshold:.14, rootMargin:'0px 0px -6% 0px'});
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+/* ── 3 · Slider de Mentes: arrastre con puntero y teclado ─────────── */
+const slider = document.getElementById('mindSlider');
+const aiSide = document.getElementById('mindAI');
+const handle = document.getElementById('mindHandle');
+let pos = 50, dragging = false;
+
+function setPos(p){
+  pos = Math.min(96, Math.max(4, p));
+  aiSide.style.clipPath = `inset(0 0 0 ${pos}%)`;
+  handle.style.left = pos + '%';
+  slider.setAttribute('aria-valuenow', Math.round(pos));
+}
+function posFromEvent(e){
+  const r = slider.getBoundingClientRect();
+  const x = (e.touches ? e.touches[0].clientX : e.clientX) - r.left;
+  return (x / r.width) * 100;
+}
+slider.addEventListener('pointerdown', e => {
+  dragging = true;
+  slider.setPointerCapture(e.pointerId);
+  setPos(posFromEvent(e));
+});
+slider.addEventListener('pointermove', e => { if(dragging) setPos(posFromEvent(e)); });
+['pointerup','pointercancel'].forEach(ev =>
+  slider.addEventListener(ev, () => dragging = false));
+/* Accesible con teclado */
+slider.addEventListener('keydown', e => {
+  if(e.key === 'ArrowLeft'){ setPos(pos - 4); e.preventDefault(); }
+  if(e.key === 'ArrowRight'){ setPos(pos + 4); e.preventDefault(); }
+});
+/* Pequeña animación de invitación al cargar */
+if(!reduced){
+  setTimeout(() => {
+    slider.style.transition = 'none';
+    let t = 0;
+    const demo = setInterval(() => {
+      t += 1;
+      setPos(50 + Math.sin(t / 6) * 9);
+      if(t > 37){ clearInterval(demo); setPos(50); }
+    }, 24);
+  }, 1400);
+}
+
+/* ── 4 · Tarjetas del ecosistema: tilt 3D + brillo que sigue al cursor ── */
+if(!reduced){
+  document.querySelectorAll('[data-tilt]').forEach(card => {
+    const inner = card.querySelector('.eco-inner');
+    card.addEventListener('mousemove', e => {
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width;
+      const y = (e.clientY - r.top) / r.height;
+      card.style.transform =
+        `translateY(-8px) rotateX(${(y - .5) * -5}deg) rotateY(${(x - .5) * 6}deg)`;
+      card.style.transformStyle = 'preserve-3d';
+      inner.style.setProperty('--mx', (x * 100) + '%');
+      inner.style.setProperty('--my', (y * 100) + '%');
+    });
+    card.addEventListener('mouseleave', () => { card.style.transform = ''; });
+  });
+}
+
+/* ── 5 · FAQ acordeón (una abierta a la vez, transición suave) ────── */
+document.querySelectorAll('.faq-item').forEach(item => {
+  const q = item.querySelector('.faq-q');
+  const a = item.querySelector('.faq-a');
+  q.addEventListener('click', () => {
+    const open = item.classList.contains('open');
+    /* Cierra las demás */
+    document.querySelectorAll('.faq-item.open').forEach(o => {
+      o.classList.remove('open');
+      o.querySelector('.faq-a').style.maxHeight = null;
+      o.querySelector('.faq-q').setAttribute('aria-expanded','false');
+    });
+    if(!open){
+      item.classList.add('open');
+      a.style.maxHeight = a.scrollHeight + 'px';
+      q.setAttribute('aria-expanded','true');
+    }
   });
 });
 
-/* ═══ CINEMATIC INTERACTIONS ═══ */
-
-// Scroll reveal con IntersectionObserver
-const _revealObs = new IntersectionObserver((entries)=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting){
-      e.target.classList.add('in');
-      _revealObs.unobserve(e.target);
-    }
-  });
-},{threshold:0.12, rootMargin:'0px 0px -60px 0px'});
-document.querySelectorAll('.reveal, .reveal-stagger').forEach(el=>_revealObs.observe(el));
-
-// Nav: sombra al hacer scroll
-const _nav = document.querySelector('nav');
-const _onScroll = ()=>{ if(_nav) _nav.classList.toggle('scrolled', window.scrollY > 20); };
-window.addEventListener('scroll', _onScroll, {passive:true});
-_onScroll();
-
-// Count-up en las stat-num numéricas
-function _countUp(el){
-  const raw = el.textContent.trim();
-  const num = parseFloat(raw.replace(/[^0-9.]/g,''));
-  if(isNaN(num) || num === 0) return;       // deja '∞', '5m' intactos si no son puros números
-  const suffix = raw.replace(/[0-9.,]/g,'');
-  const dur = 1200; const start = performance.now();
-  function tick(now){
-    const p = Math.min((now-start)/dur, 1);
-    const eased = 1-Math.pow(1-p,3);
-    el.textContent = Math.round(num*eased) + suffix;
-    if(p<1) requestAnimationFrame(tick);
-    else el.textContent = raw;
+/* ── 6 · Simulador "Cómo piensa el algoritmo" ─────────────────────── */
+const SCENARIOS = {
+  volatilidad: {
+    icon: '⚡', label: 'Alta Volatilidad',
+    title: 'Cuando el mercado se acelera, la emoción se dispara.',
+    academy: 'En la academia aprendes a leer la expansión de rango con datos: volatilidad relativa, participación real de volumen y por qué perseguir una vela vertical es estadísticamente la peor entrada posible.',
+    human: ['Ve la vela gigante y entra tarde por FOMO', 'Compra el techo exacto del impulso', 'Amplía el stop "para darle espacio" y multiplica la pérdida'],
+    ai: ['Detecta el impulso anormal (>2× el rango medio) y NO persigue', 'Espera el retroceso a una zona de valor con confluencia', 'Reduce el tamaño de posición: más volatilidad = menos riesgo por trade'],
+    verdict: 'El Agente convierte la volatilidad de amenaza en oportunidad medida — entra donde el riesgo es definible, no donde la emoción empuja.'
+  },
+  lateral: {
+    icon: '〰️', label: 'Mercado Lateral',
+    title: 'El rango aburre al humano hasta hacerlo perder.',
+    academy: 'Aprendes a identificar acumulación institucional: rangos de compresión, mínimos y máximos equivalentes como imanes de liquidez, y por qué el 70% de las rupturas de rango son falsas.',
+    human: ['Se aburre y fuerza operaciones sin ventaja', 'Compra cada ruptura… y todas son falsas', 'Sobreopera: 12 trades pequeños que suman una gran pérdida'],
+    ai: ['Reconoce el régimen lateral y sube el umbral de exigencia', 'Solo opera los extremos del rango con confirmación de rechazo', 'Si no hay ventaja estadística: NEUTRO. No operar también es una posición'],
+    verdict: 'La paciencia programada del Agente hace lo que ninguna fuerza de voluntad sostiene: esperar días enteros la configuración correcta.'
+  },
+  manipulacion: {
+    icon: '🎣', label: 'Manipulación de Liquidez',
+    title: 'El barrido de stops: la trampa institucional clásica.',
+    academy: 'Estudias cómo el dinero institucional caza la liquidez: barridos de mínimos que revierten al instante, inducement, y cómo distinguir una ruptura real de una cacería de stops.',
+    human: ['Su stop es barrido por 0.2% y el precio revierte sin él', 'Entra en pánico y vende el mínimo exacto', 'Re-entra en dirección contraria justo antes del giro real'],
+    ai: ['Identifica las zonas de oferta/demanda donde descansa la liquidez', 'Coloca el stop FUERA del ruido estadístico (distancia por volatilidad real)', 'Un barrido confirmado con reversión es su señal de entrada favorita — no su miedo'],
+    verdict: 'Frente a una manipulación de liquidez, el humano entra en pánico; el Agente identifica las zonas de oferta/demanda y ajusta el Stop Loss automáticamente.'
   }
-  requestAnimationFrame(tick);
+};
+
+const simContent = document.getElementById('simContent');
+const buttons = document.querySelectorAll('.scenario-btn');
+
+function renderScenario(key){
+  const s = SCENARIOS[key];
+  simContent.innerHTML = `
+    <div class="flex items-center gap-3 mb-2">
+      <span class="text-2xl">${s.icon}</span>
+      <span class="eyebrow">${s.label}</span>
+    </div>
+    <h3 class="title-metal font-bold text-[clamp(1.25rem,2.4vw,1.7rem)] leading-snug mb-4">${s.title}</h3>
+    <p class="text-[#9AA3B2] text-[14px] leading-relaxed mb-7">
+      <b class="text-[#C4B5FD]">Lo que aprendes:</b> ${s.academy}
+    </p>
+    <div class="grid sm:grid-cols-2 gap-4 mb-7">
+      <div class="vs-col vs-human">
+        <p class="text-[11px] font-bold tracking-[.18em] uppercase text-[#FCA5A5] mb-3">🧠 Mente humana</p>
+        ${s.human.map(h => `<p class="text-[13px] text-[#B9BEC9] leading-relaxed py-1.5 flex gap-2">
+          <span class="text-[#F87171] flex-shrink-0">✕</span>${h}</p>`).join('')}
+      </div>
+      <div class="vs-col vs-ai">
+        <p class="text-[11px] font-bold tracking-[.18em] uppercase text-[#6EE7B7] mb-3">🤖 Agente IA</p>
+        ${s.ai.map(a => `<p class="text-[13px] text-[#B9BEC9] leading-relaxed py-1.5 flex gap-2">
+          <span class="text-[#34D399] flex-shrink-0">✓</span>${a}</p>`).join('')}
+      </div>
+    </div>
+    <div class="rounded-xl px-5 py-4 border border-[rgba(139,92,246,.3)]
+                bg-[rgba(139,92,246,.06)] text-[13.5px] leading-relaxed text-[#D5D9E2]">
+      <b class="text-[#C4B5FD]">Conclusión →</b> ${s.verdict}
+    </div>`;
 }
-const _statObs = new IntersectionObserver((entries)=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting){ _countUp(e.target); _statObs.unobserve(e.target); }
+function swapScenario(key){
+  simContent.classList.add('swap');
+  setTimeout(() => {
+    renderScenario(key);
+    simContent.classList.remove('swap');
+  }, reduced ? 0 : 280);
+}
+buttons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    if(btn.classList.contains('active')) return;
+    buttons.forEach(b => { b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
+    btn.classList.add('active');
+    btn.setAttribute('aria-selected','true');
+    swapScenario(btn.dataset.scenario);
   });
-},{threshold:0.6});
-document.querySelectorAll('.stat-num').forEach(el=>_statObs.observe(el));
+});
+renderScenario('volatilidad'); /* estado inicial */
 
-// Cursor glow (solo desktop con mouse fino)
-if(window.matchMedia('(pointer:fine)').matches){
-  const _glow = document.getElementById('cursor-glow');
-  if(_glow){
-    let _gx=0,_gy=0,_cx=0,_cy=0;
-    window.addEventListener('mousemove',e=>{
-      _gx=e.clientX;_gy=e.clientY;_glow.style.opacity='1';
-    },{passive:true});
-    (function _raf(){
-      _cx += (_gx-_cx)*0.12; _cy += (_gy-_cy)*0.12;
-      _glow.style.left=_cx+'px'; _glow.style.top=_cy+'px';
-      requestAnimationFrame(_raf);
-    })();
+/* ── 7 · Captura de correo (demo, sin backend) ────────────────────── */
+const form = document.getElementById('captureForm');
+const email = document.getElementById('emailInput');
+const msg = document.getElementById('formMsg');
+form.addEventListener('submit', e => {
+  e.preventDefault();
+  const v = email.value.trim();
+  const ok = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
+  if(!ok){
+    msg.textContent = 'Revisa el formato del correo e inténtalo de nuevo.';
+    msg.style.color = '#F87171';
+    email.focus();
+    return;
   }
-}
+  msg.textContent = '✓ Solicitud recibida. Revisa tu bandeja: la carta de admisión va en camino.';
+  msg.style.color = '#34D399';
+  form.reset();
+});
 
+})();
 </script>
 </body>
 </html>
