@@ -200,14 +200,117 @@ section { padding:9rem 8vw; max-width:1280px; margin:0 auto; }
 .metrics .final b { color:var(--sage); font-weight:500; }
 @media (max-width:820px){ .metrics-grid { grid-template-columns:1fr; gap:3.4rem; } }
 
+/* ═══ NAV sticky minimalista ═══ */
+.nav {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:1.3rem 8vw; transition:background .6s var(--ease), border-color .6s var(--ease), padding .6s var(--ease);
+  border-bottom:1px solid transparent;
+}
+.nav.solid { background:rgba(8,9,10,.78); backdrop-filter:blur(14px) saturate(120%); border-bottom-color:var(--line); padding-top:1rem; padding-bottom:1rem; }
+.nav .brand { font-family:var(--serif); font-weight:500; font-size:1.02rem; letter-spacing:.01em; color:var(--ink); text-decoration:none; }
+.nav .brand span { color:var(--sage); font-style:italic; }
+.nav-links { display:flex; align-items:center; gap:2.4rem; }
+.nav-links a { font-family:var(--mono); font-size:.64rem; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-dim); text-decoration:none; transition:color .4s var(--ease); }
+.nav-links a:hover { color:var(--ink); }
+.nav-links a.cta { color:var(--sage); border:1px solid rgba(94,140,106,.4); padding:.6rem 1.2rem; }
+.nav-links a.cta:hover { background:var(--sage-soft); color:#DCE7DF; }
+@media (max-width:760px){ .nav-links a:not(.cta){ display:none; } .nav { padding:1rem 7vw; } }
+
+/* ═══ PARA QUIÉN (filtro de calificación) ═══ */
+.fit-head { text-align:center; max-width:640px; margin:0 auto 5rem; }
+.fit-head h2 { font-family:var(--serif); font-weight:500; font-size:clamp(1.7rem,3vw,2.4rem); margin-top:1.8rem; }
+.fit-grid { display:grid; grid-template-columns:1fr 1px 1fr; gap:0; }
+.fit-col { padding:0 3.5rem; }
+.fit-col.no { padding-right:3.5rem; padding-left:0; }
+.fit-col.yes { padding-left:3.5rem; padding-right:0; }
+.fit-col h3 { font-family:var(--mono); font-size:.68rem; letter-spacing:.22em; text-transform:uppercase; margin-bottom:2rem; }
+.fit-col.no h3 { color:var(--ink-mute); }
+.fit-col.yes h3 { color:var(--sage); }
+.fit-col ul { list-style:none; }
+.fit-col li { padding:1.1rem 0; border-bottom:1px solid var(--line); color:var(--ink-dim); font-size:.95rem; display:flex; gap:1rem; }
+.fit-col li::before { font-family:var(--mono); font-size:.85rem; flex-shrink:0; }
+.fit-col.no li::before { content:'—'; color:var(--ink-mute); }
+.fit-col.yes li::before { content:'/'; color:var(--sage); font-style:italic; }
+@media (max-width:900px){ .fit-grid { grid-template-columns:1fr; } .fit-grid .divider{ display:none; } .fit-col,.fit-col.no,.fit-col.yes { padding:0; } .fit-col.yes { margin-top:3rem; } }
+
+/* ═══ SOLICITAR ACCESO (email) ═══ */
+.access { text-align:center; max-width:none; background:var(--bg-2); border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+.access-inner { max-width:560px; margin:0 auto; }
+.access h2 { font-family:var(--serif); font-weight:500; font-size:clamp(1.9rem,3.6vw,2.8rem); margin:1.8rem 0 1.4rem; line-height:1.25; }
+.access p.lead { color:var(--ink-dim); font-size:1rem; margin-bottom:3rem; }
+.access p.lead em { font-family:var(--serif); font-style:italic; color:var(--sage); }
+.form-row { display:flex; gap:.7rem; max-width:460px; margin:0 auto; }
+.form-row input {
+  flex:1; background:transparent; border:1px solid rgba(240,240,240,.18);
+  color:var(--ink); font-family:var(--sans); font-size:.92rem; padding:1rem 1.2rem;
+  outline:none; transition:border-color .4s var(--ease);
+}
+.form-row input::placeholder { color:var(--ink-mute); }
+.form-row input:focus { border-color:var(--sage); }
+.form-row button {
+  background:var(--sage); color:#08090A; border:none; cursor:pointer;
+  font-family:var(--mono); font-size:.66rem; letter-spacing:.2em; text-transform:uppercase;
+  padding:0 1.8rem; transition:background .4s var(--ease), opacity .4s var(--ease);
+}
+.form-row button:hover { background:#6FA07C; }
+.form-note { margin-top:1.3rem; font-family:var(--mono); font-size:.62rem; letter-spacing:.08em; color:var(--ink-mute); min-height:1.2em; transition:color .4s var(--ease); }
+.form-note.ok { color:var(--sage); }
+.form-note.err { color:#C9A66B; }
+.form-msg { display:none; }
+.access-perks { display:flex; justify-content:center; gap:2.6rem; margin-top:3.4rem; flex-wrap:wrap; }
+.access-perks span { font-family:var(--mono); font-size:.62rem; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-mute); }
+.access-perks span b { color:var(--ink-dim); font-weight:400; }
+@media (max-width:560px){ .form-row { flex-direction:column; } .form-row button { padding:.95rem; } }
+
+/* ═══ FAQ (accordion) ═══ */
+.faq-head { text-align:center; margin-bottom:4.5rem; }
+.faq-head h2 { font-family:var(--serif); font-weight:500; font-size:clamp(1.7rem,3vw,2.4rem); margin-top:1.8rem; }
+.faq-list { max-width:760px; margin:0 auto; }
+.faq-item { border-bottom:1px solid var(--line); }
+.faq-item summary {
+  list-style:none; cursor:pointer; padding:1.7rem 0; display:flex; align-items:flex-start; gap:1.4rem;
+  font-family:var(--serif); font-weight:500; font-size:1.18rem; color:var(--ink);
+  transition:color .4s var(--ease);
+}
+.faq-item summary::-webkit-details-marker { display:none; }
+.faq-item summary:hover { color:#DCE7DF; }
+.faq-item summary .q { font-family:var(--mono); font-size:.72rem; color:var(--sage); flex-shrink:0; padding-top:.35rem; opacity:.8; }
+.faq-item summary .sign { margin-left:auto; font-family:var(--mono); font-weight:300; color:var(--ink-mute); transition:transform .4s var(--ease); flex-shrink:0; }
+.faq-item[open] summary .sign { transform:rotate(45deg); color:var(--sage); }
+.faq-item .a { padding:0 0 1.9rem 3.1rem; color:var(--ink-dim); font-size:.96rem; max-width:60ch; }
+.faq-item .a em { color:var(--sage); font-style:italic; }
+@media (max-width:560px){ .faq-item .a { padding-left:0; } }
+
+/* ═══ DISCLOSURE ═══ */
+.disclosure { max-width:840px; margin:0 auto; padding-top:6rem; padding-bottom:6rem; }
+.disclosure .label { display:block; text-align:center; margin-bottom:2.4rem; }
+.disclosure p { color:var(--ink-mute); font-size:.82rem; line-height:1.85; margin-bottom:1.2rem; }
+.disclosure p strong { color:var(--ink-dim); font-weight:500; }
+
 footer {
-  padding:3.4rem 8vw; text-align:center;
+  padding:4.4rem 8vw 3.4rem; text-align:center;
   border-top:1px solid var(--line);
 }
+.footer-brand { font-family:var(--serif); font-size:1.3rem; color:var(--ink); margin-bottom:.6rem; }
+.footer-brand span { color:var(--sage); font-style:italic; }
+.footer-links { display:flex; justify-content:center; gap:2rem; margin:2rem 0 2.4rem; flex-wrap:wrap; }
+.footer-links a { font-family:var(--mono); font-size:.62rem; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-mute); text-decoration:none; transition:color .4s var(--ease); }
+.footer-links a:hover { color:var(--ink-dim); }
 footer p { font-family:var(--mono); font-size:.62rem; letter-spacing:.24em; text-transform:uppercase; color:var(--ink-mute); }
 </style>
 </head>
 <body>
+
+<!-- ═══ NAV sticky ═══ -->
+<nav class="nav" id="nav">
+  <a href="#" class="brand">Preservación<span>.</span></a>
+  <div class="nav-links">
+    <a href="#arquitectura">Arquitectura</a>
+    <a href="#faq">FAQ</a>
+    <a href="#acceso" class="cta">Solicitar acceso</a>
+  </div>
+</nav>
 
 <!-- ═══ 1 · HERO ═══ -->
 <header class="hero">
@@ -310,11 +413,151 @@ footer p { font-family:var(--mono); font-size:.62rem; letter-spacing:.24em; text
   <p class="final reveal d2">Rendimiento a través de la <b>supervivencia</b>.</p>
 </section>
 
+<!-- ═══ 6 · PARA QUIÉN (filtro) ═══ -->
+<section id="fit">
+  <div class="fit-head">
+    <p class="label reveal">Calificación</p>
+    <h2 class="reveal d1">La exclusividad empieza por a quién se le dice que no.</h2>
+  </div>
+  <div class="fit-grid">
+    <div class="fit-col no reveal">
+      <h3>No es para ti si buscas</h3>
+      <ul>
+        <li>Una señal de compra/venta que seguir a ciegas cada mañana.</li>
+        <li>Duplicar la cuenta en un mes con apalancamiento agresivo.</li>
+        <li>Un bot que promete un porcentaje de acierto imposible.</li>
+        <li>Emoción, adrenalina y operar cada hora del día.</li>
+      </ul>
+    </div>
+    <div class="divider"></div>
+    <div class="fit-col yes reveal d1">
+      <h3>Es para ti si valoras</h3>
+      <ul>
+        <li>La preservación del capital por encima del rendimiento nominal.</li>
+        <li>Un proceso auditable, no una corazonada con buen marketing.</li>
+        <li>Menos operaciones, mejor seleccionadas — precisión sobre frecuencia.</li>
+        <li>Que la máquina diga «no» las más de las veces que un humano diría «sí».</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 7 · SOLICITAR ACCESO (email) ═══ -->
+<section class="access" id="acceso">
+  <div class="access-inner">
+    <p class="label reveal">Acceso privado</p>
+    <h2 class="reveal d1">El acceso es por invitación.<br>La lista de espera, no.</h2>
+    <p class="lead reveal d1">Estamos abriendo la arquitectura a un grupo reducido de operadores. Deja tu correo y te avisamos cuando haya un cupo — <em>sin ruido, sin spam diario, sin cursos que vender.</em></p>
+    <form class="reveal d2" id="accessForm" novalidate>
+      <div class="form-row">
+        <input type="email" id="email" name="email" placeholder="tu@correo.com" autocomplete="email" aria-label="Correo electrónico">
+        <button type="submit">Solicitar acceso</button>
+      </div>
+      <p class="form-note" id="formNote">Un solo correo cuando se abra un cupo. Nada más.</p>
+    </form>
+    <div class="access-perks reveal d2">
+      <span><b>01</b> · Sin tarjeta</span>
+      <span><b>02</b> · Sin compromiso</span>
+      <span><b>03</b> · Baja cuando quieras</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 8 · FAQ ═══ -->
+<section id="faq">
+  <div class="faq-head">
+    <p class="label reveal">Preguntas frecuentes</p>
+    <h2 class="reveal d1">Lo que un operador serio preguntaría primero.</h2>
+  </div>
+  <div class="faq-list reveal d1">
+    <details class="faq-item">
+      <summary><span class="q">01</span>¿Esto es un grupo de señales?<span class="sign">+</span></summary>
+      <div class="a">No. Un grupo de señales te dice «compra aquí» y desaparece cuando falla. Esto es una <em>arquitectura de decisión</em>: lee el contexto, evalúa la geometría del riesgo y, la mayoría de las veces, concluye que no hay operación que valga la pena. Ese «no» es el producto.</div>
+    </details>
+    <details class="faq-item">
+      <summary><span class="q">02</span>¿Garantizan rentabilidad?<span class="sign">+</span></summary>
+      <div class="a">No, y desconfía de quien lo haga. Ningún sistema serio garantiza retornos. Lo que sí es estructural es la <em>disciplina de riesgo</em>: límites de pérdida inflexibles, filtrado de sesiones de baja calidad y preservación del capital como primer objetivo. Las cifras que verás son de simulación histórica, no una promesa a futuro.</div>
+    </details>
+    <details class="faq-item">
+      <summary><span class="q">03</span>¿Opera automáticamente con mi dinero?<span class="sign">+</span></summary>
+      <div class="a">La doctrina es <em>paper-first</em>: cada estrategia se valida en simulación con expectancy segregada por mercado antes de tocar capital real. El agente es soporte de decisión y ejecución asistida — tú mantienes el control. No entregamos las llaves de tu cuenta a una caja negra.</div>
+    </details>
+    <details class="faq-item">
+      <summary><span class="q">04</span>¿Qué mercados cubre?<span class="sign">+</span></summary>
+      <div class="a">Cripto (spot y perpetuos) y futuros de índices + acciones (ES, NQ, mega-caps). Cada mercado tiene su propio cerebro, sus propias ventanas de sesión y su expectancy medida por separado — lo que funciona en uno no se asume válido en el otro.</div>
+    </details>
+    <details class="faq-item">
+      <summary><span class="q">05</span>¿Necesito saber programar o de ICT?<span class="sign">+</span></summary>
+      <div class="a">No para usarlo. El agente traduce estructura de mercado, liquidez y ciclo AMD a una lectura clara: qué mira, por qué, y si conviene o no actuar. Si ya operas con metodología institucional, verás el razonamiento explícito; si no, lo verás explicado.</div>
+    </details>
+    <details class="faq-item">
+      <summary><span class="q">06</span>¿Qué lo diferencia de un bot cualquiera?<span class="sign">+</span></summary>
+      <div class="a">Dos cerebros con veto mutuo: una capa de <em>lógica estática</em> (reglas de riesgo inflexibles en Python) y una de <em>inferencia de contexto</em> (un modelo que lee la narrativa del día). Un bot clásico ejecuta una regla fija; aquí, cada desacuerdo entre ambas capas se resuelve hacia no operar. La asimetría está en el freno, no en el acelerador.</div>
+    </details>
+  </div>
+</section>
+
+<!-- ═══ 9 · DISCLOSURE ═══ -->
+<section class="disclosure">
+  <span class="label reveal">Divulgación de riesgo</span>
+  <p class="reveal d1"><strong>El trading conlleva riesgo sustancial de pérdida y no es adecuado para todos los inversores.</strong> El rendimiento pasado o simulado no garantiza resultados futuros. Las cifras presentadas provienen de simulación histórica (backtesting) y pueden no reflejar el impacto de condiciones de mercado reales, deslizamiento, comisiones o liquidez.</p>
+  <p class="reveal d1">Esta página es material informativo de un producto en desarrollo y <strong>no constituye asesoría financiera, de inversión ni una oferta de valores</strong>. Nada aquí debe interpretarse como una recomendación para comprar o vender ningún instrumento. Opera únicamente con capital cuya pérdida total puedas asumir, y consulta a un asesor financiero acreditado antes de tomar decisiones.</p>
+</section>
+
 <footer>
+  <div class="footer-brand">Preservación<span>.</span></div>
+  <div class="footer-links">
+    <a href="#arquitectura">Arquitectura</a>
+    <a href="#fit">Calificación</a>
+    <a href="#faq">FAQ</a>
+    <a href="#acceso">Solicitar acceso</a>
+  </div>
   <p>Arquitectura de preservación · página de prueba · sin asesoría financiera</p>
 </footer>
 
 <script>
+/* ── Nav: sólido al hacer scroll ── */
+const nav = document.getElementById('nav');
+const onScroll = () => nav.classList.toggle('solid', window.scrollY > 40);
+window.addEventListener('scroll', onScroll, { passive:true }); onScroll();
+
+/* ── Formulario de acceso: validación client-side + confirmación ──
+   NOTA: sin backend. Para capturar los correos de verdad, apuntar el fetch a
+   un endpoint (Formspree/Basin/propio) en FORM_ENDPOINT. Mientras sea null,
+   solo valida y confirma en el cliente (no se envía a ningún lado). */
+const FORM_ENDPOINT = null;
+const form = document.getElementById('accessForm');
+const note = document.getElementById('formNote');
+const emailIn = document.getElementById('email');
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const v = emailIn.value.trim();
+  note.className = 'form-note';
+  if (!EMAIL_RE.test(v)) {
+    note.textContent = 'Introduce un correo válido para continuar.';
+    note.classList.add('err'); emailIn.focus(); return;
+  }
+  try {
+    if (FORM_ENDPOINT) {
+      await fetch(FORM_ENDPOINT, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ email:v }) });
+    }
+    form.querySelector('.form-row').style.display = 'none';
+    note.textContent = 'Solicitud registrada. Te escribiremos cuando se abra un cupo.';
+    note.classList.add('ok');
+  } catch (_) {
+    note.textContent = 'No se pudo registrar ahora. Inténtalo de nuevo en un momento.';
+    note.classList.add('err');
+  }
+});
+
+/* ── FAQ: cerrar los demás al abrir uno (acordeón limpio) ── */
+document.querySelectorAll('.faq-item').forEach(d => {
+  d.addEventListener('toggle', () => {
+    if (d.open) document.querySelectorAll('.faq-item').forEach(o => { if (o !== d) o.open = false; });
+  });
+});
+
 /* ── Reveal on scroll (IntersectionObserver, pesado y suave) ── */
 const io = new IntersectionObserver((entries) => {
   for (const e of entries) if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
