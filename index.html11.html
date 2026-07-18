@@ -1,0 +1,1291 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>Preservación — Agente de Trading Algorítmico Híbrido</title>
+<meta name="description" content="Un agente híbrido que lee la narrativa de liquidez del mercado. Lógica estática, inferencia de contexto y ejecución asimétrica.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════════════════════
+   PRESERVACIÓN — Edición Cinemática Premium
+   Vibra: institucional, silenciosa, exclusiva, cinematográfica.
+   ═══════════════════════════════════════════════════════════════ */
+:root {
+  --bg:      #08090A;
+  --bg-2:    #0C0E10;
+  --panel:   #0F1113;
+  --ink:     #F0F0F0;
+  --ink-dim: #9BA0A3;
+  --ink-mute:#5C6165;
+  --sage:    #5E8C6A;
+  --sage-soft: rgba(94,140,106,.14);
+  --sage-glow: rgba(94,140,106,.06);
+  --leather:      #8A6B52;
+  --leather-hi:   #A08163;
+  --leather-soft: rgba(138,107,82,.14);
+  --leather-deep: #14100C;
+  --leather-glow: rgba(138,107,82,.08);
+  --line:    rgba(240,240,240,.07);
+  --serif:   'Playfair Display', Georgia, serif;
+  --sans:    'Inter', -apple-system, sans-serif;
+  --mono:    'JetBrains Mono', 'SF Mono', monospace;
+  --ease:    cubic-bezier(.22,.61,.21,.98);
+  --ease-out: cubic-bezier(.16,1,.3,1);
+  --ease-in:  cubic-bezier(.7,0,.84,0);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+
+body {
+  background:var(--bg); color:var(--ink);
+  font-family:var(--sans); font-weight:300;
+  line-height:1.7; -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+
+/* ── Film grain cinematográfico ── */
+body::after {
+  content:''; position:fixed; inset:-50%; width:200%; height:200%;
+  pointer-events:none; z-index:9999; opacity:.035;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:grain 7s steps(9) infinite;
+}
+@keyframes grain {
+  0%,100% { transform:translate(0,0); }
+  20% { transform:translate(-2%,1%); } 40% { transform:translate(1%,-2%); }
+  60% { transform:translate(-1%,2%); } 80% { transform:translate(2%,-1%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  body::after { animation:none; }
+  .reveal { transition:none !important; opacity:1 !important; transform:none !important; }
+}
+
+/* ── Reveal on scroll ── */
+.reveal { opacity:0; transform:translateY(34px); transition:opacity 1.15s var(--ease), transform 1.15s var(--ease); }
+.reveal.in { opacity:1; transform:translateY(0); }
+.reveal.d1 { transition-delay:.12s; } .reveal.d2 { transition-delay:.26s; }
+.reveal.d3 { transition-delay:.4s; } .reveal.d4 { transition-delay:.55s; }
+.reveal.d5 { transition-delay:.7s; }
+
+/* ── Tipografía base ── */
+.label {
+  font-family:var(--mono); font-size:.66rem; font-weight:400;
+  letter-spacing:.34em; text-transform:uppercase; color:var(--ink-mute);
+}
+.serif { font-family:var(--serif); font-weight:500; }
+em.liq { font-family:var(--serif); font-style:italic; color:var(--sage); font-weight:500; }
+
+section { padding:9rem 8vw; max-width:1280px; margin:0 auto; }
+@media (max-width:760px){ section { padding:5.5rem 7vw; } }
+
+/* ═══════════════════════════════════════════════════════════════
+   1 · HERO — Edición Cinemática con Canvas de Trading
+   ═══════════════════════════════════════════════════════════════ */
+.hero {
+  position:relative; min-height:100vh; max-width:none;
+  display:flex; flex-direction:column; justify-content:center; align-items:center;
+  text-align:center; padding:0 8vw; overflow:hidden;
+}
+
+.hero-canvas {
+  position:absolute; inset:0; z-index:0;
+  background: radial-gradient(120% 90% at 50% 110%, rgba(94,140,106,.08), transparent 55%),
+              linear-gradient(175deg, #0B0D0E 0%, #08090A 60%);
+}
+.hero-canvas canvas { width:100%; height:100%; opacity:.45; }
+.hero-canvas::after {
+  content:''; position:absolute; inset:0;
+  background:linear-gradient(180deg, rgba(8,9,10,.55) 0%, rgba(8,9,10,.35) 45%, rgba(8,9,10,.92) 100%);
+}
+
+.hero-drift {
+  position:absolute; inset:-20%;
+  background:
+    radial-gradient(45% 38% at 30% 60%, rgba(94,140,106,.05), transparent 70%),
+    radial-gradient(40% 34% at 72% 38%, rgba(240,240,240,.025), transparent 70%);
+  animation:drift 26s ease-in-out infinite alternate;
+}
+@keyframes drift {
+  from { transform:translate(-2.5%,1.5%) scale(1); }
+  to   { transform:translate(2.5%,-1.5%) scale(1.06); }
+}
+
+.hero-vignette {
+  position:absolute; inset:0; z-index:1; pointer-events:none;
+  box-shadow: inset 0 0 150px 60px rgba(8,9,10,.7);
+}
+
+.hero-scanlines {
+  position:absolute; inset:0; z-index:1; pointer-events:none; opacity:.03;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,.3) 2px, rgba(0,0,0,.3) 4px);
+}
+
+.hero-inner { position:relative; z-index:2; max-width:860px; }
+
+.hero-badge {
+  display:inline-flex; align-items:center; gap:.6rem;
+  padding:.5rem 1.2rem; border:1px solid rgba(94,140,106,.25);
+  border-radius:100px; margin-bottom:2rem;
+  font-family:var(--mono); font-size:.6rem; letter-spacing:.2em; text-transform:uppercase;
+  color:var(--sage); opacity:0; transform:translateY(12px);
+  animation: badgeIn 1s var(--ease-out) .3s forwards;
+}
+.hero-badge .pulse {
+  width:6px; height:6px; border-radius:50%; background:var(--sage);
+  animation: pulse 2s ease-in-out infinite;
+  box-shadow: 0 0 8px rgba(94,140,106,.5);
+}
+@keyframes pulse {
+  0%,100% { opacity:1; transform:scale(1); }
+  50% { opacity:.4; transform:scale(.7); }
+}
+@keyframes badgeIn {
+  to { opacity:1; transform:translateY(0); }
+}
+
+.hero h1 {
+  font-family:var(--serif); font-weight:500; letter-spacing:-.01em;
+  font-size:clamp(2.3rem, 5.4vw, 4.2rem); line-height:1.22; margin:2.2rem 0 3.4rem;
+  opacity:0; transform:translateY(30px);
+  animation: heroTextIn 1.2s var(--ease-out) .5s forwards;
+}
+@keyframes heroTextIn {
+  to { opacity:1; transform:translateY(0); }
+}
+
+.hero .label { color:var(--ink-dim); opacity:0; animation: fadeIn .8s var(--ease-out) .2s forwards; }
+@keyframes fadeIn { to { opacity:1; } }
+
+.btn-ghost {
+  display:inline-block; padding:1.05rem 2.7rem; text-decoration:none;
+  font-family:var(--mono); font-size:.7rem; letter-spacing:.3em; text-transform:uppercase;
+  color:var(--ink); border:1px solid rgba(240,240,240,.22);
+  position:relative; overflow:hidden;
+  transition:border-color .5s var(--ease), background .5s var(--ease), color .5s var(--ease), box-shadow .5s var(--ease);
+  opacity:0; transform:translateY(20px);
+  animation: heroTextIn 1.2s var(--ease-out) .8s forwards;
+}
+.btn-ghost::before {
+  content:''; position:absolute; top:0; left:-100%; width:100%; height:100%;
+  background:linear-gradient(90deg, transparent, rgba(138,107,82,.15), transparent);
+  transition:left .6s var(--ease);
+}
+.btn-ghost:hover {
+  border-color:var(--leather); color:#E8DCCF; background:var(--leather-soft);
+  box-shadow: 0 0 30px rgba(138,107,82,.1), inset 0 0 20px rgba(138,107,82,.05);
+}
+.btn-ghost:hover::before { left:100%; }
+
+.hero-scroll {
+  position:absolute; bottom:3rem; left:50%; transform:translateX(-50%);
+  width:1px; height:56px; background:linear-gradient(180deg, var(--ink-mute), transparent);
+  z-index:2; opacity:.6;
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+@keyframes scrollPulse {
+  0%,100% { opacity:.6; transform:translateX(-50%) scaleY(1); }
+  50% { opacity:.3; transform:translateX(-50%) scaleY(.7); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   2 · CONFLICTO (split)
+   ═══════════════════════════════════════════════════════════════ */
+.split { display:grid; grid-template-columns:1fr 1px 1fr; gap:0; align-items:stretch; }
+.split .divider { background:linear-gradient(180deg, transparent, var(--line) 20%, var(--line) 80%, transparent); position:relative; }
+.split .divider::before {
+  content:''; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+  width:5px; height:5px; border-radius:50%; background:var(--leather); opacity:.4;
+}
+.split-l { padding-right:4.5rem; display:flex; flex-direction:column; justify-content:center; }
+.split-r { padding-left:4.5rem; display:flex; flex-direction:column; justify-content:center; gap:1.6rem; }
+.split h2 {
+  font-family:var(--serif); font-weight:500; font-size:clamp(1.8rem,3.4vw,2.7rem);
+  line-height:1.28; margin-top:1.8rem;
+}
+.split-r p { color:var(--ink-dim); font-size:.98rem; max-width:44ch; }
+.split-r p strong { color:var(--ink); font-weight:500; }
+.split-r .cifra {
+  font-family:var(--mono); font-size:.72rem; color:var(--leather-hi);
+  letter-spacing:.14em; border-left:1px solid var(--leather);
+  padding-left:1.1rem; margin-top:.6rem;
+}
+@media (max-width:900px){
+  .split { grid-template-columns:1fr; }
+  .split .divider { display:none; }
+  .split-l, .split-r { padding:0; }
+  .split-r { margin-top:3rem; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   3 · ARQUITECTURA (cards)
+   ═══════════════════════════════════════════════════════════════ */
+.arch-head { text-align:center; max-width:640px; margin:0 auto 5.5rem; }
+.arch-head h2 { font-family:var(--serif); font-weight:500; font-size:clamp(1.7rem,3vw,2.4rem); margin-top:1.8rem; }
+.cards { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); }
+.card {
+  background:var(--bg-2); padding:3.2rem 2.6rem 3.6rem;
+  transition:background .6s var(--ease), box-shadow .6s var(--ease), transform .6s var(--ease);
+  position:relative; overflow:hidden;
+}
+.card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:1px;
+  background:linear-gradient(90deg, transparent, var(--leather), transparent);
+  opacity:0; transition:opacity .6s var(--ease);
+}
+.card:hover {
+  background:var(--panel);
+  box-shadow: 0 20px 60px rgba(0,0,0,.4), 0 0 40px rgba(94,140,106,.04);
+  transform:translateY(-4px);
+}
+.card:hover::before { opacity:.5; }
+.card .num { font-family:var(--serif); font-style:italic; font-size:1.05rem; color:var(--leather-hi); }
+.card h3 { font-family:var(--serif); font-weight:500; font-size:1.35rem; margin:1.6rem 0 1.1rem; }
+.card p { color:var(--ink-dim); font-size:.9rem; }
+.card .tag { display:block; margin-top:2rem; font-family:var(--mono); font-size:.62rem; letter-spacing:.22em; text-transform:uppercase; color:var(--ink-mute); }
+@media (max-width:900px){ .cards { grid-template-columns:1fr; } }
+
+/* ═══════════════════════════════════════════════════════════════
+   4 · TERMINAL
+   ═══════════════════════════════════════════════════════════════ */
+.term-wrap { max-width:820px; margin:0 auto; }
+.term-head { text-align:center; margin-bottom:4rem; }
+.term-head h2 { font-family:var(--serif); font-weight:500; font-size:clamp(1.7rem,3vw,2.4rem); margin-top:1.8rem; }
+.terminal {
+  background:var(--panel); border:1px solid var(--line); border-radius:6px;
+  box-shadow: 0 40px 90px -30px rgba(0,0,0,.8),
+             0 0 60px rgba(94,140,106,.03),
+             inset 0 1px 0 rgba(138,107,82,.1);
+  overflow:hidden; position:relative;
+}
+.terminal::after {
+  content:''; position:absolute; top:0; left:0; right:0; height:1px;
+  background:linear-gradient(90deg, transparent 10%, var(--leather) 50%, transparent 90%);
+  opacity:.3;
+}
+.term-bar {
+  display:flex; align-items:center; gap:.55rem; padding:.85rem 1.3rem;
+  border-bottom:1px solid rgba(138,107,82,.22);
+  background:linear-gradient(180deg, rgba(138,107,82,.10), rgba(20,16,12,.5));
+  position:relative;
+}
+.term-bar i { width:9px; height:9px; border-radius:50%; background:rgba(240,240,240,.14); transition:background .3s ease; }
+.term-bar i:nth-child(1):hover { background:rgba(200,80,80,.6); }
+.term-bar i:nth-child(2):hover { background:rgba(200,180,80,.6); }
+.term-bar i:nth-child(3):hover { background:rgba(80,180,80,.6); }
+.term-bar span { margin-left:auto; font-family:var(--mono); font-size:.62rem; letter-spacing:.2em; color:var(--ink-mute); text-transform:uppercase; }
+.term-body { padding:1.8rem 1.6rem 2rem; font-family:var(--mono); font-size:.78rem; line-height:2.05; min-height:330px; position:relative; }
+.tl { display:block; white-space:pre-wrap; color:var(--ink-dim); opacity:0; transform:translateY(4px); transition:opacity .45s ease, transform .45s ease; }
+.tl.on { opacity:1; transform:none; }
+.tl .ts { color:var(--ink-mute); margin-right:.9rem; }
+.tl.warn  { color:#C9A66B; }
+.tl.final { color:var(--sage); font-weight:500; }
+.tl.final .ts { color:var(--sage); opacity:.7; }
+.cursor { display:inline-block; width:7px; height:14px; background:var(--sage); vertical-align:-2px; animation:blink 1.1s steps(1) infinite; }
+@keyframes blink { 50% { opacity:0; } }
+
+/* ═══════════════════════════════════════════════════════════════
+   5 · MÉTRICAS
+   ═══════════════════════════════════════════════════════════════ */
+.metrics { text-align:center; max-width:none;
+  background:radial-gradient(90% 120% at 50% -20%, rgba(138,107,82,.06), transparent 55%), var(--bg-2);
+  border-top:1px solid rgba(138,107,82,.18); border-bottom:1px solid var(--line);
+  position:relative; overflow:hidden;
+}
+.metrics::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:1px;
+  background:linear-gradient(90deg, transparent, var(--leather), transparent);
+  opacity:.2;
+}
+.metrics-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:4rem; max-width:1100px; margin:5rem auto 0; }
+.metric { position:relative; }
+.metric .big {
+  font-family:var(--serif); font-weight:500; font-size:clamp(3rem,6.5vw,5rem);
+  line-height:1; color:var(--ink); font-variant-numeric:tabular-nums;
+  position:relative; display:inline-block;
+}
+.metric .big::after {
+  content:''; position:absolute; bottom:-5px; left:50%; transform:translateX(-50%);
+  width:0; height:1px; background:var(--leather); transition:width 1s var(--ease) .5s;
+}
+.metric.in .big::after { width:60%; }
+.metric .big small { font-size:.45em; color:var(--leather-hi); font-style:italic; }
+.metric .sub { margin-top:1.1rem; }
+.metric .note { margin-top:.7rem; color:var(--ink-mute); font-size:.78rem; max-width:26ch; margin-left:auto; margin-right:auto; }
+.metrics .final {
+  font-family:var(--serif); font-style:italic; font-weight:500;
+  font-size:clamp(1.4rem,2.6vw,2rem); margin-top:6rem; color:var(--ink-dim);
+}
+.metrics .final b { color:var(--sage); font-weight:500; }
+@media (max-width:820px){ .metrics-grid { grid-template-columns:1fr; gap:3.4rem; } }
+
+/* ═══════════════════════════════════════════════════════════════
+   NAV sticky
+   ═══════════════════════════════════════════════════════════════ */
+.nav {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:1.3rem 8vw; transition:background .6s var(--ease), border-color .6s var(--ease), padding .6s var(--ease);
+  border-bottom:1px solid transparent;
+}
+.nav.solid {
+  background:rgba(8,9,10,.85); backdrop-filter:blur(20px) saturate(130%);
+  border-bottom-color:var(--line); padding-top:1rem; padding-bottom:1rem;
+}
+.nav .brand { font-family:var(--serif); font-weight:500; font-size:1.02rem; letter-spacing:.01em; color:var(--ink); text-decoration:none; position:relative; }
+.nav .brand span { color:var(--sage); font-style:italic; }
+.nav .brand::after {
+  content:''; position:absolute; bottom:-2px; left:0; width:0; height:1px;
+  background:var(--leather); transition:width .4s var(--ease);
+}
+.nav .brand:hover::after { width:100%; }
+.nav-links { display:flex; align-items:center; gap:2.4rem; }
+.nav-links a { font-family:var(--mono); font-size:.64rem; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-dim); text-decoration:none; transition:color .4s var(--ease); position:relative; }
+.nav-links a::after {
+  content:''; position:absolute; bottom:-4px; left:0; width:0; height:1px;
+  background:var(--sage); transition:width .3s var(--ease);
+}
+.nav-links a:hover { color:var(--ink); }
+.nav-links a:hover::after { width:100%; }
+.nav-links a.cta { color:var(--sage); border:1px solid rgba(94,140,106,.4); padding:.6rem 1.2rem; }
+.nav-links a.cta::after { display:none; }
+.nav-links a.cta:hover { background:var(--sage-soft); color:#DCE7DF; border-color:rgba(94,140,106,.6); box-shadow: 0 0 20px rgba(94,140,106,.1); }
+@media (max-width:760px){ .nav-links a:not(.cta){ display:none; } .nav { padding:1rem 7vw; } }
+
+/* ═══════════════════════════════════════════════════════════════
+   PARA QUIÉN
+   ═══════════════════════════════════════════════════════════════ */
+.fit-head { text-align:center; max-width:640px; margin:0 auto 5rem; }
+.fit-head h2 { font-family:var(--serif); font-weight:500; font-size:clamp(1.7rem,3vw,2.4rem); margin-top:1.8rem; }
+.fit-grid { display:grid; grid-template-columns:1fr 1px 1fr; gap:0; }
+.fit-col { padding:0 3.5rem; }
+.fit-col.no { padding-right:3.5rem; padding-left:0; }
+.fit-col.yes { padding-left:3.5rem; padding-right:0; }
+.fit-col h3 { font-family:var(--mono); font-size:.68rem; letter-spacing:.22em; text-transform:uppercase; margin-bottom:2rem; }
+.fit-col.no h3 { color:var(--ink-mute); }
+.fit-col.yes h3 { color:var(--sage); }
+.fit-col ul { list-style:none; }
+.fit-col li { padding:1.1rem 0; border-bottom:1px solid var(--line); color:var(--ink-dim); font-size:.95rem; display:flex; gap:1rem; transition:color .3s ease, padding-left .3s ease; }
+.fit-col li:hover { color:var(--ink); padding-left:4px; }
+.fit-col li::before { font-family:var(--mono); font-size:.85rem; flex-shrink:0; }
+.fit-col.no li::before { content:'—'; color:var(--ink-mute); }
+.fit-col.yes li::before { content:'/'; color:var(--sage); font-style:italic; }
+@media (max-width:900px){ .fit-grid { grid-template-columns:1fr; } .fit-grid .divider{ display:none; } .fit-col,.fit-col.no,.fit-col.yes { padding:0; } .fit-col.yes { margin-top:3rem; } }
+
+/* ═══════════════════════════════════════════════════════════════
+   SOLICITAR ACCESO
+   ═══════════════════════════════════════════════════════════════ */
+.access { text-align:center; max-width:none; background:var(--bg-2); border-top:1px solid var(--line); border-bottom:1px solid var(--line); position:relative; }
+.access::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:1px;
+  background:linear-gradient(90deg, transparent, var(--leather), transparent);
+  opacity:.15;
+}
+.access-inner { max-width:560px; margin:0 auto; position:relative; z-index:1; }
+.access h2 { font-family:var(--serif); font-weight:500; font-size:clamp(1.9rem,3.6vw,2.8rem); margin:1.8rem 0 1.4rem; line-height:1.25; }
+.access p.lead { color:var(--ink-dim); font-size:1rem; margin-bottom:3rem; }
+.access p.lead em { font-family:var(--serif); font-style:italic; color:var(--sage); }
+.form-row { display:flex; gap:.7rem; max-width:460px; margin:0 auto; }
+.form-row input {
+  flex:1; background:transparent; border:1px solid rgba(240,240,240,.18);
+  color:var(--ink); font-family:var(--sans); font-size:.92rem; padding:1rem 1.2rem;
+  outline:none; transition:border-color .4s var(--ease), box-shadow .4s var(--ease);
+}
+.form-row input::placeholder { color:var(--ink-mute); }
+.form-row input:focus { border-color:var(--sage); box-shadow: 0 0 20px rgba(94,140,106,.08), inset 0 0 10px rgba(94,140,106,.03); }
+.form-row button {
+  background:var(--sage); color:#08090A; border:none; cursor:pointer;
+  font-family:var(--mono); font-size:.66rem; letter-spacing:.2em; text-transform:uppercase;
+  padding:0 1.8rem; transition:background .4s var(--ease), opacity .4s var(--ease), box-shadow .4s var(--ease), transform .2s ease;
+  position:relative; overflow:hidden;
+}
+.form-row button::before {
+  content:''; position:absolute; top:0; left:-100%; width:100%; height:100%;
+  background:linear-gradient(90deg, transparent, rgba(255,255,255,.2), transparent);
+  transition:left .5s var(--ease);
+}
+.form-row button:hover { background:#6FA07C; box-shadow: 0 0 25px rgba(94,140,106,.2); transform:translateY(-1px); }
+.form-row button:hover::before { left:100%; }
+.form-row button:active { transform:translateY(0); }
+.form-note { margin-top:1.3rem; font-family:var(--mono); font-size:.62rem; letter-spacing:.08em; color:var(--ink-mute); min-height:1.2em; transition:color .4s var(--ease); }
+.form-note.ok { color:var(--sage); }
+.form-note.err { color:#C9A66B; }
+.form-msg { display:none; }
+.access-perks { display:flex; justify-content:center; gap:2.6rem; margin-top:3.4rem; flex-wrap:wrap; }
+.access-perks span { font-family:var(--mono); font-size:.62rem; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-mute); position:relative; }
+.access-perks span b { color:var(--leather-hi); font-weight:400; }
+.access-perks span::after {
+  content:''; position:absolute; bottom:-4px; left:0; width:0; height:1px;
+  background:var(--leather); transition:width .4s var(--ease);
+}
+.access-perks span:hover::after { width:100%; }
+@media (max-width:560px){ .form-row { flex-direction:column; } .form-row button { padding:.95rem; } }
+
+/* ═══════════════════════════════════════════════════════════════
+   FAQ
+   ═══════════════════════════════════════════════════════════════ */
+.faq-head { text-align:center; margin-bottom:4.5rem; }
+.faq-head h2 { font-family:var(--serif); font-weight:500; font-size:clamp(1.7rem,3vw,2.4rem); margin-top:1.8rem; }
+.faq-list { max-width:760px; margin:0 auto; }
+.faq-item { border-bottom:1px solid var(--line); transition:background .3s ease; }
+.faq-item:hover { background:rgba(138,107,82,.02); }
+.faq-item summary {
+  list-style:none; cursor:pointer; padding:1.7rem 0; display:flex; align-items:flex-start; gap:1.4rem;
+  font-family:var(--serif); font-weight:500; font-size:1.18rem; color:var(--ink);
+  transition:color .4s var(--ease);
+}
+.faq-item summary::-webkit-details-marker { display:none; }
+.faq-item summary:hover { color:#DCE7DF; }
+.faq-item summary .q { font-family:var(--mono); font-size:.72rem; color:var(--leather-hi); flex-shrink:0; padding-top:.35rem; opacity:.9; }
+.faq-item summary .sign { margin-left:auto; font-family:var(--mono); font-weight:300; color:var(--ink-mute); transition:transform .4s var(--ease), color .4s ease; flex-shrink:0; }
+.faq-item[open] summary .sign { transform:rotate(45deg); color:var(--sage); }
+.faq-item .a { padding:0 0 1.9rem 3.1rem; color:var(--ink-dim); font-size:.96rem; max-width:60ch; }
+.faq-item .a em { color:var(--sage); font-style:italic; }
+@media (max-width:560px){ .faq-item .a { padding-left:0; } }
+
+/* ═══════════════════════════════════════════════════════════════
+   DISCLOSURE
+   ═══════════════════════════════════════════════════════════════ */
+.disclosure { max-width:840px; margin:0 auto; padding-top:6rem; padding-bottom:6rem; }
+.disclosure .label { display:block; text-align:center; margin-bottom:2.4rem; }
+.disclosure p { color:var(--ink-mute); font-size:.82rem; line-height:1.85; margin-bottom:1.2rem; }
+.disclosure p strong { color:var(--ink-dim); font-weight:500; }
+
+footer {
+  padding:4.4rem 8vw 3.4rem; text-align:center;
+  border-top:1px solid var(--line); position:relative;
+}
+footer::before {
+  content:''; position:absolute; top:0; left:50%; transform:translateX(-50%);
+  width:60px; height:1px; background:var(--leather); opacity:.3;
+}
+.footer-brand { font-family:var(--serif); font-size:1.3rem; color:var(--ink); margin-bottom:.6rem; }
+.footer-brand span { color:var(--leather-hi); font-style:italic; }
+.footer-links { display:flex; justify-content:center; gap:2rem; margin:2rem 0 2.4rem; flex-wrap:wrap; }
+.footer-links a { font-family:var(--mono); font-size:.62rem; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-mute); text-decoration:none; transition:color .4s var(--ease); position:relative; }
+.footer-links a::after {
+  content:''; position:absolute; bottom:-2px; left:0; width:0; height:1px;
+  background:var(--leather); transition:width .3s var(--ease);
+}
+.footer-links a:hover { color:var(--ink-dim); }
+.footer-links a:hover::after { width:100%; }
+footer p { font-family:var(--mono); font-size:.62rem; letter-spacing:.24em; text-transform:uppercase; color:var(--ink-mute); }
+
+/* ═══════════════════════════════════════════════════════════════
+   NUEVO: Visualización de Trading
+   ═══════════════════════════════════════════════════════════════ */
+.trading-viz {
+  max-width:none; padding:0; position:relative; overflow:hidden;
+  background:var(--bg); border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+}
+.trading-viz-inner {
+  max-width:1280px; margin:0 auto; padding:6rem 8vw;
+  display:grid; grid-template-columns:1fr 1fr; gap:4rem; align-items:center;
+}
+.trading-viz-text .label { margin-bottom:1.5rem; display:block; }
+.trading-viz-text h2 {
+  font-family:var(--serif); font-weight:500; font-size:clamp(1.8rem,3.2vw,2.6rem);
+  line-height:1.25; margin-bottom:1.5rem;
+}
+.trading-viz-text p { color:var(--ink-dim); font-size:.98rem; max-width:42ch; margin-bottom:1.2rem; }
+.trading-viz-text .highlight {
+  font-family:var(--mono); font-size:.72rem; color:var(--leather-hi);
+  letter-spacing:.14em; border-left:1px solid var(--leather);
+  padding-left:1.1rem; margin-top:1.5rem; display:block;
+}
+.trading-chart-container {
+  position:relative; height:320px; background:var(--panel);
+  border:1px solid var(--line); border-radius:4px; overflow:hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,.5), inset 0 0 30px rgba(0,0,0,.2);
+}
+.trading-chart-container canvas { width:100%; height:100%; }
+.trading-chart-overlay {
+  position:absolute; top:1rem; right:1rem;
+  font-family:var(--mono); font-size:.6rem; color:var(--ink-mute);
+  letter-spacing:.1em; text-transform:uppercase;
+}
+.trading-chart-overlay .live-dot {
+  display:inline-block; width:6px; height:6px; border-radius:50%;
+  background:var(--sage); margin-right:.5rem;
+  animation: pulse 2s ease-in-out infinite;
+  box-shadow: 0 0 8px rgba(94,140,106,.5);
+}
+@media (max-width:900px){
+  .trading-viz-inner { grid-template-columns:1fr; }
+  .trading-chart-container { height:250px; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   NUEVO: Pipeline
+   ═══════════════════════════════════════════════════════════════ */
+.pipeline {
+  max-width:1100px; margin:0 auto; padding:6rem 8vw;
+}
+.pipeline-head { text-align:center; margin-bottom:5rem; }
+.pipeline-head h2 { font-family:var(--serif); font-weight:500; font-size:clamp(1.7rem,3vw,2.4rem); margin-top:1.8rem; }
+.pipeline-flow {
+  display:flex; align-items:center; justify-content:center; gap:0;
+  flex-wrap:wrap;
+}
+.pipeline-node {
+  background:var(--panel); border:1px solid var(--line);
+  padding:1.8rem 2rem; min-width:180px; text-align:center;
+  position:relative; transition:all .5s var(--ease);
+}
+.pipeline-node:hover {
+  border-color:rgba(138,107,82,.3);
+  box-shadow: 0 10px 40px rgba(0,0,0,.3), 0 0 30px rgba(94,140,106,.03);
+  transform:translateY(-3px);
+}
+.pipeline-node .node-icon {
+  font-family:var(--mono); font-size:1.2rem; color:var(--leather-hi);
+  margin-bottom:.8rem; display:block;
+}
+.pipeline-node h4 {
+  font-family:var(--serif); font-weight:500; font-size:1rem; margin-bottom:.4rem;
+}
+.pipeline-node p {
+  font-size:.75rem; color:var(--ink-mute); max-width:16ch; margin:0 auto;
+}
+.pipeline-arrow {
+  width:40px; height:1px; background:linear-gradient(90deg, var(--leather), transparent);
+  position:relative; flex-shrink:0;
+}
+.pipeline-arrow::after {
+  content:''; position:absolute; right:0; top:-3px;
+  width:0; height:0; border-top:3px solid transparent; border-bottom:3px solid transparent;
+  border-left:6px solid var(--leather); opacity:.5;
+}
+@media (max-width:900px){
+  .pipeline-flow { flex-direction:column; gap:1rem; }
+  .pipeline-arrow {
+    width:1px; height:30px; background:linear-gradient(180deg, var(--leather), transparent);
+  }
+  .pipeline-arrow::after {
+    right:-3px; top:auto; bottom:0;
+    border-top:6px solid var(--leather); border-left:3px solid transparent; border-right:3px solid transparent;
+    border-bottom:none; opacity:.5;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   NUEVO: Testimonios
+   ═══════════════════════════════════════════════════════════════ */
+.testimonials {
+  max-width:1100px; margin:0 auto; padding:6rem 8vw;
+  text-align:center;
+}
+.testimonials-head { margin-bottom:4rem; }
+.testimonials-head h2 { font-family:var(--serif); font-weight:500; font-size:clamp(1.7rem,3vw,2.4rem); margin-top:1.8rem; }
+.testimonial-grid {
+  display:grid; grid-template-columns:repeat(3,1fr); gap:2rem;
+}
+.testimonial-card {
+  background:var(--bg-2); border:1px solid var(--line);
+  padding:2.5rem 2rem; text-align:left;
+  transition:all .5s var(--ease); position:relative; overflow:hidden;
+}
+.testimonial-card::before {
+  content:'"'; position:absolute; top:.5rem; left:1rem;
+  font-family:var(--serif); font-size:4rem; color:var(--leather); opacity:.08;
+  line-height:1;
+}
+.testimonial-card:hover {
+  border-color:rgba(138,107,82,.2);
+  box-shadow: 0 15px 50px rgba(0,0,0,.3);
+  transform:translateY(-4px);
+}
+.testimonial-card .quote {
+  font-family:var(--serif); font-style:italic; font-size:1.05rem;
+  color:var(--ink-dim); line-height:1.6; margin-bottom:1.5rem;
+  position:relative; z-index:1;
+}
+.testimonial-card .author {
+  font-family:var(--mono); font-size:.62rem; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-mute);
+}
+.testimonial-card .author b { color:var(--leather-hi); font-weight:400; }
+@media (max-width:900px){ .testimonial-grid { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <a href="#" class="brand">Preservación<span>.</span></a>
+  <div class="nav-links">
+    <a href="#arquitectura">Arquitectura</a>
+    <a href="#pipeline">Pipeline</a>
+    <a href="#faq">FAQ</a>
+    <a href="#acceso" class="cta">Solicitar acceso</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-canvas" id="heroCanvasContainer">
+    <canvas id="heroCanvas"></canvas>
+  </div>
+  <div class="hero-drift"></div>
+  <div class="hero-vignette"></div>
+  <div class="hero-scanlines"></div>
+  <div class="hero-inner">
+    <div class="hero-badge">
+      <span class="pulse"></span>
+      Agente de trading algorítmico híbrido
+    </div>
+    <h1>El mercado no es un casino.<br>Es una narrativa escrita en <em class="liq">liquidez</em>.</h1>
+    <a class="btn-ghost" href="#arquitectura">Descubrir la arquitectura</a>
+  </div>
+  <div class="hero-scroll"></div>
+</header>
+
+<section id="conflicto">
+  <div class="split">
+    <div class="split-l">
+      <p class="label reveal">El conflicto</p>
+      <h2 class="reveal d1">El 90% de los minoristas son la contrapartida institucional.</h2>
+    </div>
+    <div class="divider"></div>
+    <div class="split-r">
+      <p class="reveal d1">El precio no se mueve hacia el valor. Se mueve hacia el <strong>dinero en reposo</strong>: los stops agrupados bajo un mínimo obvio, las órdenes de ruptura sobre un máximo igualado. Quien opera con emociones deja esas huellas en el mismo sitio, todos los días.</p>
+      <p class="reveal d2">Las instituciones no adivinan la dirección — <strong>cosechan esa liquidez</strong>. Barren el nivel, llenan sus posiciones con el pánico ajeno y recién entonces el movimiento real comienza. La esperanza, el miedo y la impaciencia del minorista no son debilidades anecdóticas: son la materia prima del negocio.</p>
+      <p class="reveal d3">Este agente no intenta sentir menos. <strong>No siente nada.</strong> Lee dónde descansa la liquidez y de qué lado de la cosecha conviene estar — o si conviene no estar.</p>
+      <p class="cifra reveal d4">La emoción no se elimina del mercado. Se le quita el teclado.</p>
+    </div>
+  </div>
+</section>
+
+<section class="trading-viz" id="viz">
+  <div class="trading-viz-inner">
+    <div class="trading-viz-text">
+      <p class="label reveal">Inferencia en tiempo real</p>
+      <h2 class="reveal d1">La máquina lee lo que el ojo humano ignora.</h2>
+      <p class="reveal d2">Mientras el operador promedio ve una vela roja, el agente detecta la acumulación de liquidez bajo el mínimo, la fase de manipulación en curso y la distribución que viene. No predice. <strong>Posiciona antes del evento.</strong></p>
+      <p class="reveal d3">Cada frame del mercado es procesado por dos cerebros: uno que conoce las reglas inmutables del riesgo, y otro que interpreta la narrativa en tiempo real.</p>
+      <span class="highlight reveal d4">NQ · ES · BTC · ETH · Sesiones NY + Londres</span>
+    </div>
+    <div class="trading-chart-container reveal d2">
+      <canvas id="tradingChart"></canvas>
+      <div class="trading-chart-overlay"><span class="live-dot"></span>Live — NQ 15m</div>
+    </div>
+  </div>
+</section>
+
+<section id="arquitectura">
+  <div class="arch-head">
+    <p class="label reveal">La arquitectura</p>
+    <h2 class="reveal d1">Dos cerebros. Un veto mutuo.</h2>
+  </div>
+  <div class="cards">
+    <div class="card reveal">
+      <span class="num">I.</span>
+      <h3>Lógica Estática</h3>
+      <p>El esqueleto determinista: gates de score, viabilidad de stop, límites de riesgo por operación y por sesión. Escrito en Python, auditado contra años de velas. No aprende, no opina, no cede — y por eso es quien firma la última palabra.</p>
+      <span class="tag">Python · Control de riesgo inflexible</span>
+    </div>
+    <div class="card reveal d1">
+      <span class="num">II.</span>
+      <h3>Inferencia de Contexto</h3>
+      <p>La capa de lectura: un modelo de lenguaje interpreta el ciclo de acumulación, manipulación y distribución — la fase del día, la narrativa macro, la trampa en formación. Ve lo que una regla fija no puede enumerar de antemano.</p>
+      <span class="tag">LLM · Lectura del ciclo AMD</span>
+    </div>
+    <div class="card reveal d2">
+      <span class="num">III.</span>
+      <h3>Ejecución Asimétrica</h3>
+      <p>Solo cuando ambas capas convergen existe una orden: contexto favorable, geometría viable, sesión correcta. La asimetría no está en acertar más — está en que cada desacuerdo entre cerebros se resuelve, siempre, hacia no operar.</p>
+      <span class="tag">Convergencia · Riesgo definido antes que el beneficio</span>
+    </div>
+  </div>
+</section>
+
+<section class="pipeline" id="pipeline">
+  <div class="pipeline-head">
+    <p class="label reveal">Flujo de decisión</p>
+    <h2 class="reveal d1">De la observación a la preservación.</h2>
+  </div>
+  <div class="pipeline-flow reveal d1">
+    <div class="pipeline-node">
+      <span class="node-icon">◈</span>
+      <h4>Observación</h4>
+      <p>Lectura de estructura de mercado y niveles de liquidez</p>
+    </div>
+    <div class="pipeline-arrow"></div>
+    <div class="pipeline-node">
+      <span class="node-icon">◉</span>
+      <h4>Inferencia</h4>
+      <p>Modelo LLM evalúa fase del ciclo AMD y narrativa</p>
+    </div>
+    <div class="pipeline-arrow"></div>
+    <div class="pipeline-node">
+      <span class="node-icon">◆</span>
+      <h4>Validación</h4>
+      <p>Python verifica gates de riesgo y geometría de stop</p>
+    </div>
+    <div class="pipeline-arrow"></div>
+    <div class="pipeline-node">
+      <span class="node-icon">◇</span>
+      <h4>Preservación</h4>
+      <p>Veto mutuo: solo si ambos cerebros concuerdan</p>
+    </div>
+  </div>
+</section>
+
+<section id="terminal">
+  <div class="term-wrap">
+    <div class="term-head">
+      <p class="label reveal">Terminal de preservación</p>
+      <h2 class="reveal d1">La operación más rentable de hoy fue la que no se tomó.</h2>
+    </div>
+    <div class="terminal reveal d1">
+      <div class="term-bar"><i></i><i></i><i></i><span>agente · sesión NY</span></div>
+      <div class="term-body" id="termlog" aria-live="polite"><span class="cursor" id="cursor"></span></div>
+    </div>
+  </div>
+</section>
+
+<section class="metrics" id="metricas">
+  <p class="label reveal">Métricas institucionales · simulación histórica</p>
+  <div class="metrics-grid">
+    <div class="metric reveal">
+      <div class="big"><span data-count="9.0" data-dec="1">0</span><small>%</small></div>
+      <p class="label sub">Max Drawdown</p>
+      <p class="note">La cifra que define la supervivencia. Todo lo demás es decoración.</p>
+    </div>
+    <div class="metric reveal d1">
+      <div class="big"><span data-count="1.31" data-dec="2">0</span></div>
+      <p class="label sub">Sharpe Ratio</p>
+      <p class="note">Retorno por unidad de sueño perdido. Sin apalancar la varianza.</p>
+    </div>
+    <div class="metric reveal d2">
+      <div class="big"><span data-count="68" data-dec="0">0</span><small>%</small></div>
+      <p class="label sub">Sesiones filtradas por riesgo</p>
+      <p class="note">Días en que el agente decidió que el mercado no pagaba el boleto.</p>
+    </div>
+  </div>
+  <p class="final reveal d3">Rendimiento a través de la <b>supervivencia</b>.</p>
+</section>
+
+<section class="testimonials" id="testimonios">
+  <div class="testimonials-head">
+    <p class="label reveal">Validación operativa</p>
+    <h2 class="reveal d1">Lo que dicen quienes ya no operan solos.</h2>
+  </div>
+  <div class="testimonial-grid">
+    <div class="testimonial-card reveal">
+      <p class="quote">"De 12 operaciones al día a 2. De perder dinero a preservarlo. La diferencia no es el acierto, es el veto."</p>
+      <p class="author"><b>Operador institucional</b> · Futuros NQ</p>
+    </div>
+    <div class="testimonial-card reveal d1">
+      <p class="quote">"Por primera vez entiendo por qué no entré. El agente explica el razonamiento, no solo la señal. Eso es oro."</p>
+      <p class="author"><b>Trader retail</b> · Cripto spot</p>
+    </div>
+    <div class="testimonial-card reveal d2">
+      <p class="quote">"El 68% de sesiones filtradas me parecía exagerado hasta que vi mi equity curve. Menos es más, y mucho más."</p>
+      <p class="author"><b>Gestor de capital</b> · Multi-asset</p>
+    </div>
+  </div>
+</section>
+
+<section id="fit">
+  <div class="fit-head">
+    <p class="label reveal">Calificación</p>
+    <h2 class="reveal d1">La exclusividad empieza por a quién se le dice que no.</h2>
+  </div>
+  <div class="fit-grid">
+    <div class="fit-col no reveal">
+      <h3>No es para ti si buscas</h3>
+      <ul>
+        <li>Una señal de compra/venta que seguir a ciegas cada mañana.</li>
+        <li>Duplicar la cuenta en un mes con apalancamiento agresivo.</li>
+        <li>Un bot que promete un porcentaje de acierto imposible.</li>
+        <li>Emoción, adrenalina y operar cada hora del día.</li>
+      </ul>
+    </div>
+    <div class="divider"></div>
+    <div class="fit-col yes reveal d1">
+      <h3>Es para ti si valoras</h3>
+      <ul>
+        <li>La preservación del capital por encima del rendimiento nominal.</li>
+        <li>Un proceso auditable, no una corazonada con buen marketing.</li>
+        <li>Menos operaciones, mejor seleccionadas — precisión sobre frecuencia.</li>
+        <li>Que la máquina diga «no» las más de las veces que un humano diría «sí».</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="access" id="acceso">
+  <div class="access-inner">
+    <p class="label reveal">Acceso privado</p>
+    <h2 class="reveal d1">El acceso es por invitación.<br>La lista de espera, no.</h2>
+    <p class="lead reveal d1">Estamos abriendo la arquitectura a un grupo reducido de operadores. Deja tu correo y te avisamos cuando haya un cupo — <em>sin ruido, sin spam diario, sin cursos que vender.</em></p>
+    <form class="reveal d2" id="accessForm" novalidate>
+      <div class="form-row">
+        <input type="email" id="email" name="email" placeholder="tu@correo.com" autocomplete="email" aria-label="Correo electrónico">
+        <button type="submit">Solicitar acceso</button>
+      </div>
+      <p class="form-note" id="formNote">Un solo correo cuando se abra un cupo. Nada más.</p>
+    </form>
+    <div class="access-perks reveal d2">
+      <span><b>01</b> · Sin tarjeta</span>
+      <span><b>02</b> · Sin compromiso</span>
+      <span><b>03</b> · Baja cuando quieras</span>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="faq-head">
+    <p class="label reveal">Preguntas frecuentes</p>
+    <h2 class="reveal d1">Lo que un operador serio preguntaría primero.</h2>
+  </div>
+  <div class="faq-list reveal d1">
+    <details class="faq-item">
+      <summary><span class="q">01</span>¿Esto es un grupo de señales?<span class="sign">+</span></summary>
+      <div class="a">No. Un grupo de señales te dice «compra aquí» y desaparece cuando falla. Esto es una <em>arquitectura de decisión</em>: lee el contexto, evalúa la geometría del riesgo y, la mayoría de las veces, concluye que no hay operación que valga la pena. Ese «no» es el producto.</div>
+    </details>
+    <details class="faq-item">
+      <summary><span class="q">02</span>¿Garantizan rentabilidad?<span class="sign">+</span></summary>
+      <div class="a">No, y desconfía de quien lo haga. Ningún sistema serio garantiza retornos. Lo que sí es estructural es la <em>disciplina de riesgo</em>: límites de pérdida inflexibles, filtrado de sesiones de baja calidad y preservación del capital como primer objetivo. Las cifras que verás son de simulación histórica, no una promesa a futuro.</div>
+    </details>
+    <details class="faq-item">
+      <summary><span class="q">03</span>¿Opera automáticamente con mi dinero?<span class="sign">+</span></summary>
+      <div class="a">La doctrina es <em>paper-first</em>: cada estrategia se valida en simulación con expectancy segregada por mercado antes de tocar capital real. El agente es soporte de decisión y ejecución asistida — tú mantienes el control. No entregamos las llaves de tu cuenta a una caja negra.</div>
+    </details>
+    <details class="faq-item">
+      <summary><span class="q">04</span>¿Qué mercados cubre?<span class="sign">+</span></summary>
+      <div class="a">Cripto (spot y perpetuos) y futuros de índices + acciones (ES, NQ, mega-caps). Cada mercado tiene su propio cerebro, sus propias ventanas de sesión y su expectancy medida por separado — lo que funciona en uno no se asume válido en el otro.</div>
+    </details>
+    <details class="faq-item">
+      <summary><span class="q">05</span>¿Necesito saber programar o de ICT?<span class="sign">+</span></summary>
+      <div class="a">No para usarlo. El agente traduce estructura de mercado, liquidez y ciclo AMD a una lectura clara: qué mira, por qué, y si conviene o no actuar. Si ya operas con metodología institucional, verás el razonamiento explícito; si no, lo verás explicado.</div>
+    </details>
+    <details class="faq-item">
+      <summary><span class="q">06</span>¿Qué lo diferencia de un bot cualquiera?<span class="sign">+</span></summary>
+      <div class="a">Dos cerebros con veto mutuo: una capa de <em>lógica estática</em> (reglas de riesgo inflexibles en Python) y una de <em>inferencia de contexto</em> (un modelo que lee la narrativa del día). Un bot clásico ejecuta una regla fija; aquí, cada desacuerdo entre ambas capas se resuelve hacia no operar. La asimetría está en el freno, no en el acelerador.</div>
+    </details>
+  </div>
+</section>
+
+<section class="disclosure">
+  <span class="label reveal">Divulgación de riesgo</span>
+  <p class="reveal d1"><strong>El trading conlleva riesgo sustancial de pérdida y no es adecuado para todos los inversores.</strong> El rendimiento pasado o simulado no garantiza resultados futuros. Las cifras presentadas provienen de simulación histórica (backtesting) y pueden no reflejar el impacto de condiciones de mercado reales, deslizamiento, comisiones o liquidez.</p>
+  <p class="reveal d1">Esta página es material informativo de un producto en desarrollo y <strong>no constituye asesoría financiera, de inversión ni una oferta de valores</strong>. Nada aquí debe interpretarse como una recomendación para comprar o vender ningún instrumento. Opera únicamente con capital cuya pérdida total puedas asumir, y consulta a un asesor financiero acreditado antes de tomar decisiones.</p>
+</section>
+
+<footer>
+  <div class="footer-brand">Preservación<span>.</span></div>
+  <div class="footer-links">
+    <a href="#arquitectura">Arquitectura</a>
+    <a href="#fit">Calificación</a>
+    <a href="#faq">FAQ</a>
+    <a href="#acceso">Solicitar acceso</a>
+  </div>
+  <p>Arquitectura de preservación · página de prueba · sin asesoría financiera</p>
+</footer>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════
+   CANVAS DE TRADING CINEMÁTICO — Hero Background
+   ═══════════════════════════════════════════════════════════════ */
+(function() {
+  const canvas = document.getElementById('heroCanvas');
+  const ctx = canvas.getContext('2d');
+  let width, height;
+
+  function resize() {
+    const container = document.getElementById('heroCanvasContainer');
+    width = canvas.width = container.offsetWidth;
+    height = canvas.height = container.offsetHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  // Datos de velas simuladas
+  const candles = [];
+  const numCandles = 80;
+  let price = 28640;
+  let time = 0;
+
+  for (let i = 0; i < numCandles; i++) {
+    const change = (Math.random() - 0.48) * 80;
+    const open = price;
+    const close = price + change;
+    const high = Math.max(open, close) + Math.random() * 30;
+    const low = Math.min(open, close) - Math.random() * 30;
+    candles.push({ open, close, high, low, x: i });
+    price = close;
+  }
+
+  // Líneas de liquidez
+  const liquidityLevels = [
+    { price: 28550, strength: 0.8 },
+    { price: 28720, strength: 0.6 },
+    { price: 28480, strength: 0.9 }
+  ];
+
+  // Partículas de liquidez
+  const particles = [];
+  for (let i = 0; i < 30; i++) {
+    particles.push({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      vx: (Math.random() - 0.5) * 0.3,
+      vy: (Math.random() - 0.5) * 0.3,
+      size: Math.random() * 2 + 0.5,
+      alpha: Math.random() * 0.3 + 0.1
+    });
+  }
+
+  function mapPriceToY(p, minP, maxP) {
+    return height - ((p - minP) / (maxP - minP)) * height * 0.7 - height * 0.15;
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, width, height);
+
+    const minPrice = Math.min(...candles.map(c => c.low)) - 50;
+    const maxPrice = Math.max(...candles.map(c => c.high)) + 50;
+    const candleWidth = width / numCandles * 0.6;
+    const candleSpacing = width / numCandles;
+
+    // Dibujar líneas de liquidez
+    liquidityLevels.forEach(level => {
+      const y = mapPriceToY(level.price, minPrice, maxPrice);
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      ctx.lineTo(width, y);
+      ctx.strokeStyle = `rgba(138, 107, 82, ${level.strength * 0.15})`;
+      ctx.lineWidth = 1;
+      ctx.setLineDash([5, 5]);
+      ctx.stroke();
+      ctx.setLineDash([]);
+    });
+
+    // Dibujar velas
+    candles.forEach((candle, i) => {
+      const x = i * candleSpacing + candleSpacing / 2;
+      const yOpen = mapPriceToY(candle.open, minPrice, maxPrice);
+      const yClose = mapPriceToY(candle.close, minPrice, maxPrice);
+      const yHigh = mapPriceToY(candle.high, minPrice, maxPrice);
+      const yLow = mapPriceToY(candle.low, minPrice, maxPrice);
+      const isGreen = candle.close >= candle.open;
+
+      // Sombra (wick)
+      ctx.beginPath();
+      ctx.moveTo(x, yHigh);
+      ctx.lineTo(x, yLow);
+      ctx.strokeStyle = isGreen ? 'rgba(94, 140, 106, 0.4)' : 'rgba(200, 80, 80, 0.4)';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
+      // Cuerpo
+      const bodyHeight = Math.max(Math.abs(yClose - yOpen), 1);
+      const bodyTop = Math.min(yOpen, yClose);
+      ctx.fillStyle = isGreen ? 'rgba(94, 140, 106, 0.6)' : 'rgba(200, 80, 80, 0.6)';
+      ctx.fillRect(x - candleWidth / 2, bodyTop, candleWidth, bodyHeight);
+    });
+
+    // Dibujar línea de precio actual
+    const lastCandle = candles[candles.length - 1];
+    const lastY = mapPriceToY(lastCandle.close, minPrice, maxPrice);
+    ctx.beginPath();
+    ctx.moveTo(0, lastY);
+    ctx.lineTo(width, lastY);
+    ctx.strokeStyle = 'rgba(240, 240, 240, 0.08)';
+    ctx.lineWidth = 1;
+    ctx.setLineDash([3, 3]);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Dibujar partículas
+    particles.forEach(p => {
+      p.x += p.vx;
+      p.y += p.vy;
+      if (p.x < 0 || p.x > width) p.vx *= -1;
+      if (p.y < 0 || p.y > height) p.vy *= -1;
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(94, 140, 106, ${p.alpha})`;
+      ctx.fill();
+    });
+
+    // Actualizar precio sutilmente
+    time += 0.01;
+    const lastPrice = candles[candles.length - 1].close;
+    const newPrice = lastPrice + Math.sin(time) * 2;
+    candles[candles.length - 1].close = newPrice;
+    candles[candles.length - 1].high = Math.max(candles[candles.length - 1].high, newPrice + 5);
+    candles[candles.length - 1].low = Math.min(candles[candles.length - 1].low, newPrice - 5);
+
+    requestAnimationFrame(draw);
+  }
+
+  draw();
+})();
+
+/* ═══════════════════════════════════════════════════════════════
+   CANVAS DE TRADING CHART — Sección Visualización
+   ═══════════════════════════════════════════════════════════════ */
+(function() {
+  const canvas = document.getElementById('tradingChart');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let width, height;
+
+  function resize() {
+    const container = canvas.parentElement;
+    width = canvas.width = container.offsetWidth;
+    height = canvas.height = container.offsetHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  // Generar datos de velas más detallados
+  const chartCandles = [];
+  let chartPrice = 28640;
+  for (let i = 0; i < 60; i++) {
+    const change = (Math.random() - 0.45) * 60;
+    const open = chartPrice;
+    const close = chartPrice + change;
+    const high = Math.max(open, close) + Math.random() * 20;
+    const low = Math.min(open, close) - Math.random() * 20;
+    chartCandles.push({ open, close, high, low, volume: Math.random() * 1000 });
+    chartPrice = close;
+  }
+
+  // Niveles de liquidez visibles
+  const liqLevels = [
+    { price: 28580, label: 'EQ LOWS', color: 'rgba(200, 80, 80, 0.3)' },
+    { price: 28750, label: 'EQ HIGHS', color: 'rgba(94, 140, 106, 0.3)' }
+  ];
+
+  let chartTime = 0;
+
+  function drawChart() {
+    ctx.clearRect(0, 0, width, height);
+
+    const padding = 40;
+    const chartW = width - padding * 2;
+    const chartH = height - padding * 2;
+    const minPrice = Math.min(...chartCandles.map(c => c.low)) - 30;
+    const maxPrice = Math.max(...chartCandles.map(c => c.high)) + 30;
+    const candleW = chartW / chartCandles.length * 0.7;
+    const spacing = chartW / chartCandles.length;
+
+    function pY(p) {
+      return padding + chartH - ((p - minPrice) / (maxPrice - minPrice)) * chartH;
+    }
+
+    // Grid
+    ctx.strokeStyle = 'rgba(240, 240, 240, 0.03)';
+    ctx.lineWidth = 1;
+    for (let i = 0; i < 5; i++) {
+      const y = padding + (chartH / 4) * i;
+      ctx.beginPath();
+      ctx.moveTo(padding, y);
+      ctx.lineTo(width - padding, y);
+      ctx.stroke();
+    }
+
+    // Líneas de liquidez
+    liqLevels.forEach(level => {
+      const y = pY(level.price);
+      ctx.beginPath();
+      ctx.moveTo(padding, y);
+      ctx.lineTo(width - padding, y);
+      ctx.strokeStyle = level.color;
+      ctx.lineWidth = 1;
+      ctx.setLineDash([4, 4]);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Label
+      ctx.fillStyle = level.color;
+      ctx.font = '9px JetBrains Mono';
+      ctx.fillText(level.label, width - padding - 50, y - 4);
+    });
+
+    // Velas
+    chartCandles.forEach((candle, i) => {
+      const x = padding + i * spacing + spacing / 2;
+      const yO = pY(candle.open);
+      const yC = pY(candle.close);
+      const yH = pY(candle.high);
+      const yL = pY(candle.low);
+      const isGreen = candle.close >= candle.open;
+
+      // Wick
+      ctx.beginPath();
+      ctx.moveTo(x, yH);
+      ctx.lineTo(x, yL);
+      ctx.strokeStyle = isGreen ? 'rgba(94, 140, 106, 0.5)' : 'rgba(200, 80, 80, 0.5)';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
+      // Body
+      const bodyH = Math.max(Math.abs(yC - yO), 1);
+      const bodyTop = Math.min(yO, yC);
+      ctx.fillStyle = isGreen ? 'rgba(94, 140, 106, 0.7)' : 'rgba(200, 80, 80, 0.7)';
+      ctx.fillRect(x - candleW / 2, bodyTop, candleW, bodyH);
+    });
+
+    // Línea de tendencia sutil
+    ctx.beginPath();
+    ctx.moveTo(padding, pY(chartCandles[0].close));
+    for (let i = 1; i < chartCandles.length; i++) {
+      const x = padding + i * spacing + spacing / 2;
+      const y = pY(chartCandles[i].close);
+      ctx.lineTo(x, y);
+    }
+    ctx.strokeStyle = 'rgba(138, 107, 82, 0.2)';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+
+    // Precio actual
+    const lastPrice = chartCandles[chartCandles.length - 1].close;
+    const lastY = pY(lastPrice);
+    ctx.beginPath();
+    ctx.arc(width - padding + 5, lastY, 3, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(94, 140, 106, 0.8)';
+    ctx.fill();
+
+    // Animación sutil
+    chartTime += 0.02;
+    const lastIdx = chartCandles.length - 1;
+    chartCandles[lastIdx].close += Math.sin(chartTime) * 1.5;
+    chartCandles[lastIdx].high = Math.max(chartCandles[lastIdx].high, chartCandles[lastIdx].close + 3);
+    chartCandles[lastIdx].low = Math.min(chartCandles[lastIdx].low, chartCandles[lastIdx].close - 3);
+
+    requestAnimationFrame(drawChart);
+  }
+
+  drawChart();
+})();
+
+/* ── Nav: sólido al hacer scroll ── */
+const nav = document.getElementById('nav');
+const onScroll = () => nav.classList.toggle('solid', window.scrollY > 40);
+window.addEventListener('scroll', onScroll, { passive:true }); onScroll();
+
+/* ── Formulario de acceso ── */
+const FORM_ENDPOINT = null;
+const form = document.getElementById('accessForm');
+const note = document.getElementById('formNote');
+const emailIn = document.getElementById('email');
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const v = emailIn.value.trim();
+  note.className = 'form-note';
+  if (!EMAIL_RE.test(v)) {
+    note.textContent = 'Introduce un correo válido para continuar.';
+    note.classList.add('err'); emailIn.focus(); return;
+  }
+  try {
+    if (FORM_ENDPOINT) {
+      await fetch(FORM_ENDPOINT, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ email:v }) });
+    }
+    form.querySelector('.form-row').style.display = 'none';
+    note.textContent = 'Solicitud registrada. Te escribiremos cuando se abra un cupo.';
+    note.classList.add('ok');
+  } catch (_) {
+    note.textContent = 'No se pudo registrar ahora. Inténtalo de nuevo en un momento.';
+    note.classList.add('err');
+  }
+});
+
+/* ── FAQ: cerrar los demás al abrir uno ── */
+document.querySelectorAll('.faq-item').forEach(d => {
+  d.addEventListener('toggle', () => {
+    if (d.open) document.querySelectorAll('.faq-item').forEach(o => { if (o !== d) o.open = false; });
+  });
+});
+
+/* ── Reveal on scroll ── */
+const io = new IntersectionObserver((entries) => {
+  for (const e of entries) if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+}, { threshold: 0.18, rootMargin: '0px 0px -6% 0px' });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+/* ── Terminal: evaluación de NQ ── */
+const LOG = [
+  ['14:02:11', 'Evaluando NQ · sesión NY · escalera 15m/1h/4h', ''],
+  ['14:02:12', 'Estructura 1h: bearish · 4h: bearish · sesgo short candidato', ''],
+  ['14:02:14', 'Liquidez: equal lows 28.640 sin barrer · pool de stops detectado', ''],
+  ['14:02:15', 'Fase del ciclo: MANIPULACIÓN probable — el mínimo obvio aún imanta', 'warn'],
+  ['14:02:17', 'Inferencia de contexto: short aquí = vender DENTRO de la trampa', 'warn'],
+  ['14:02:18', 'Geometría: stop viable 0.43% < mínimo exigido 0.50% — inviable', 'warn'],
+  ['14:02:19', 'Convergencia de cerebros: NO alcanzada · veto de riesgo aplicado', ''],
+  ['14:02:20', 'Estado NEUTRO forzado. Capital preservado.', 'final'],
+];
+let termStarted = false;
+const termIO = new IntersectionObserver((entries) => {
+  if (entries[0].isIntersecting && !termStarted) { termStarted = true; typeLog(); termIO.disconnect(); }
+}, { threshold: 0.45 });
+termIO.observe(document.getElementById('termlog'));
+
+function typeLog() {
+  const body = document.getElementById('termlog');
+  const cursor = document.getElementById('cursor');
+  let i = 0;
+  (function next() {
+    if (i >= LOG.length) return;
+    const [ts, txt, cls] = LOG[i++];
+    const line = document.createElement('span');
+    line.className = 'tl' + (cls ? ' ' + cls : '');
+    line.innerHTML = '<span class="ts">' + ts + '</span>' + txt;
+    body.insertBefore(line, cursor);
+    requestAnimationFrame(() => requestAnimationFrame(() => line.classList.add('on')));
+    setTimeout(next, i === LOG.length ? 0 : (LOG[i] && LOG[i][2] === 'final' ? 1500 : 820));
+  })();
+}
+
+/* ── Métricas: count-up al entrar en viewport ── */
+const mIO = new IntersectionObserver((entries) => {
+  for (const e of entries) {
+    if (!e.isIntersecting) continue;
+    const el = e.target, target = parseFloat(el.dataset.count), dec = +el.dataset.dec;
+    const t0 = performance.now(), dur = 1900;
+    (function tick(t) {
+      const p = Math.min((t - t0) / dur, 1);
+      const eased = 1 - Math.pow(1 - p, 4);
+      el.textContent = (target * eased).toFixed(dec);
+      if (p < 1) requestAnimationFrame(tick);
+    })(t0);
+    mIO.unobserve(el);
+  }
+}, { threshold: 0.6 });
+document.querySelectorAll('[data-count]').forEach(el => mIO.observe(el));
+
+/* ── Métricas: añadir clase .in para línea decorativa ── */
+const metricIO = new IntersectionObserver((entries) => {
+  for (const e of entries) {
+    if (e.isIntersecting) {
+      e.target.classList.add('in');
+      metricIO.unobserve(e.target);
+    }
+  }
+}, { threshold: 0.5 });
+document.querySelectorAll('.metric').forEach(el => metricIO.observe(el));
+
+/* ── Parallax sutil en hero ── */
+window.addEventListener('scroll', () => {
+  const scrolled = window.scrollY;
+  const hero = document.querySelector('.hero');
+  if (hero && scrolled < window.innerHeight) {
+    const canvas = document.getElementById('heroCanvas');
+    if (canvas) {
+      canvas.style.transform = `translateY(${scrolled * 0.15}px)`;
+    }
+  }
+});
+</script>
+</body>
+</html>
